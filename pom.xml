@@ -19,8 +19,8 @@
 		<maven.compiler.target>11</maven.compiler.target>
 		<!-- Test stuff -->
 		<junit.jupiter.version>5.4.1</junit.jupiter.version>
+		<pitest-maven.version>1.4.7</pitest-maven.version>
 	</properties>
-
 	<dependencyManagement>
 		<dependencies>
 			<!-- Test stuff -->
@@ -32,21 +32,16 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
 	<dependencies>
-
 		<!-- Test stuff -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 		</dependency>
-
 	</dependencies>
-
 	<build>
 		<pluginManagement>
 			<plugins>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -58,13 +53,24 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>${pitest-maven.version}</version>
+				<configuration>
+					<targetClasses>
+						<param>net.barakiroth.hellostrangeworld.*</param>
+					</targetClasses>
+					<targetTests>
+						<param>net.barakiroth.hellostrangeworld.*</param>
+					</targetTests>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>
