@@ -24,7 +24,6 @@
 	<dependencyManagement>
 		<dependencies>
 			<!-- Test stuff -->
-			<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter-api</artifactId>
