@@ -20,6 +20,7 @@
 		<!-- Test stuff -->
 		<junit.jupiter.version>5.4.1</junit.jupiter.version>
 		<junit.pre.jupiter.version>4.12</junit.pre.jupiter.version>
+		<hamcrest-version>2.1</hamcrest-version>
 		<pitest-maven.version>1.4.7</pitest-maven.version>
 	</properties>
 	<dependencyManagement>
@@ -39,6 +40,13 @@
 				<scope>test</scope>
 			</dependency>
 
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-core</artifactId>
+				<version>${hamcrest-version}</version>
+				<scope>test</scope>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -52,6 +60,11 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
 		</dependency>
 
 	</dependencies>
