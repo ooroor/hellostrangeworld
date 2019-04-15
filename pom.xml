@@ -22,13 +22,22 @@
 		<junit.pre.jupiter.version>4.12</junit.pre.jupiter.version>
 		<hamcrest-version>2.1</hamcrest-version>
 		<pitest-maven.version>1.4.7</pitest-maven.version>
+		<maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
 	</properties>
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- Test stuff -->
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter-api</artifactId>
+				<version>${junit.jupiter.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
 				<version>${junit.jupiter.version}</version>
 				<scope>test</scope>
 			</dependency>
@@ -51,10 +60,16 @@
 	</dependencyManagement>
 
 	<dependencies>
+
 		<!-- Test stuff -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
 		</dependency>
 
 		<dependency>
@@ -80,6 +95,32 @@
 						<target>${maven.compiler.target}</target>
 					</configuration>
 				</plugin>
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>${pitest-maven.version}</version>
+			</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+					<configuration>
+						<argLine>
+							--illegal-access=permit
+						</argLine>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+					<configuration>
+						<argLine>
+							--illegal-access=permit
+						</argLine>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -90,7 +131,6 @@
 			<plugin>
 				<groupId>org.pitest</groupId>
 				<artifactId>pitest-maven</artifactId>
-				<version>${pitest-maven.version}</version>
 				<configuration>
 					<targetClasses>
 						<param>net.barakiroth.hellostrangeworld.*</param>
@@ -100,6 +140,17 @@
 					</targetTests>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>

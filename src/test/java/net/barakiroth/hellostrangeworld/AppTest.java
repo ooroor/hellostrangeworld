@@ -31,13 +31,13 @@ public class AppTest {
 	}
 	
 	@Test
-	public void testApp() {
+	public void should_print_correct_string_to_stdout() {
 		App.main(null);
 		assertThat(outContent.toString(), is("Hello strange world!\r\n"));
 	}
 
 	@Test
-	public void testApp2() {
+	public void instantiation_of_App_should_not_fail() {
 		assertDoesNotThrow(() -> new App());
 	}
 }
