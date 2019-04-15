@@ -1,3 +1,12 @@
+# Slowly extend a simple command line Java hello world like application to a full-fledged front end, back end and downstreams microservices
+
+### Environment
+- Windows 10
+- Java 11
+- Junit Jupiter 5.4.1 
+- Hamcrest 2.1
+- Maven 3.6.1
+
 ### Useful commands
 
 - Run the pitests:
