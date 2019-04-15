@@ -12,6 +12,10 @@ mvn org.pitest:pitest-maven:mutationCoverage
 #### Java 11
 [Migrating to Java 11 ](https://blog.codefx.org/java/java-11-migration-guide/)</BR>
 [Migrate Maven Projects to Java 11](https://winterbe.com/posts/2018/08/29/migrate-maven-projects-to-java-11-jigsaw/)</BR>
+#### Testing
+[JUnit 5 Tutorial: Writing Assertions With Hamcrest](https://www.petrikainulainen.net/programming/testing/junit-5-tutorial-writing-assertions-with-hamcrest/)</BR>
+[JUnit test for System.out.println()
+](https://stackoverflow.com/questions/1119385/junit-test-for-system-out-println)</BR>
 #### Pi tests/Mutation tests
 [Mutation Testing with PITest](https://www.baeldung.com/java-mutation-testing-with-pitest)</BR>
 [Real world mutation testing](http://pitest.org/)</BR>
@@ -23,8 +27,6 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 
 
-[XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX](WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW)</BR>
-[XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX](WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW)</BR>
 [XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX](WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW)</BR>
 [XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX](WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW)</BR>
 [XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX](WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW)</BR>
