@@ -14,15 +14,23 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		<bcel.version>6.3.1</bcel.version>
+		
+		<!--  Plugins -->
+		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+		<maven-surefire-report-plugin.version>3.0.0-M3</maven-surefire-report-plugin.version>
+		<maven-shared-jar.version>1.2</maven-shared-jar.version>
+		<maven-project-info-reports-plugin.version>2.7</maven-project-info-reports-plugin.version>
+		<maven-jxr-plugin.version>3.0.0</maven-jxr-plugin.version>
+
 		<!-- Test stuff -->
-		<junit.jupiter.version>5.4.1</junit.jupiter.version>
+		<junit.jupiter.version>5.5.0-M1</junit.jupiter.version>
 		<junit.pre.jupiter.version>4.12</junit.pre.jupiter.version>
 		<hamcrest-version>2.1</hamcrest-version>
 		<pitest-maven.version>1.4.7</pitest-maven.version>
-		<maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+		<maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
 		<pitest-junit5-plugin.version>0.8</pitest-junit5-plugin.version>
 	</properties>
 
@@ -84,7 +92,7 @@
 		</dependency>
 
 	</dependencies>
-	
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -95,6 +103,16 @@
 					<configuration>
 						<source>${maven.compiler.source}</source>
 						<target>${maven.compiler.target}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+					<configuration>
+						<argLine>
+							--illegal-access=permit
+						</argLine>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -109,45 +127,14 @@
 						</dependency>
 					</dependencies>
 				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven-surefire-plugin.version}</version>
-					<configuration>
-						<argLine>
-							--illegal-access=permit
-						</argLine>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>${maven-surefire-plugin.version}</version>
-					<configuration>
-						<argLine>
-							--illegal-access=permit
-						</argLine>
-					</configuration>
-				</plugin>
 			</plugins>
 		</pluginManagement>
+
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.pitest</groupId>
-				<artifactId>pitest-maven</artifactId>
-				<configuration>
-					<targetClasses>
-						<param>net.barakiroth.hellostrangeworld.*</param>
-					</targetClasses>
-					<targetTests>
-						<param>net.barakiroth.hellostrangeworld.*</param>
-					</targetTests>
-				</configuration>
 			</plugin>
 
 			<plugin>
@@ -156,10 +143,62 @@
 			</plugin>
 
 			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+			</plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${maven-project-info-reports-plugin.version}</version>
+
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.shared</groupId>
+						<artifactId>maven-shared-jar</artifactId>
+						<version>${maven-shared-jar.version}</version>
+						<exclusions>
+							<exclusion>
+								<groupId>com.google.code.findbugs</groupId>
+								<artifactId>bcel-findbugs</artifactId>
+							</exclusion>
+						</exclusions>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.bcel</groupId>
+						<artifactId>bcel</artifactId>
+						<version>${bcel.version}</version>
+					</dependency>
+				</dependencies>
+
 			</plugin>
 
 		</plugins>
 	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>${maven-surefire-report-plugin.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.7.1</version>
+				<configuration>
+					<outputDirectory>${basedir}/target/newsite</outputDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${maven-jxr-plugin.version}</version>
+			</plugin>
+
+		</plugins>
+	</reporting>
 </project>
