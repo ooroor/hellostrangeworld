@@ -14,6 +14,11 @@
 ```
 mvn org.pitest:pitest-maven:mutationCoverage
 ```
+- Make a build site
+
+```
+mvn site
+```
 
 ### Useful refs: 
 #### Git
