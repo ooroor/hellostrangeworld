@@ -32,8 +32,8 @@ public class AppTest {
 	
 	@Test
 	public void should_print_correct_string_to_stdout() {
-		App.main(null);
-		assertThat(outContent.toString(), is("Hello strange world!\r\n"));
+		App.main(new String[] {"well, well"});
+		assertThat(errContent.toString(), is("Hello strange world!\r\n"));
 	}
 
 	@Test
