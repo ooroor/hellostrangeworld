@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.barakiroth.hellostrangeworld.backend.GreetingPhraser;
 import net.barakiroth.hellostrangeworld.frontend.UserPrompter;
 
 public class HelloStrangeWorldApp {
@@ -17,6 +18,10 @@ public class HelloStrangeWorldApp {
 		
 		final UserPrompter userPrompter = new UserPrompter();
 		final String greetee = userPrompter.askWhomTheUserWantsToGreet();
-		System.err.println(MessageFormat.format("Hello strange {0}!", greetee));
+		
+		final GreetingPhraser greetingPhraser = new GreetingPhraser();
+		final String phrasePrefix = greetingPhraser.getGreetingPhrasePrefix();
+		
+		System.err.println(MessageFormat.format(phrasePrefix + "{0}!", greetee));
 	}
 }
