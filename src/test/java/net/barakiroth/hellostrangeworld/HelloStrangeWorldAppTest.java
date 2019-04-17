@@ -4,19 +4,23 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.text.MessageFormat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AppTest {
+public class HelloStrangeWorldAppTest {
 	
 	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 	private final PrintStream originalOut = System.out;
 	private final PrintStream originalErr = System.err;
+	private final InputStream originalIn = System.in;
 
 	@BeforeEach
 	public void setUpStreams() {
@@ -28,16 +32,21 @@ public class AppTest {
 	public void restoreStreams() {
 	    System.setOut(originalOut);
 	    System.setErr(originalErr);
+		System.setIn(originalIn);
 	}
 	
 	@Test
-	public void should_print_correct_string_to_stdout() {
-		App.main(new String[] {"well, well"});
-		assertThat(errContent.toString(), is("Hello strange world!\r\n"));
+	public void should_print_correct_string_to_stdout_unconditionally() {
+		
+		final String expectedGreetee = "universe";
+		final ByteArrayInputStream in = new ByteArrayInputStream(expectedGreetee.getBytes());
+		System.setIn(in);
+		HelloStrangeWorldApp.main(new String[] {"Some rubbish"});
+		assertThat(errContent.toString(), is(MessageFormat.format("Hello strange {0}!\r\n", expectedGreetee)));
 	}
 
 	@Test
-	public void instantiation_of_App_should_not_fail() {
-		assertDoesNotThrow(() -> new App());
+	public void should_not_throw_when_instantiating() {
+		assertDoesNotThrow(() -> new HelloStrangeWorldApp());
 	}
 }

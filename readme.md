@@ -11,6 +11,10 @@
 - Simplicity
 - Not using overkilling technologies and frameworks
 - Decoupling
+- No superfluous, silly or evident commenting
+- Self explanatory code, using descriptive and precise words for method names, variables etc..
+- Kill checked exceptions as fast as they are caught, don't rethrow them.
+- Use return codes instead of exceptions to communicate flow variations, including errors
 
 ### Tools and technologies used so far
 - logback for logging
@@ -46,6 +50,16 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 ```
 mvn site
+```
+- Run a complete build
+
+``` 
+mvn clean install site org.pitest:pitest-maven:mutationCoverage
+```
+- Run the application from the comand line
+
+```
+java -jar target/hello-strange-world-0.1.0.jar
 ```
 
 ### Useful refs: 
