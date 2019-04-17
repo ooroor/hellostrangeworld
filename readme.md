@@ -7,6 +7,34 @@
 - Hamcrest 2.1
 - Maven 3.6.1
 
+### Inspirations
+- Simplicity
+- Not using overkilling technologies and frameworks
+- Decoupling
+
+### Tools and technologies used so far
+- logback for logging
+- Junit 5 (Jupiter) for testing
+- JaCoCo for coverage
+- PiTest for mutation testing
+- Maven/surefire/site reporting
+
+### Future plans and ambitions
+- Prometheus for monitoring
+- Swagger for documentation
+- Resilience for downstreams calls
+- Jetty for servlet container
+- Jersey for HTTP/rest communication
+- Progress for relational database
+- H2 for relational database testing
+- Three layers: Frontend, immediate backend and downstreams backend
+- Web components
+- Javascript
+- REST (w/Json)
+
+### Technologies that will NOT be used
+- Spring
+
 ### Useful commands
 
 - Run the pitests:
