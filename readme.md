@@ -24,20 +24,19 @@
 - Maven/surefire/site reporting
 
 ### Future plans and ambitions
-- Prometheus for monitoring
-- Swagger for documentation
-- Resilience for downstreams calls
-- Jetty for servlet container
-- Jersey for HTTP/rest communication
-- Progress for relational database
-- H2 for relational database testing
-- Three layers: Frontend, immediate backend and downstreams backend
-- Web components
-- Javascript
-- REST (w/Json)
-- PACT for contracts between service consumers and consumed services
-- Plain JDBC and/or a very thin layer above it, like possibly QueryDSL
-- Transaction boundaries by simple "doInTransaction" like patterns.
+1. Three layers: Frontend, immediate backend and downstreams backend
+0. H2 for RDBMS prod and testing
+0. Plain JDBC and/or a very thin layer above it, like possibly QueryDSL
+0. Transaction boundaries by simple "doInTransaction" like patterns.
+0. Jetty for servlet container
+0. Jersey for HTTP/rest communication
+0. REST with JSON  and HTTP verb calls from frontend to backend and from backend to far backend
+0. Resilience for downstreams calls
+0. Prometheus for monitoring
+0. Swagger for documentation
+0. PACT for contracts between service consumers and consumed services
+0. Web components
+0. Javascript
 
 ### Technologies that will NOT be used
 - Spring
