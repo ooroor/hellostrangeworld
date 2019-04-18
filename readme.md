@@ -35,9 +35,14 @@
 - Web components
 - Javascript
 - REST (w/Json)
+- PACT for contracts between service consumers and consumed services
+- Plain JDBC and/or a very thin layer above it, like possibly QueryDSL
+- Transaction boundaries by simple "doInTransaction" like patterns.
 
 ### Technologies that will NOT be used
 - Spring
+- Hibernate and/or JPA or other ORM technologies of very high complexity
+- AOP, not even for transaction boundaries
 
 ### Useful commands
 
