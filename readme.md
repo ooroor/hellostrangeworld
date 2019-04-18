@@ -31,7 +31,7 @@
 0. Jetty for servlet container
 0. Jersey for HTTP/rest communication
 0. REST with JSON  and HTTP verb calls from frontend to backend and from backend to far backend
-0. Resilience for downstreams calls
+0. Resilience for downstreams calls (here: From backend to far backend)
 0. Prometheus for monitoring
 0. Swagger for documentation
 0. PACT for contracts between service consumers and consumed services
