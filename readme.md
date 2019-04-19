@@ -22,10 +22,10 @@
 - JaCoCo for coverage
 - PiTest for mutation testing
 - Maven/surefire/site reporting
+- H2 for RDBMS prod and testing
 
 ### Future plans and ambitions
 1. Three layers: Frontend, immediate backend and downstreams backend
-0. H2 for RDBMS prod and testing
 0. Plain JDBC and/or a very thin layer above it, like possibly QueryDSL
 0. Transaction boundaries by simple "doInTransaction" like patterns.
 0. Jetty for servlet container
@@ -82,13 +82,13 @@ java -jar target/hello-strange-world-0.1.0.jar
 [My PITEST won't run. Coverage generation minion exited abnormally. I need help to configure my pom.xml properly](https://stackoverflow.com/questions/55680025/my-pitest-wont-run-coverage-generation-minion-exited-abnormally-i-need-help-t/55680225#55680225)</BR>
 #### Markdown
 [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#links)</BR>
-
+#### RDBMS
+[Most fundamental use of H2](https://github.com/h2database/h2database/blob/master/h2/src/test/org/h2/samples/HelloWorld.java)</BR>
 
 
 <!---
 [comment]: <> (This is a comment, it will not be included)
 [//]: # (
-[XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX](WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW)</BR>
 [XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX](WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW)</BR>
 [XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX](WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW)</BR>
 [XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX](WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW)</BR>

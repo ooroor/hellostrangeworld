@@ -1,9 +1,30 @@
 package net.barakiroth.hellostrangeworld.farbackend;
 
-public class GreetingDescriptor {
-	
-	public String describeGreetee() {
-		return "strange";
+import net.barakiroth.hellostrangeworld.infrastructure.Database;
+
+public class GreetingDescriptor {	
+
+	private Database database = null;
+
+	public GreetingDescriptor() {
 	}
 
+	public String describeGreetee() {
+		return getDatabase().describeGreetee();
+	}
+
+	public void disconnect() {
+
+		this.database.disconnect();
+		this.database = null;
+	}
+
+	private Database getDatabase() {
+
+		if (this.database == null) {
+			this.database = new Database();
+		}
+
+		return this.database;
+	}
 }
