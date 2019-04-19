@@ -6,9 +6,6 @@ public class GreetingDescriptor {
 
 	private Database database = null;
 
-	public GreetingDescriptor() {
-	}
-
 	public String describeGreetee() {
 		return getDatabase().describeGreetee();
 	}

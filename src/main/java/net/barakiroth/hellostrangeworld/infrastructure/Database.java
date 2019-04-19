@@ -17,16 +17,13 @@ public class Database {
 	static private final Logger logger = LoggerFactory.getLogger(HelloStrangeWorldApp.class);
 
 	private static final String DB_DRIVER_CLASS_NAME = "org.h2.Driver";
-	private static final String DB_SCHEMA_NAME = "test";
+	private static final String DB_SCHEMA_NAME = "hellostrangeworld";
 	private static final String DB_DSNAME_NOT_EXISTING = "jdbc:h2:mem:" + DB_SCHEMA_NAME + ";DB_CLOSE_DELAY=-1";
 	private static final String DB_DSNAME_EXISTING = DB_DSNAME_NOT_EXISTING + ";IFEXISTS=TRUE";
 	private static final String DB_USER = "";
 	private static final String DB_PASSWORD = "";
 
 	Connection connection = null;
-	
-	public Database() {
-	}
 
 	public String describeGreetee() {
 
