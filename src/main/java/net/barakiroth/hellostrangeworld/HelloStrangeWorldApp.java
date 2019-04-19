@@ -12,7 +12,7 @@ public class HelloStrangeWorldApp {
 	
 	static private final Logger logger = LoggerFactory.getLogger(HelloStrangeWorldApp.class);
 	
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 
 		logger.debug("Parameters received: {}", (Object[])args);
 		

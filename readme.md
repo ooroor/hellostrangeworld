@@ -27,7 +27,7 @@
 ### Future plans and ambitions
 1. Three layers: Frontend, immediate backend and downstreams backend
 0. Plain JDBC and/or a very thin layer above it, like possibly QueryDSL
-0. Transaction boundaries by simple "doInTransaction" like patterns.
+0. Transaction boundaries by simple "doInTransaction" like patterns, no AOP
 0. Jetty for servlet container
 0. Jersey for HTTP/rest communication
 0. REST with JSON  and HTTP verb calls from frontend to backend and from backend to far backend
