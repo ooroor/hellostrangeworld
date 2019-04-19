@@ -16,7 +16,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+
+		<logback.version>1.2.3</logback.version>
 		<bcel.version>6.3.1</bcel.version>
+		<h2.version>1.4.199</h2.version>
 
 		<!-- Plugins -->
 		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -39,6 +42,19 @@
 
 	<dependencyManagement>
 		<dependencies>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2.version}</version>
+			</dependency>
+
 			<!-- Test stuff -->
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
@@ -76,15 +92,12 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.199</version>
 		</dependency>
-
 
 		<!-- Test stuff -->
 		<dependency>
