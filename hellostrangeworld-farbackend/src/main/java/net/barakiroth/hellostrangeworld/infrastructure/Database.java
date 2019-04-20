@@ -10,11 +10,9 @@ import org.h2.jdbc.JdbcSQLNonTransientConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.barakiroth.hellostrangeworld.HelloStrangeWorldApp;
-
 public class Database {
 
-	static private final Logger logger = LoggerFactory.getLogger(HelloStrangeWorldApp.class);
+	static private final Logger logger = LoggerFactory.getLogger(Database.class);
 
 	private static final String DB_DRIVER_CLASS_NAME = "org.h2.Driver";
 	private static final String DB_SCHEMA_NAME = "hellostrangeworld";

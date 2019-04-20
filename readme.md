@@ -50,7 +50,7 @@
 ```
 mvn org.pitest:pitest-maven:mutationCoverage
 ```
-- Make a build site
+- Make a build site (run from the sub roots)
 
 ```
 mvn site
@@ -58,12 +58,17 @@ mvn site
 - Run a complete build
 
 ``` 
-mvn clean install site org.pitest:pitest-maven:mutationCoverage
+mvn clean install org.pitest:pitest-maven:mutationCoverage
 ```
-- Run the application from the comand line
+- Run the application from the command line
 
 ```
-java -jar target/hello-strange-world-0.1.0.jar
+java -jar hellostrangeworld-backend/target/hellostrangeworld-backend-0.3.0.jar
+```
+- Update the parent versions in the children's pom.xml's
+
+```
+mvn -N versions:update-child-modules
 ```
 
 ### Useful refs: 
