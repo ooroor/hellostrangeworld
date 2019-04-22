@@ -23,10 +23,10 @@
 - PiTest for mutation testing
 - Maven/surefire/site reporting
 - H2 for RDBMS prod and testing
+- Three layers: Frontend, immediate backend and downstreams backend
 
 ### Future plans and ambitions
-1. Three layers: Frontend, immediate backend and downstreams backend
-0. Plain JDBC and/or a very thin layer above it, like possibly QueryDSL
+1. Plain JDBC and/or a very thin layer above it, like possibly QueryDSL
 0. Transaction boundaries by simple "doInTransaction" like patterns, no AOP
 0. Jetty for servlet container
 0. Jersey for HTTP/rest communication

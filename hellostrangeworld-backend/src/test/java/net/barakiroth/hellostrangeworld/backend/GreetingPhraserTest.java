@@ -1,14 +1,10 @@
 package net.barakiroth.hellostrangeworld.backend;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Test;
-
-import net.barakiroth.hellostrangeworld.HelloStrangeWorldApp;
-import net.barakiroth.hellostrangeworld.farbackend.GreetingDescriptor;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 
 public class GreetingPhraserTest {
 	
