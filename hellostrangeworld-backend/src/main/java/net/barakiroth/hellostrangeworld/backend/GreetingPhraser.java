@@ -1,6 +1,9 @@
 package net.barakiroth.hellostrangeworld.backend;
 
+import java.io.IOException;
 import java.text.MessageFormat;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.barakiroth.hellostrangeworld.farbackend.GreetingDescriptor;
 
@@ -10,7 +13,14 @@ public class GreetingPhraser {
 	
 	public String getGreetingPhrasePrefix() {
 		
-		final String description = getGreetingDescriptor().describeGreetee();
+		final String descriptionJson = getGreetingDescriptor().describeGreetee();
+		final ObjectMapper objectMapper = new ObjectMapper();
+		String description = null;
+		try {
+			description = objectMapper.readValue(descriptionJson, String.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}  
 		return MessageFormat.format("Hello {0} ", description);
 	}
 

@@ -22,12 +22,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		
-    	<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
+
+		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
 
 		<logback.version>1.2.3</logback.version>
 		<bcel.version>6.3.1</bcel.version>
 		<h2.version>1.4.199</h2.version>
+		<jackson-databind.version>2.9.8</jackson-databind.version>
 
 		<!-- Plugins -->
 		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -51,7 +52,7 @@
 	<dependencyManagement>
 		<dependencies>
 
-			<!-- Project modules -->	
+			<!-- Project modules -->
 			<dependency>
 				<groupId>net.barakiroth</groupId>
 				<artifactId>hellostrangeworld-frontend</artifactId>
@@ -80,6 +81,12 @@
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
 				<version>${h2.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson-databind.version}</version>
 			</dependency>
 
 			<!-- Test stuff -->

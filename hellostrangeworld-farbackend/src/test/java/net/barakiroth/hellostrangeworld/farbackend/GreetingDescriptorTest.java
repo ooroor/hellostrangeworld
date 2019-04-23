@@ -11,7 +11,7 @@ public class GreetingDescriptorTest {
 	@Test
 	public void should_return_a_given_decription_unconditionally() {
 		final GreetingDescriptor greetingDescriptor = new GreetingDescriptor();
-		assertThat(greetingDescriptor.describeGreetee(), is("strange"));
+		assertThat(greetingDescriptor.describeGreetee(), is("\"strange\""));
 		greetingDescriptor.disconnect();
 	}
 	
