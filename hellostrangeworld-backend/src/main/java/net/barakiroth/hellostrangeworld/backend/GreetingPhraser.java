@@ -13,14 +13,18 @@ public class GreetingPhraser {
 	
 	public String getGreetingPhrasePrefix() {
 		
-		final String descriptionJson = getGreetingDescriptor().describeGreetee();
+		final String greeteeDescriptionAsJson = getGreetingDescriptor().describeGreetee();
+		
 		final ObjectMapper objectMapper = new ObjectMapper();
-		String description = null;
+		
+		String description;
 		try {
-			description = objectMapper.readValue(descriptionJson, String.class);
+			description = objectMapper.readValue(greeteeDescriptionAsJson, String.class);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}  
+			throw new RuntimeException(e);
+		} 
+		
 		return MessageFormat.format("Hello {0} ", description);
 	}
 

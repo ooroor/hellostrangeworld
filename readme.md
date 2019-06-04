@@ -24,6 +24,7 @@
 - Maven/surefire/site reporting
 - H2 for RDBMS prod and testing
 - Three layers: Frontend, immediate backend and downstreams backend
+- Lombok (magic, but allowing)
 
 ### Future plans and ambitions
 1. Plain JDBC and/or a very thin layer above it, like possibly QueryDSL

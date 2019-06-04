@@ -16,6 +16,7 @@ public class UserPrompter {
 	    	scanner.close();
 		}
 
+	    
 		return greetee;
 	}
 }

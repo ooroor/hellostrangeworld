@@ -4,25 +4,23 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+
+	<artifactId>hellostrangeworld-farbackend</artifactId>
+
+	<packaging>jar</packaging>
+	
+	<name>hellostrangeworld-farbackend</name>
+	<url>http://maven.apache.org</url>
+
 	<parent>
 		<groupId>net.barakiroth</groupId>
 		<artifactId>hellostrangeworld</artifactId>
-		<version>0.3.0</version>
+		<version>0.3.1</version>
 	</parent>
-
-	<artifactId>hellostrangeworld-farbackend</artifactId>
-	<packaging>jar</packaging>
-	<name>hellostrangeworld-farbackend</name>
-	<url>http://maven.apache.org</url>
 
 	<dependencies>
 
 		<!-- Project modules -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -33,12 +31,18 @@
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
-		<!-- Test stuff -->
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Test stuff -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
@@ -48,12 +52,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-core</artifactId>
-		</dependency>
-
+		
 	</dependencies>
 
 	<build>
@@ -62,7 +61,36 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<artifactId>maven-jar-plugin</artifactId>
+				 <configuration>
+					<archive>
+						<manifest>
+							<mainClass>net.barakiroth.hellostrangeworld.farbackend.infrastructure.HelloStrangeWorldFarBackendApp</mainClass>
+						</manifest>
+					</archive>
+		        </configuration>
+			</plugin>
+			
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<!-- Run shade goal on package phase -->
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<!-- <minimizeJar>true</minimizeJar> -->
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>net.barakiroth.hellostrangeworld.farbackend.infrastructure.HelloStrangeWorldFarBackendApp</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
@@ -138,7 +166,7 @@
 										<limit>
 											<counter>COMPLEXITY</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>1.000</minimum>
+											<minimum>0.900</minimum>
 										</limit>
 									</limits>
 								</rule>
