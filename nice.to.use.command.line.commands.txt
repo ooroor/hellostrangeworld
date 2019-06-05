@@ -1,0 +1,7 @@
+Always in pairs:
+mvn versions:set -DnewVersion=0.3.3 -DprocessAllModules
+mvn versions:commit -DprocessAllModules
+
+
+java -jar .\hellostrangeworld-farbackend\target\hellostrangeworld-farbackend-0.3.3.jar
+java -jar .\hellostrangeworld-backend\target\hellostrangeworld-backend-0.3.3.jar

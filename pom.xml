@@ -4,9 +4,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>net.barakiroth</groupId>
+	<groupId>net.barakiroth.hellostrangeworld</groupId>
 	<artifactId>hellostrangeworld</artifactId>
-	<version>0.3.2</version>
+	<version>0.3.5</version>
 	<packaging>pom</packaging>
 
 	<name>hellostrangeworld</name>
@@ -56,19 +56,19 @@
 
 			<!-- Project modules -->
 			<dependency>
-				<groupId>net.barakiroth</groupId>
+				<groupId>net.barakiroth.hellostrangeworld</groupId>
 				<artifactId>hellostrangeworld-frontend</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>net.barakiroth</groupId>
+				<groupId>net.barakiroth.hellostrangeworld</groupId>
 				<artifactId>hellostrangeworld-backend</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>net.barakiroth</groupId>
+				<groupId>net.barakiroth.hellostrangeworld</groupId>
 				<artifactId>hellostrangeworld-farbackend</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -182,11 +182,44 @@
 					</dependencies>
 				</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${maven-project-info-reports-plugin.version}</version>
+
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.shared</groupId>
+						<artifactId>maven-shared-jar</artifactId>
+						<version>${maven-shared-jar.version}</version>
+						<exclusions>
+							<exclusion>
+								<groupId>com.google.code.findbugs</groupId>
+								<artifactId>bcel-findbugs</artifactId>
+							</exclusion>
+						</exclusions>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.bcel</groupId>
+						<artifactId>bcel</artifactId>
+						<version>${bcel.version}</version>
+					</dependency>
+				</dependencies>
+
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco-maven-plugin.version}</version>
+			</plugin>
+
 			</plugins>
 
 		</pluginManagement>
 
 		<plugins>
+		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -196,7 +229,62 @@
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+			</plugin>
+
 		</plugins>
 	</build>
+
+	<reporting>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>${maven-surefire-report-plugin.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>${maven-site-plugin.version}</version>
+				<configuration>
+					<outputDirectory>${basedir}/target/newsite</outputDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${maven-jxr-plugin.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<!-- select non-aggregate reports -->
+							<report>report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+		</plugins>
+	</reporting>
 
 </project>
