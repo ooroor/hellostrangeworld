@@ -15,22 +15,33 @@
 	<parent>
 		<groupId>net.barakiroth</groupId>
 		<artifactId>hellostrangeworld</artifactId>
-		<version>0.3.1</version>
+		<version>0.3.2</version>
 	</parent>
 
 	<dependencies>
+
 	
-		<!-- Test stuff -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	</dependencies>
 
 	<build>
