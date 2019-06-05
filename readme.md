@@ -38,6 +38,7 @@
 0. PACT for contracts between service consumers and consumed services
 0. Web components
 0. Javascript
+0. org.apache.commons.configuration2 for application.properties related stuff
 
 ### Technologies that will NOT be used
 - Spring
