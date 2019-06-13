@@ -39,6 +39,7 @@
 0. Web components
 0. Javascript
 0. org.apache.commons.configuration2 for application.properties related stuff
+0. Code Complexity analysis (NCSS) 
 
 ### Technologies that will NOT be used
 - Spring
