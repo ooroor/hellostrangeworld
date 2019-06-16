@@ -1,4 +1,10 @@
-# Slowly extend a simple command line Java hello world like application to a full-fledged front end, back end and downstreams microservices
+# Slowly extend a simple command line Java hello world like application to a full-fledged front end, back end and downstreams microservices with a banal/trivial business logic
+
+### Business Logic
+1. Frontend asks user whom too greet, e.g. "world"
+0. Backend is asked for verb to be used in the greeting, e.g. "Hello"
+0. A downstream microservice is asked for the adjective to colour the greeting, e.g. "strange"
+0. The resulting greeting is presented for the user, e.g. "Hello strange world"
 
 ### Environment
 - Windows 10
@@ -23,7 +29,7 @@
 - PiTest for mutation testing
 - Maven/surefire/site reporting
 - H2 for RDBMS prod and testing
-- Three layers: Frontend, immediate backend and downstreams backend
+- Three layers: Frontend, immediate backend and downstreams far backend
 - Lombok (magic, but allowing)
 
 ### Future plans and ambitions
@@ -39,7 +45,9 @@
 0. Web components
 0. Javascript
 0. org.apache.commons.configuration2 for application.properties related stuff
-0. Code Complexity analysis (NCSS) 
+0. Code Complexity analysis (NCSS)
+0. OWASP Threats Protection
+0. Checkstyle for consistent code layout etc. 
 
 ### Technologies that will NOT be used
 - Spring
