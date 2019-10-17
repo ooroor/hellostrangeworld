@@ -13,8 +13,13 @@ import java.text.MessageFormat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HelloStrangeWorldAppTest {
+
+	private static final Logger enteringTestHeaderLogger =
+			LoggerFactory.getLogger("EnteringTestHeader");
 	
 	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
@@ -38,6 +43,8 @@ public class HelloStrangeWorldAppTest {
 	@Test
 	public void should_print_correct_string_to_stdout_unconditionally() {
 		
+		enteringTestHeaderLogger.debug(null);
+		
 		final String expectedGreetee = "universe";
 		final ByteArrayInputStream in = new ByteArrayInputStream(expectedGreetee.getBytes());
 		System.setIn(in);
@@ -47,6 +54,9 @@ public class HelloStrangeWorldAppTest {
 
 	@Test
 	public void should_not_throw_when_instantiating() {
+		
+		enteringTestHeaderLogger.debug(null);
+		
 		assertDoesNotThrow(() -> new HelloStrangeWorldApp());
 	}
 }

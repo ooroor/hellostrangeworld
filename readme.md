@@ -8,14 +8,14 @@
 
 ### Environment
 - Windows 10
-- Java 11
+- Java 12
 - Junit Jupiter 5.4.1 
 - Hamcrest 2.1
-- Maven 3.6.1
+- Maven 3.6.2
 
 ### Inspirations
 - Simplicity
-- Not using overkilling technologies and frameworks
+- Not using overkill technologies and frameworks
 - Decoupling
 - No superfluous, silly or evident commenting
 - Self explanatory code, using descriptive and precise words for method names, variables etc..
@@ -42,8 +42,7 @@
 0. Prometheus for monitoring
 0. Swagger for documentation
 0. PACT for contracts between service consumers and consumed services
-0. Web components
-0. Javascript
+0. Web components with Javascript or Elm. Continuously assessing
 0. org.apache.commons.configuration2 for application.properties related stuff
 0. Code Complexity analysis (NCSS)
 0. OWASP Threats Protection
@@ -55,13 +54,13 @@
 - AOP, not even for transaction boundaries
 
 ### Useful commands
-
 - Run the pitests:
 
 ```
 mvn org.pitest:pitest-maven:mutationCoverage
 ```
 - Make a build site (run from the sub roots)
+
 
 ```
 mvn site
@@ -81,26 +80,32 @@ java -jar hellostrangeworld-backend/target/hellostrangeworld-backend-0.3.0.jar
 ```
 mvn -N versions:update-child-modules
 ```
+- Run the far backend servletcontainer:
 
+```
+CLS&java -ea -cp hellostrangeworld-backend/target/* net.barakiroth.hellostrangeworld.farbackend.infrastructure.HelloStrangeWorldFarBackendApp
+```
 ### Useful refs: 
+
 #### Git
 [Ecipse/Git: EGit/User Guide](https://wiki.eclipse.org/EGit/User_Guide#The_Preferences_Dialog)</BR>
 #### Java 11
 [Migrating to Java 11 ](https://blog.codefx.org/java/java-11-migration-guide/)</BR>
 [Migrate Maven Projects to Java 11](https://winterbe.com/posts/2018/08/29/migrate-maven-projects-to-java-11-jigsaw/)</BR>
-#### Testing
-[JUnit 5 Tutorial: Writing Assertions With Hamcrest](https://www.petrikainulainen.net/programming/testing/junit-5-tutorial-writing-assertions-with-hamcrest/)</BR>
-[JUnit test for System.out.println()
-](https://stackoverflow.com/questions/1119385/junit-test-for-system-out-println)</BR>
+#### Jersey-Jackson
+[Producing and consuming JSON or XML in Java REST Services with Jersey and Jackson](https://www.nabisoft.com/tutorials/java-ee/producing-and-consuming-json-or-xml-in-java-rest-services-with-jersey-and-jackson)</BR>
+#### Markdown
+[Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#links)</BR>
 #### Pi tests/Mutation tests
 [Mutation Testing with PITest](https://www.baeldung.com/java-mutation-testing-with-pitest)</BR>
 [Real world mutation testing](http://pitest.org/)</BR>
 [My PITEST won't run. Coverage generation minion exited abnormally. I need help to configure my pom.xml properly](https://stackoverflow.com/questions/55680025/my-pitest-wont-run-coverage-generation-minion-exited-abnormally-i-need-help-t/55680225#55680225)</BR>
-#### Markdown
-[Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#links)</BR>
 #### RDBMS
 [Most fundamental use of H2](https://github.com/h2database/h2database/blob/master/h2/src/test/org/h2/samples/HelloWorld.java)</BR>
-
+#### Testing
+[JUnit 5 Tutorial: Writing Assertions With Hamcrest](https://www.petrikainulainen.net/programming/testing/junit-5-tutorial-writing-assertions-with-hamcrest/)</BR>
+[JUnit test for System.out.println()
+](https://stackoverflow.com/questions/1119385/junit-test-for-system-out-println)</BR>
 
 <!---
 [comment]: <> (This is a comment, it will not be included)

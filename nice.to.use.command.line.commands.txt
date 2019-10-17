@@ -5,3 +5,8 @@ mvn versions:commit -DprocessAllModules
 
 java -jar .\hellostrangeworld-farbackend\target\hellostrangeworld-farbackend-0.3.3.jar
 java -jar .\hellostrangeworld-backend\target\hellostrangeworld-backend-0.3.3.jar
+
+
+
+SS 866 2209
+SC 136 3299

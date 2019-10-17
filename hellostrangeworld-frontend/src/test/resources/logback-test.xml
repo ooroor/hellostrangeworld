@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration scan="true" scanPeriod="29 seconds">
+
+	<appender name="CONSOLE"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+
+    <appender name="EnteringTestHeaderAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%n %n %green(**************************************************************************************************************** %n) %gray(%d{HH:mm:ss.SSS} [%thread]) %green(Entering test: ) %cyan(%C{0} - %M) %green(%n **************************************************************************************************************** %n %n)</Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+
+	<logger name="net.barakiroth" level="debug" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+    <logger name="EnteringTestHeader" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="EnteringTestHeaderAppender" />
+    </logger>
+
+	<root level="error">
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>
