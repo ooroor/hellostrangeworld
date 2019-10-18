@@ -97,7 +97,6 @@
 				<version>${jackson.version}</version>
 			</dependency>
 
-
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-security</artifactId>
