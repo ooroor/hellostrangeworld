@@ -21,26 +21,24 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.release.version>13</maven.compiler.release.version>
-        
 		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
 
 		<logback.version>1.2.3</logback.version>
 		<bcel.version>6.3.1</bcel.version>
 		<h2.version>1.4.199</h2.version>
 		<jackson.version>2.9.9</jackson.version>
-		
 		<jersey.version>2.29</jersey.version>
-        <jakarta.inject.version>2.6.1</jakarta.inject.version>
-		
-		
-		
-		
+		<jakarta.inject.version>2.6.1</jakarta.inject.version>
 		<jetty.version>9.4.17.v20190418</jetty.version>
 		<lombok.version>1.18.6</lombok.version>
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
+		<jansi.version>1.18</jansi.version>
+		<commons-config.version>2.6</commons-config.version>
+		<commons-logging.version>1.2</commons-logging.version>
+		<commons-beanutils.version>1.9.4</commons-beanutils.version>
 
 		<!-- Plugins --><!-- Plugin stuff -->
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 		<maven-surefire-report-plugin.version>3.0.0-M3</maven-surefire-report-plugin.version>
 		<maven-shared-jar.version>1.2</maven-shared-jar.version>
 		<maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
@@ -48,7 +46,7 @@
 		<maven-jxr-plugin.version>3.0.0</maven-jxr-plugin.version>
 		<maven-site-plugin.version>3.7.1</maven-site-plugin.version>
 		<jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
-		
+
 
 		<!-- Test stuff -->
 		<junit.jupiter.version>5.5.2</junit.jupiter.version>
@@ -92,19 +90,6 @@
 				<artifactId>h2</artifactId>
 				<version>${h2.version}</version>
 			</dependency>
-<!-- 
-			
-			<dependency>
-			    <groupId>com.fasterxml.jackson.core</groupId>
-			    <artifactId>jackson-core</artifactId>
-			    <version>${jackson.version}</version>
-			</dependency>
-			
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
 
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
@@ -112,130 +97,132 @@
 				<version>${jackson.version}</version>
 			</dependency>
 
+
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-security</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-io</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-util</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-server</artifactId>
 				<version>${jetty.version}</version>
 			</dependency>
-        
-	        <dependency>
-	            <groupId>org.eclipse.jetty</groupId>
-	            <artifactId>jetty-servlet</artifactId>
-	            <version>${jetty.version}</version>
-	        </dependency>
--->
 
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-http</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-continuation</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
 
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-webapp</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
 
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-servlet</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
 
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-servlets</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
 
+			<!-- Jersey stuff -->
+			<dependency>
+				<groupId>org.glassfish.jersey</groupId>
+				<artifactId>jersey-bom</artifactId>
+				<version>${jersey.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 
+			<!-- More glassfish stuff -->
+			<dependency>
+				<groupId>org.glassfish.hk2.external</groupId>
+				<artifactId>jakarta.inject</artifactId>
+				<version>${jakarta.inject.version}</version>
+			</dependency>
 
-
-
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-security</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-io</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-util</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-server</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-http</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-continuation</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-webapp</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-servlet</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-servlets</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-
-            <!-- Jersey stuff -->
-            <dependency>
-                <groupId>org.glassfish.jersey</groupId>
-                <artifactId>jersey-bom</artifactId>
-                <version>${jersey.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- More glassfish stuff -->
-            <dependency>
-                <groupId>org.glassfish.hk2.external</groupId>
-                <artifactId>jakarta.inject</artifactId>
-                <version>${jakarta.inject.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.glassfish.jaxb</groupId>
-                <artifactId>jaxb-runtime</artifactId>
-                <version>2.3.2</version>
-            </dependency>
-
-
-
-
-
-
-
+			<dependency>
+				<groupId>org.glassfish.jaxb</groupId>
+				<artifactId>jaxb-runtime</artifactId>
+				<version>2.3.2</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
 				<version>${lombok.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			
-			
-<dependency>
-    <groupId>javax.validation</groupId>
-    <artifactId>validation-api</artifactId>
-    <version>${javax.validation.version}</version>
-</dependency>
-		
-			
+
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>${javax.validation.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.fusesource.jansi</groupId>
+				<artifactId>jansi</artifactId>
+				<version>${jansi.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-configuration2</artifactId>
+                <version>${commons-config.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <!-- To fix transitive dependencies after exclusions -->
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>${commons-logging.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons-beanutils.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
 			<!-- Test stuff -->
 			<dependency>
@@ -251,28 +238,23 @@
 				<version>${junit.pre.jupiter.version}</version>
 				<scope>test</scope>
 			</dependency>
-			
-			<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-commons -->
-<dependency>
-    <groupId>org.junit.platform</groupId>
-    <artifactId>junit-platform-commons</artifactId>
-    <version>1.5.2</version>
-</dependency>
 
-
-
-			
+			<dependency>
+				<groupId>org.junit.platform</groupId>
+				<artifactId>junit-platform-commons</artifactId>
+				<version>1.5.2</version>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<dependencies>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
-	
+
 		<!-- Test stuff -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -285,7 +267,7 @@
 		</dependency>
 
 	</dependencies>
-	
+
 
 	<build>
 		<pluginManagement>
@@ -326,53 +308,53 @@
 					</dependencies>
 				</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>${maven-project-info-reports-plugin.version}</version>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>${maven-project-info-reports-plugin.version}</version>
 
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.shared</groupId>
-						<artifactId>maven-shared-jar</artifactId>
-						<version>${maven-shared-jar.version}</version>
-						<exclusions>
-							<exclusion>
-								<groupId>com.google.code.findbugs</groupId>
-								<artifactId>bcel-findbugs</artifactId>
-							</exclusion>
-						</exclusions>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.bcel</groupId>
-						<artifactId>bcel</artifactId>
-						<version>${bcel.version}</version>
-					</dependency>
-				</dependencies>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.shared</groupId>
+							<artifactId>maven-shared-jar</artifactId>
+							<version>${maven-shared-jar.version}</version>
+							<exclusions>
+								<exclusion>
+									<groupId>com.google.code.findbugs</groupId>
+									<artifactId>bcel-findbugs</artifactId>
+								</exclusion>
+							</exclusions>
+						</dependency>
+						<dependency>
+							<groupId>org.apache.bcel</groupId>
+							<artifactId>bcel</artifactId>
+							<version>${bcel.version}</version>
+						</dependency>
+					</dependencies>
 
-			</plugin>
+				</plugin>
 
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco-maven-plugin.version}</version>
-			</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco-maven-plugin.version}</version>
+				</plugin>
 
 			</plugins>
 
 		</pluginManagement>
 
 		<plugins>
-		
-            <plugin>
-                <!-- Ref.: https://www.baeldung.com/maven-java-version -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <release>${maven.compiler.release.version}</release>
-                    <fork>true</fork>
-                </configuration>
-            </plugin>
+
+			<plugin>
+				<!-- Ref.: https://www.baeldung.com/maven-java-version -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<release>${maven.compiler.release.version}</release>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

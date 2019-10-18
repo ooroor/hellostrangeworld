@@ -10,6 +10,26 @@
 			</Pattern>
 		</layout>
 	</appender>
+    
+    <appender name="EnteringMethodHeaderAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>true</withJansi>
+        <encoder>
+            <Pattern>%-4relative [%thread] %green(---------->) Entering method: %cyan( %C{0}.%M) %n</Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+
+    <appender name="LeavingMethodHeaderAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>true</withJansi>
+        <encoder>
+            <Pattern>%-4relative [%thread]             Leaving method : %cyan( %C{0}.%M ) %red(---------->) %n</Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
 
     <appender name="EnteringTestHeaderAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -23,6 +43,16 @@
 	<logger name="net.barakiroth" level="debug" additivity="false">
 		<appender-ref ref="CONSOLE" />
 	</logger>
+
+    <logger name="EnteringMethodHeader" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="EnteringMethodHeaderAppender" />
+    </logger>
+
+    <logger name="LeavingMethodHeader" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="LeavingMethodHeaderAppender" />
+    </logger>
 
     <logger name="EnteringTestHeader" additivity="false">
         <level value="DEBUG" />

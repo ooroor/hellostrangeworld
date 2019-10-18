@@ -73,7 +73,7 @@ mvn clean install org.pitest:pitest-maven:mutationCoverage
 - Run the application from the command line
 
 ```
-java -jar hellostrangeworld-backend/target/hellostrangeworld-backend-0.3.0.jar
+CLS&java -jar hellostrangeworld-backend/target/hellostrangeworld-backend-0.3.5.jar
 ```
 - Update the parent versions in the children's pom.xml's
 
@@ -83,7 +83,12 @@ mvn -N versions:update-child-modules
 - Run the far backend servletcontainer:
 
 ```
-CLS&java -ea -cp hellostrangeworld-backend/target/* net.barakiroth.hellostrangeworld.farbackend.infrastructure.HelloStrangeWorldFarBackendApp
+CLS&java -ea -cp hellostrangeworld-backend/target/*  net.barakiroth.hellostrangeworld.farbackend.Main
+```
+- Find ports listened to in Windows
+
+```
+netstat -aon | find /i "listening" | find /i "8087"
 ```
 ### Useful refs: 
 

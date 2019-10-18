@@ -1,4 +1,4 @@
-package net.barakiroth.hellostrangeworld.farbackend;
+package net.barakiroth.hellostrangeworld.farbackend.greetingdescriptor;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 public class GreetingDescriptorTest {
 		
-		private static final Logger enteringTestHeaderLogger =
+	private static final Logger enteringTestHeaderLogger =
 			LoggerFactory.getLogger("EnteringTestHeader");
 	
 	@Test

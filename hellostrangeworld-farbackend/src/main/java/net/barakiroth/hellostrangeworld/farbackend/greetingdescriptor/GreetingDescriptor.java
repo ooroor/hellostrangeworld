@@ -1,4 +1,4 @@
-package net.barakiroth.hellostrangeworld.farbackend;
+package net.barakiroth.hellostrangeworld.farbackend.greetingdescriptor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package net.barakiroth.hellostrangeworld.farbackend;
+package net.barakiroth.hellostrangeworld.farbackend.greetingdescriptor;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
