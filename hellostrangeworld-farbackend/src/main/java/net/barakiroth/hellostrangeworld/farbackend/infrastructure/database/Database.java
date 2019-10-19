@@ -19,13 +19,6 @@ public class Database {
 	static private final Logger log = LoggerFactory.getLogger(Database.class);
 	private static final Logger enteringMethodHeaderLogger = LoggerFactory.getLogger("EnteringMethodHeader");
     private static final Logger leavingMethodHeaderLogger = LoggerFactory.getLogger("LeavingMethodHeader");
-
-	private static final String DB_DRIVER_CLASS_NAME = "org.h2.Driver";
-	private static final String DB_SCHEMA_NAME = "hellostrangeworld";
-	private static final String DB_DS_SCHEMA_NOT_EXISTS = "jdbc:h2:mem:" + DB_SCHEMA_NAME + ";DB_CLOSE_DELAY=-1";
-	private static final String DB_DS_SCHEMA_EXISTS = DB_DS_SCHEMA_NOT_EXISTS + ";IFEXISTS=TRUE";
-	private static final String DB_USER = "";
-	private static final String DB_PASSWORD = "";
 	
 	private DatabaseConfig databaseConfig;
 	private Connection     connection = null;
@@ -74,7 +67,7 @@ public class Database {
 		return this.connection != null;
 	}
 
-	public void disconnect() {
+	public void stop() {
 
         enteringMethodHeaderLogger.debug(null);
         
@@ -97,8 +90,6 @@ public class Database {
 
         enteringMethodHeaderLogger.debug(null);
         
-        assert(this.databaseConfig != null);
-        
         final Connection connection = createDBConnection();
 
 		createAndPopulate(connection);
@@ -111,8 +102,6 @@ public class Database {
 	private Connection createDBConnection() {
 
         enteringMethodHeaderLogger.debug(null);
-        
-        assert(this.databaseConfig != null);
         
         Connection connection = null;
 		try {
@@ -141,7 +130,7 @@ public class Database {
 			connection.setAutoCommit(true);
 			final Statement stmt = connection.createStatement();
 			try {
-				stmt.execute("SELECT * FROM description");
+				stmt.execute("SELECT * FROM description WHERE id != id");
 				log.info("The database table description already exists, it will hence not be neither created nor populated");
 			} catch (Throwable e) {
 				log.info("Exception received when trying to select from the table description. That is taken as an indication that the table does not exists. Exception msg: {}. About to try to create and populate it...", e.getMessage());
@@ -165,22 +154,36 @@ public class Database {
 	}
 	
 	private String getDriverClassName() {
-		return DB_DRIVER_CLASS_NAME;
+		
+		assert(this.databaseConfig != null);
+		
+		return this.databaseConfig.getDriverClassName();
 	}
 	
 	private String getDataSourceForNonExistingSchema() {
-		return DB_DS_SCHEMA_NOT_EXISTS;
+		
+		assert(this.databaseConfig != null);
+		
+		return this.databaseConfig.getDataSourceForNonExistingSchema();
 	}
 	
 	private String getUser() {
-		return DB_USER;
+		
+		assert(this.databaseConfig != null);
+		
+		return this.databaseConfig.getUser();
 	}
 	
 	private String getPwd() {
-		return DB_PASSWORD;
-	}
+		
+		assert(this.databaseConfig != null);
+		
+		return this.databaseConfig.getPwd();}
 	
-	private String getDataSourceForExistingSchema() {  
-		return DB_DS_SCHEMA_EXISTS;
+	private String getDataSourceForExistingSchema() { 
+		
+		assert(this.databaseConfig != null);
+		
+		return this.databaseConfig.getDataSourceForExistingSchema();
 	}
 }
