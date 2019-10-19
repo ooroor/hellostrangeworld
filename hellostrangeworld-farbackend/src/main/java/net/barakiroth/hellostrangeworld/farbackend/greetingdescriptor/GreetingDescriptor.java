@@ -3,12 +3,24 @@ package net.barakiroth.hellostrangeworld.farbackend.greetingdescriptor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.Database;
+import net.barakiroth.hellostrangeworld.farbackend.Config;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 
-public class GreetingDescriptor {	
-
-	private Database database = null;
-
+public class GreetingDescriptor {
+	
+	private final Config config;
+	
+	/**
+	 * A hack until he config may be supplied by the resource
+	 */
+	public GreetingDescriptor() {
+		this(new Config());
+	}
+	
+	public GreetingDescriptor(final Config config) {
+		this.config = config;
+	}
+	
 	/** 
 	 * Returns a json representation of the describing adjective
 	 * @return a json representation of the describing adjective
@@ -31,17 +43,15 @@ public class GreetingDescriptor {
 	}
 
 	public void disconnect() {
-
-		this.database.disconnect();
-		this.database = null;
 	}
 
 	private Database getDatabase() {
 
-		if (this.database == null) {
-			this.database = new Database();
+		final Database database = this.config.getDatabase();
+		if (!database.isStarted()) {
+			database.start();
 		}
-
-		return this.database;
+		
+		return database;
 	}
 }

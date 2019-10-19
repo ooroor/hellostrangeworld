@@ -6,7 +6,7 @@
 
 	<groupId>net.barakiroth.hellostrangeworld</groupId>
 	<artifactId>hellostrangeworld</artifactId>
-	<version>0.3.5</version>
+	<version>0.3.6</version>
 	<packaging>pom</packaging>
 
 	<name>hellostrangeworld</name>
@@ -26,7 +26,7 @@
 		<logback.version>1.2.3</logback.version>
 		<bcel.version>6.3.1</bcel.version>
 		<h2.version>1.4.199</h2.version>
-		<jackson.version>2.9.9</jackson.version>
+		<jackson.version>2.10.0</jackson.version>
 		<jersey.version>2.29</jersey.version>
 		<jakarta.inject.version>2.6.1</jakarta.inject.version>
 		<jetty.version>9.4.17.v20190418</jetty.version>

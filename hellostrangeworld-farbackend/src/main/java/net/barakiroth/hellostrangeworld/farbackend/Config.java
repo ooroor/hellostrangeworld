@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.DatabaseConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManagerConfig;
 
@@ -25,12 +27,18 @@ public class Config {
     private static final Logger leavingMethodHeaderLogger = LoggerFactory.getLogger("LeavingMethodHeader");
     
     private final CompositeConfiguration compositeConfiguration;
-
-    @Getter(AccessLevel.PUBLIC)
-    private final JettyManagerConfig     jettyManagerConfig;
     
     @Getter(AccessLevel.PUBLIC)
-    private final JettyManager           jettyManager;
+    private final DatabaseConfig     databaseConfig;
+    
+    @Getter(AccessLevel.PUBLIC)
+    private final Database           database;
+
+    @Getter(AccessLevel.PUBLIC)
+    private final JettyManagerConfig jettyManagerConfig;
+    
+    @Getter(AccessLevel.PUBLIC)
+    private final JettyManager       jettyManager;
     
     public Config() {
     	
@@ -58,7 +66,9 @@ public class Config {
         log.info("All configurations loaded");
     	
     	this.jettyManagerConfig = new JettyManagerConfig(this);
-    	this.jettyManager = new JettyManager(this);
+    	this.jettyManager       = new JettyManager(this);
+    	this.databaseConfig     = new DatabaseConfig(this);
+    	this.database           = new Database(this);
     	
     	leavingMethodHeaderLogger.debug(null);
     }

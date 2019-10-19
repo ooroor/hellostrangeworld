@@ -1,6 +1,7 @@
 package net.barakiroth.hellostrangeworld.backend;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -19,7 +20,7 @@ public class GreetingPhraserTest {
 		enteringTestHeaderLogger.debug(null);
 		
 		final GreetingPhraser greetingPhraser = new GreetingPhraser();
-		assertThat(greetingPhraser.getGreetingPhrasePrefix(), is("Hello strange "));
+		assertThat(greetingPhraser.getGreetingPhrasePrefix(), anyOf(is("Hello strange "), is("Hello very strange ")));
 		greetingPhraser.disconnect();
 	}
 	

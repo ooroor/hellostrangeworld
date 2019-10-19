@@ -2,6 +2,8 @@ package net.barakiroth.hellostrangeworld;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.AnyOf.anyOf;
+
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.io.ByteArrayInputStream;
@@ -49,7 +51,11 @@ public class HelloStrangeWorldAppTest {
 		final ByteArrayInputStream in = new ByteArrayInputStream(expectedGreetee.getBytes());
 		System.setIn(in);
 		HelloStrangeWorldApp.main(new String[] {"Some rubbish"});
-		assertThat(errContent.toString(), is(MessageFormat.format("Hello strange {0}!\r\n", expectedGreetee)));
+		
+		final String expectedString1 = MessageFormat.format("Hello strange {0}!\r\n", expectedGreetee);
+		final String expectedString2 = MessageFormat.format("Hello very strange {0}!\r\n", expectedGreetee);
+		
+		assertThat(errContent.toString(), anyOf(is(expectedString1), is(expectedString2)));
 	}
 
 	@Test

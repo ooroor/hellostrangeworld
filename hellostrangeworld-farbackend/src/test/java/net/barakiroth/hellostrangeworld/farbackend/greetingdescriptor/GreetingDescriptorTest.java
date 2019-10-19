@@ -1,6 +1,7 @@
 package net.barakiroth.hellostrangeworld.farbackend.greetingdescriptor;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -14,12 +15,12 @@ public class GreetingDescriptorTest {
 			LoggerFactory.getLogger("EnteringTestHeader");
 	
 	@Test
-	public void should_return_a_given_decription_unconditionally() {
+	public void should_return_a_given_description_unconditionally() {
 		
 		enteringTestHeaderLogger.debug(null);
 		
 		final GreetingDescriptor greetingDescriptor = new GreetingDescriptor();
-		assertThat(greetingDescriptor.describeGreetee(), is("\"strange\""));
+		assertThat(greetingDescriptor.describeGreetee(), anyOf(is("\"strange\""), is("\"very strange\"")));
 		greetingDescriptor.disconnect();
 	}
 	

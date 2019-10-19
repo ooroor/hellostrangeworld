@@ -1,4 +1,4 @@
-# Slowly extend a simple command line Java hello world like application to a full-fledged front end, back end and downstreams microservices with a banal/trivial business logic
+# Slowly extend a simple command line Java hello world like application to a full-fledged front end, back end and downstreams microservices with a banal/trivial business logic. Meant as a three layers template application.
 
 ### Business Logic
 1. Frontend asks user whom too greet, e.g. "world"
@@ -8,7 +8,7 @@
 
 ### Environment
 - Windows 10
-- Java 12
+- Java 13
 - Junit Jupiter 5.4.1 
 - Hamcrest 2.1
 - Maven 3.6.2
@@ -31,22 +31,24 @@
 - H2 for RDBMS prod and testing
 - Three layers: Frontend, immediate backend and downstreams far backend
 - Lombok (magic, but allowing)
+- Plain JDBC
+- Jetty for servlet container
+- Jersey for HTTP/rest communication
+- REST with JSON  and HTTP verb calls from backend to far backend
+- org.apache.commons.configuration2 for application.properties related stuff
 
 ### Future plans and ambitions
-1. Plain JDBC and/or a very thin layer above it, like possibly QueryDSL
+1. A very thin layer above plain JDBC, like QueryDSL?
 0. Transaction boundaries by simple "doInTransaction" like patterns, no AOP
-0. Jetty for servlet container
-0. Jersey for HTTP/rest communication
-0. REST with JSON  and HTTP verb calls from frontend to backend and from backend to far backend
+0. REST with JSON  and HTTP verb calls from frontend to backend
 0. Resilience for downstreams calls (here: From backend to far backend)
 0. Prometheus for monitoring
 0. Swagger for documentation
 0. PACT for contracts between service consumers and consumed services
 0. Web components with Javascript or Elm. Continuously assessing
-0. org.apache.commons.configuration2 for application.properties related stuff
 0. Code Complexity analysis (NCSS)
 0. OWASP Threats Protection
-0. Checkstyle for consistent code layout etc. 
+0. Checkstyle for consistent code layout etc.
 
 ### Technologies that will NOT be used
 - Spring
@@ -73,7 +75,12 @@ mvn clean install org.pitest:pitest-maven:mutationCoverage
 - Run the application from the command line
 
 ```
-CLS&java -jar hellostrangeworld-backend/target/hellostrangeworld-backend-0.3.5.jar
+CLS&java -jar hellostrangeworld-backend/target/hellostrangeworld-backend-0.3.6.jar
+```
+- Build the application without tests and then run it from the command line
+
+```
+CLS&mvn clean install -v -DskipTests=true&java -jar hellostrangeworld-backend/target/hellostrangeworld-backend-0.3.6.jar
 ```
 - Update the parent versions in the children's pom.xml's
 
@@ -90,6 +97,12 @@ CLS&java -ea -cp hellostrangeworld-backend/target/*  net.barakiroth.hellostrange
 ```
 netstat -aon | find /i "listening" | find /i "8087"
 ```
+- Bump the children's versions
+
+```
+mvn -N versions:update-child-modules
+```
+
 ### Useful refs: 
 
 #### Git

@@ -18,7 +18,7 @@ public class JettyManager {
     private static final Logger leavingMethodHeaderLogger = LoggerFactory.getLogger("LeavingMethodHeader");
 	
     private final JettyManagerConfig jettyManagerConfig;
-	private final Server jettyServer;
+	private final Server             jettyServer;
 	
 	public JettyManager(final Config config) {
 		
@@ -76,20 +76,29 @@ public class JettyManager {
 		final ServletContextHandler servletContextHandler =
 				new ServletContextHandler(this.jettyServer, rootContextPath);
 		
-		//servletContextHandler.setContextPath("/*");
+		registerGreetingsDescriptorResourceServlet(jettyManagerConfig, servletContextHandler);
+		
         this.jettyServer.setHandler(servletContextHandler);
-        final ServletHolder servletHolder = 
-        	servletContextHandler.addServlet(ServletContainer.class, "/rest/*");
-        servletHolder.setInitOrder(1);
-        
-        servletHolder.setInitParameter(
-                "jersey.config.server.provider.classnames",
-                GreetingDescriptorResource.class.getCanonicalName());
 		
 		leavingMethodHeaderLogger.debug(null);
 		
 		return this.jettyServer;
 	}
+	
+    private void registerGreetingsDescriptorResourceServlet(final JettyManagerConfig jettyManagerConfig, final ServletContextHandler servletContextHandler) {
+
+        enteringMethodHeaderLogger.debug(null);
+        
+        final String greetingsDescriptorResourcePathSpec =
+        		this.jettyManagerConfig.getGreetingsDescriptorResourcePathSpec();
+        final ServletHolder servletHolder = 
+        	servletContextHandler.addServlet(ServletContainer.class, greetingsDescriptorResourcePathSpec);
+        servletHolder.setInitParameter(
+                "jersey.config.server.provider.classnames",
+                GreetingDescriptorResource.class.getCanonicalName());
+
+        leavingMethodHeaderLogger.debug(null);
+    }
 
     private String getRootContextPath(final JettyManagerConfig jettyManagerConfig) {
     	

@@ -9,6 +9,9 @@ public class JettyManagerConfig {
 
     private static final String JETTY_ROOT_CONTEXT_PATH_KEY = "jetty.root.context.path";
     private static final String JETTY_ROOT_CONTEXT_PATH_DEFAULT = "/";
+
+    private static final String JETTY_GREETINGS_DESCRIPTOR_RESOURCE_PATH_SPEC_KEY = "jetty.greetings.descriptor.path.spec";
+    private static final String JETTY_GREETINGS_DESCRIPTOR_RESOURCE_PATH_SPEC_DEFAULT = "/greetings/*";
 	
 	private final Config config;
 
@@ -19,6 +22,11 @@ public class JettyManagerConfig {
 	int getServerPort() {
         final int port = this.config.getInteger(JETTY_SERVER_PORT_KEY, JETTY_SERVER_PORT_DEFAULT);
         return port;
+    }
+
+	String getGreetingsDescriptorResourcePathSpec() {
+        final String contextPath = this.config.getString(JETTY_GREETINGS_DESCRIPTOR_RESOURCE_PATH_SPEC_KEY, JETTY_GREETINGS_DESCRIPTOR_RESOURCE_PATH_SPEC_DEFAULT);
+        return contextPath;
     }
 
 	String getRootContextPath() {
