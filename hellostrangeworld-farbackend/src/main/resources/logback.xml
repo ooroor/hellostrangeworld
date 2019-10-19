@@ -45,6 +45,11 @@
         <appender-ref ref="LeavingMethodHeaderAppender" />
     </logger>
 
+    <logger name="org.h2" additivity="false">
+        <level value="ERROR" />
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
 	<root level="error">
 		<appender-ref ref="CONSOLE" />
 	</root>

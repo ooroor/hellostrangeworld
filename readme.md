@@ -37,24 +37,25 @@
 - REST with JSON  and HTTP verb calls from backend to far backend
 - org.apache.commons.configuration2 for application.properties related stuff
 
+#### Summary over technologies/designs so far
 
 |                  | Frontend      | Backend | Far backend |
 | ---------------- |:-------------:| -------:|------------:|
 | logback          |      X        |   X     |    X        |
 | jupiter          |      X        |   X     |    X        |
-| hamcrest         |      ?        |   X     |    X        |
+| hamcrest         |      X        |   X     |    X        |
 | JaCoCo           |      X        |   X     |    X        |
-| PiTest           |   NOT YET     | NOT YET |   NOT YET   |
+| PiTest           |   NOT YET     | NOT YET |  NOT YET    |
 | H2               |     N/A       |  N/A    |    X        |
 | lombok           |               |         |    X        |
-| jetty            |     N/A       |  N/A    |   NOT YET   |
-| jersey           |     N/A       |         |   NOT YET   |
+| jetty            |     N/A       |  N/A    |    X        |
+| jersey           |     N/A       |         |    X        |
 | rest client      |               |   X     |   N/A       |
 | rest server      |     N/A       |         |    X        |
-| json serialize   |     N/A       |  N/A    |  NOT YET    |
+| json serialize   |     N/A       |  N/A    |    X        |
 | json deserialize |   NOT YET     |   X     |   N/A       |
 | conf2            |     N/A?      |         |    X        |
-| QueryDSL         |     N/A       |  N/A    |  NOT YET    |
+| QueryDSL         |     N/A       |  N/A    |   N/A?      |
 | doInTransaction  |     N/A       |  N/A    |  NOT YET    |
 | Resilience       |   NOT YET     |         |   N/A       |
 | Prometheus       |   NOT YET     |         |  NOT YET    |
@@ -64,6 +65,13 @@
 | NCSS             |   NOT YET     | NOT YET |  NOT YET    |
 | OWASP            |   NOT YET     | NOT YET |  NOT YET    |
 | checkstyle       |   NOT YET     | NOT YET |  NOT YET    |
+| Separate project |   NOT YET     | NOT YET |  NOT YET    |
+| Java 9 modules   |   NOT YET     | NOT YET |  NOT YET    |
+
+#### Detail TODO-s:
+- Stop logging SQL errors when selecting from not existing database
+- Remove overlapping classes when building fat jars
+- Remove JANSI exception logging originating from surefire
 
 ### Future plans and ambitions
 1. A very thin layer above plain JDBC, like QueryDSL?
