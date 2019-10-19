@@ -40,27 +40,27 @@
 
 |                  | Frontend      | Backend | Far backend |
 | ---------------- |:-------------:| -------:|------------:|
-| logback          |      X        |    X    |     X       |
-| jupiter          |      X        |    X    |     X       |
-| hamcrest         |      ?        |    X    |     X       |
-| JaCoCo           |      X        |    X    |     X       |
+| logback          |      X        |   X     |    X        |
+| jupiter          |      X        |   X     |    X        |
+| hamcrest         |      ?        |   X     |    X        |
+| JaCoCo           |      X        |   X     |    X        |
 | PiTest           |   NOT YET     | NOT YET |   NOT YET   |
-| H2               |     N/A       |   N/A   |     X       |
-| lombok           |               |         |     X       |
-| jetty            |     N/A       |   N/A   |   NOT YET   |
+| H2               |     N/A       |  N/A    |    X        |
+| lombok           |               |         |    X        |
+| jetty            |     N/A       |  N/A    |   NOT YET   |
 | jersey           |     N/A       |         |   NOT YET   |
-| rest client      |               |    X    |    N/A      |
-| rest server      |     N/A       |         |     X       |
-| json serialize   |     N/A       |   N/A   |  NOT YET    |
-| json deserialize |   NOT YET     |    X    |    N/A      |
-| conf2            |     N/A?      |         |     X       |
-| QueryDSL         |     N/A       |   N/A   |  NOT YET    |
-| doInTransaction  |     N/A       |   N/A   |  NOT YET    |
-| Resilience       |   NOT YET     |         |    N/A      |
+| rest client      |               |   X     |   N/A       |
+| rest server      |     N/A       |         |    X        |
+| json serialize   |     N/A       |  N/A    |  NOT YET    |
+| json deserialize |   NOT YET     |   X     |   N/A       |
+| conf2            |     N/A?      |         |    X        |
+| QueryDSL         |     N/A       |  N/A    |  NOT YET    |
+| doInTransaction  |     N/A       |  N/A    |  NOT YET    |
+| Resilience       |   NOT YET     |         |   N/A       |
 | Prometheus       |   NOT YET     |         |  NOT YET    |
 | swagger          |     N/A       |         |  NOT YET    |
 | PACT             |     N/A       |         |  NOT YET    |
-| web components   |   NOT YET     |   N/A   |    N/A      |
+| web components   |   NOT YET     |  N/A    |   N/A       |
 | NCSS             |   NOT YET     | NOT YET |  NOT YET    |
 | OWASP            |   NOT YET     | NOT YET |  NOT YET    |
 | checkstyle       |   NOT YET     | NOT YET |  NOT YET    |
