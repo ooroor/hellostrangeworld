@@ -63,10 +63,10 @@
 | PACT             |     N/A       | NOT YET |  NOT YET    |
 | web components   |   NOT YET     |  N/A    |   N/A       |
 | NCSS             |   NOT YET     | NOT YET |  NOT YET    |
-| OWASP            |   NOT YET     | NOT YET |  NOT YET    |
+| OWASP            |      X        |   X     |    X        |
 | checkstyle       |   NOT YET     | NOT YET |  NOT YET    |
 | Separate project |   NOT YET     | NOT YET |  NOT YET    |
-| Java 9 modules   |   NOT YET     | NOT YET |  NOT YET    |
+| Java 9+ modules  |     N/A?      | NOT YET |  NOT YET    |
 #### Detail TODO-s:
 - Stop logging SQL errors when selecting from not existing schema/table
 - Remove overlapping classes when building fat jars
@@ -98,16 +98,21 @@
 ```
 mvn org.pitest:pitest-maven:mutationCoverage
 ```
-- Make a build site (run from the sub roots)
-
+- Run pitests on all the applications (Reports: **/target/pit-reports/YYYYMMDDHHmm/index.htmla
 
 ```
-mvn site
+CLS&mvn -P mutation-tests clean install
 ```
 - Run a complete build
 
 ``` 
 mvn clean install org.pitest:pitest-maven:mutationCoverage
+```
+- Make a build site (run from the sub roots)
+
+
+```
+mvn site
 ```
 - Run the application from the command line
 
@@ -134,9 +139,11 @@ CLS&java -ea -cp hellostrangeworld-backend/target/*  net.barakiroth.hellostrange
 ```
 netstat -aon | find /i "listening" | find /i "8087"
 ```
-- Run pitests on all the applications (Reports: */target/pit-reports/YYYYMMDDHHmm/index.htmla
-````CLS&mvn -P mutation-tests clean install````
+- Run owasp analysis
 
+```
+CLS&mvn -X org.owasp:dependency-check-maven:check -P owasp
+```
 ### Useful refs: 
 
 #### Git
