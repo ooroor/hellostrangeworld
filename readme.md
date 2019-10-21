@@ -1,4 +1,4 @@
-# Slowly extend a simple command line Java hello world like application to a full-fledged front end, back end and downstreams microservices with a banal/trivial business logic. Meant as a three layers template application.
+# Three layers template hello world like Java application, back end and downstreams microservices with a banal/trivial business logic.
 
 ### Business Logic
 1. Frontend asks user whom too greet, e.g. "world"
@@ -45,9 +45,9 @@
 | jupiter          |      X        |   X     |    X        |
 | hamcrest         |      X        |   X     |    X        |
 | JaCoCo           |      X        |   X     |    X        |
-| PiTest           |   NOT YET     | NOT YET |  NOT YET    |
+| PiTest           |      X        |   X     |    X        |
 | H2               |     N/A       |  N/A    |    X        |
-| lombok           |     N/A?      |         |    X        |
+| lombok           |     N/A?      | NOT YET |    X        |
 | jetty            |     N/A       | NOT YET |    X        |
 | jersey           |     N/A       | NOT YET |    X        |
 | rest client      |   NOT YET     |   X     |   N/A       |
@@ -134,11 +134,8 @@ CLS&java -ea -cp hellostrangeworld-backend/target/*  net.barakiroth.hellostrange
 ```
 netstat -aon | find /i "listening" | find /i "8087"
 ```
-- Bump the children's versions
-
-```
-mvn -N versions:update-child-modules
-```
+- Run pitests on all the applications (Reports: */target/pit-reports/YYYYMMDDHHmm/index.htmla
+````CLS&mvn -P mutation-tests clean install````
 
 ### Useful refs: 
 
