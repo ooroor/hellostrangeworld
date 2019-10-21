@@ -15,7 +15,7 @@ public class Main {
 
         enteringMethodHeaderLogger.debug(null);
 
-        final Config config = new Config();
+        final Config config = Config.getSingletonInstance();
         final Main main = new Main();
         main.run(config);
 

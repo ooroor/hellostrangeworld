@@ -21,7 +21,7 @@ public class JettyManagerTest {
 		
 		enteringTestHeaderLogger.debug(null);
 		
-		final Config config = new Config();
+		final Config config = Config.getSingletonInstance();
 		final JettyManager jettyManager = config.getJettyManager();
 		Thread thread = null;
 		try {

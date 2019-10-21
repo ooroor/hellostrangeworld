@@ -7,6 +7,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.barakiroth.hellostrangeworld.farbackend.GreetingDescriptorJerseyApplication;
 import net.barakiroth.hellostrangeworld.farbackend.Config;
 import net.barakiroth.hellostrangeworld.farbackend.greetingdescriptor.GreetingDescriptorResource;
 import net.barakiroth.hellostrangeworld.farbackend.util.ExceptionSoftener;
@@ -76,7 +77,8 @@ public class JettyManager {
 		final ServletContextHandler servletContextHandler =
 				new ServletContextHandler(this.jettyServer, rootContextPath);
 		
-		registerGreetingsDescriptorResourceServlet(jettyManagerConfig, servletContextHandler);
+		//registerGreetingsDescriptorResourceServlet(jettyManagerConfig, servletContextHandler);
+		registerGreetingDescriptorJerseyApplication(jettyManagerConfig, servletContextHandler);
 		
         this.jettyServer.setHandler(servletContextHandler);
 		
@@ -84,6 +86,21 @@ public class JettyManager {
 		
 		return this.jettyServer;
 	}
+
+    void registerGreetingDescriptorJerseyApplication(final JettyManagerConfig jettyManagerConfig, final ServletContextHandler servletContextHandler) {
+    	
+    	enteringMethodHeaderLogger.debug(null);
+    	
+    	final String greetingsDescriptorResourcePathSpec =
+        		this.jettyManagerConfig.getGreetingsDescriptorResourcePathSpec();
+    	
+        final ServletHolder servletHolder = new ServletHolder(new ServletContainer());
+        final String greetingDescriptorJerseyApplicationClassName = GreetingDescriptorJerseyApplication.class.getName();
+        servletHolder.setInitParameter("javax.ws.rs.Application", greetingDescriptorJerseyApplicationClassName);
+        servletContextHandler.addServlet(servletHolder, greetingsDescriptorResourcePathSpec);
+        
+        leavingMethodHeaderLogger.debug(null);
+    }
 	
     private void registerGreetingsDescriptorResourceServlet(final JettyManagerConfig jettyManagerConfig, final ServletContextHandler servletContextHandler) {
 

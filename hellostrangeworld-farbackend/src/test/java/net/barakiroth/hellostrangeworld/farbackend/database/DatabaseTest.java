@@ -22,7 +22,7 @@ public class DatabaseTest {
 
 		enteringTestHeaderLogger.debug(null);
 
-		final Config config = new Config();
+		final Config config = Config.getSingletonInstance();
 
 		assertDoesNotThrow(
 				() -> {

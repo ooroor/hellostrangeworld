@@ -14,7 +14,7 @@ public class GreetingDescriptor {
 	 * A hack until he config may be supplied by the resource
 	 */
 	public GreetingDescriptor() {
-		this(new Config());
+		this(Config.getSingletonInstance());
 	}
 	
 	public GreetingDescriptor(final Config config) {

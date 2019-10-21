@@ -26,6 +26,9 @@ public class Config {
     private static final Logger enteringMethodHeaderLogger = LoggerFactory.getLogger("EnteringMethodHeader");
     private static final Logger leavingMethodHeaderLogger = LoggerFactory.getLogger("LeavingMethodHeader");
     
+    @Getter(AccessLevel.PUBLIC)
+    private static final Config singletonInstance = new Config();
+    
     private final CompositeConfiguration compositeConfiguration;
     
     @Getter(AccessLevel.PUBLIC)
@@ -40,7 +43,7 @@ public class Config {
     @Getter(AccessLevel.PUBLIC)
     private final JettyManager       jettyManager;
     
-    public Config() {
+    private Config() {
     	
     	enteringMethodHeaderLogger.debug(null);
     	

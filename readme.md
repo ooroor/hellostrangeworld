@@ -47,32 +47,33 @@
 | JaCoCo           |      X        |   X     |    X        |
 | PiTest           |   NOT YET     | NOT YET |  NOT YET    |
 | H2               |     N/A       |  N/A    |    X        |
-| lombok           |               |         |    X        |
-| jetty            |     N/A       |  N/A    |    X        |
-| jersey           |     N/A       |         |    X        |
-| rest client      |               |   X     |   N/A       |
-| rest server      |     N/A       |         |    X        |
+| lombok           |     N/A?      |         |    X        |
+| jetty            |     N/A       | NOT YET |    X        |
+| jersey           |     N/A       | NOT YET |    X        |
+| rest client      |   NOT YET     |   X     |   N/A       |
+| rest server      |     N/A       | NOT YET |    X        |
 | json serialize   |     N/A       |  N/A    |    X        |
 | json deserialize |   NOT YET     |   X     |   N/A       |
-| conf2            |     N/A?      |         |    X        |
+| conf2            |     N/A?      | NOT YET |    X        |
 | QueryDSL         |     N/A       |  N/A    |   N/A?      |
 | doInTransaction  |     N/A       |  N/A    |  NOT YET    |
-| Resilience       |   NOT YET     |         |   N/A       |
-| Prometheus       |   NOT YET     |         |  NOT YET    |
-| swagger          |     N/A       |         |  NOT YET    |
-| PACT             |     N/A       |         |  NOT YET    |
+| Resilience       |     N/A       | NOT YET |   N/A       |
+| Prometheus       |     N/A       | NOT YET |  NOT YET    |
+| swagger          |     N/A       | NOT YET |  NOT YET    |
+| PACT             |     N/A       | NOT YET |  NOT YET    |
 | web components   |   NOT YET     |  N/A    |   N/A       |
 | NCSS             |   NOT YET     | NOT YET |  NOT YET    |
 | OWASP            |   NOT YET     | NOT YET |  NOT YET    |
 | checkstyle       |   NOT YET     | NOT YET |  NOT YET    |
 | Separate project |   NOT YET     | NOT YET |  NOT YET    |
 | Java 9 modules   |   NOT YET     | NOT YET |  NOT YET    |
-
 #### Detail TODO-s:
-- Stop logging SQL errors when selecting from not existing database
+- Stop logging SQL errors when selecting from not existing schema/table
 - Remove overlapping classes when building fat jars
 - Remove JANSI exception logging originating from surefire
-
+- Produce database connection from datasource, not the driver itself
+- Liveness and readiness
+#### Done TODO-s:
 ### Future plans and ambitions
 1. A very thin layer above plain JDBC, like QueryDSL?
 0. Transaction boundaries by simple "doInTransaction" like patterns, no AOP
