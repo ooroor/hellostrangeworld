@@ -36,43 +36,49 @@
 - Jersey for HTTP/rest communication
 - REST with JSON  and HTTP verb calls from backend to far backend
 - org.apache.commons.configuration2 for application.properties related stuff
+- (Code Complexity analysis (NCSS) INCOMPATIBLE with Java 9+)
+- OWASP Threats Protection
+- Checkstyle for consistent code layout etc.
 
 #### Summary over technologies/designs so far
 
-|                  | Frontend      | Backend | Far backend |
-| ---------------- |:-------------:| -------:|------------:|
-| logback          |      X        |   X     |    X        |
-| jupiter          |      X        |   X     |    X        |
-| hamcrest         |      X        |   X     |    X        |
-| JaCoCo           |      X        |   X     |    X        |
-| PiTest           |      X        |   X     |    X        |
-| H2               |     N/A       |  N/A    |    X        |
-| lombok           |     N/A?      | NOT YET |    X        |
-| jetty            |     N/A       | NOT YET |    X        |
-| jersey           |     N/A       | NOT YET |    X        |
-| rest client      |   NOT YET     |   X     |   N/A       |
-| rest server      |     N/A       | NOT YET |    X        |
-| json serialize   |     N/A       |  N/A    |    X        |
-| json deserialize |   NOT YET     |   X     |   N/A       |
-| conf2            |     N/A?      | NOT YET |    X        |
-| QueryDSL         |     N/A       |  N/A    |   N/A?      |
-| doInTransaction  |     N/A       |  N/A    |  NOT YET    |
-| Resilience       |     N/A       | NOT YET |   N/A       |
-| Prometheus       |     N/A       | NOT YET |  NOT YET    |
-| swagger          |     N/A       | NOT YET |  NOT YET    |
-| PACT             |     N/A       | NOT YET |  NOT YET    |
-| web components   |   NOT YET     |  N/A    |   N/A       |
-| NCSS             |   NOT YET     | NOT YET |  NOT YET    |
-| OWASP            |      X        |   X     |    X        |
-| checkstyle       |   NOT YET     | NOT YET |  NOT YET    |
-| Separate project |   NOT YET     | NOT YET |  NOT YET    |
-| Java 9+ modules  |     N/A?      | NOT YET |  NOT YET    |
+|                  | Frontend      | Backend  | Far backend | Note                                                 |
+| ---------------- |:-------------:| --------:|------------:|-----------------------------------------------------:|
+| Logback          |      X        |   X      |    X        |                                                      |
+| Jupiter          |      X        |   X      |    X        | Junit tests.                                         |
+| Hamcrest         |      X        |   X      |    X        | For tests                                            |
+| JaCoCo           |      X        |   X      |    X        | Code coverage                                        |
+| PiTest           |      X        |   X      |    X        | Mutation tests                                       |
+| H2               |     N/A       |  N/A     |    X        | In-memory database                                   |
+| Lombok           |     N/A?      | NOT YET  |    X        | Getters, setters and other boilerplate code          |
+| Jetty            |     N/A       | NOT YET  |    X        | Servlet container                                    |
+| Jersey           |     N/A       | NOT YET  |    X        |                                                      |
+| Rest client      |   NOT YET     |   X      |   N/A       | Resource API                                         |
+| Rest server      |     N/A       | NOT YET  |    X        | Resource API                                         |
+| Rson serialize   |     N/A       |  N/A     |    X        | Rest communication data format                       |
+| Rson deserialize |   NOT YET     |   X      |   N/A       | Rest communication data format                       |
+| Conf2            |     N/A?      | NOT YET  |    X        | Easy configuration, properties etc.                  |
+| QueryDSL         |     N/A       |  N/A     |   N/A?      | Thin layer above JDBC                                |
+| DoInTransaction  |     N/A       |  N/A     |  NOT YET    | Database transaction support                         |
+| Resilience       |     N/A       | NOT YET  |   N/A       | Guard of downstream calls                            |
+| Prometheus       |     N/A       | NOT YET  |  NOT YET    | Runtime metrics reporting                            |
+| Swagger          |     N/A       | NOT YET  |  NOT YET    | Rest API documentation                               |
+| PACT             |     N/A       | NOT YET  |  NOT YET    | Consumer contracts                                   |
+| Web components   |   NOT YET     |  N/A     |   N/A       | Frontend browser technology                          |
+| NCSS             |   Incompat    | Incompat |  Incompat   | Code complexity reporting                            |
+| OWASP            |      X        |   X      |    X        | Library security vulnerability reporting             |
+| Checkstyle       |      X        |   X      |    X        | Code layout tool                                     |
+| Separate project |   NOT YET     | NOT YET  |  NOT YET    | Split parent and children modules for independencies |
+| Java 9+ modules  |     N/A?      | NOT YET  |  NOT YET    |                                                      |
+
 #### Detail TODO-s:
 - Stop logging SQL errors when selecting from not existing schema/table
 - Remove overlapping classes when building fat jars
 - Remove JANSI exception logging originating from surefire
 - Produce database connection from datasource, not the driver itself
 - Liveness and readiness
+- Compile all reports to the site directory
+- Tidy up all that report/site mess, please...
 #### Done TODO-s:
 ### Future plans and ambitions
 1. A very thin layer above plain JDBC, like QueryDSL?
@@ -83,9 +89,6 @@
 0. Swagger for documentation
 0. PACT for contracts between service consumers and consumed services
 0. Web components with Javascript or Elm. Continuously assessing
-0. Code Complexity analysis (NCSS)
-0. OWASP Threats Protection
-0. Checkstyle for consistent code layout etc.
 
 ### Technologies that will NOT be used
 - Spring
@@ -144,6 +147,12 @@ netstat -aon | find /i "listening" | find /i "8087"
 ```
 CLS&mvn -X org.owasp:dependency-check-maven:check -P owasp
 ```
+- Run checkstyle (Report in ./hellostrangeworld/target/site/checkstyle-aggregate.html)
+
+```
+CLS&mvn clean install checkstyle:check site -P checkstyle -Dcheckstyle.config.location=google_checks.xml
+```
+
 ### Useful refs: 
 
 #### Git

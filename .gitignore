@@ -20,3 +20,4 @@ target/
 bin
 /dependency-reduced-pom.xml
 /.apt_generated/
+/.checkstyle

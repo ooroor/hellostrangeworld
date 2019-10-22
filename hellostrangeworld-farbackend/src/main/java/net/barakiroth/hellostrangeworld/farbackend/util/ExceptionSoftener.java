@@ -6,8 +6,8 @@ package net.barakiroth.hellostrangeworld.farbackend.util;
  */
 public class ExceptionSoftener {
 
-    public static <T extends Throwable> T uncheck(final Throwable throwable) throws T {
-        throw (T) throwable;
-    }
+  public static <T extends Throwable> T uncheck(final Throwable throwable) throws T {
+    throw (T) throwable;
+  }
 }
 

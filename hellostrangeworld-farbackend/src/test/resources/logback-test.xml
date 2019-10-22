@@ -2,65 +2,75 @@
 <!DOCTYPE xml>
 <configuration scan="true" scanPeriod="29 seconds">
 
-	<appender name="CONSOLE"
-		class="ch.qos.logback.core.ConsoleAppender">
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<Pattern>
-				%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
-			</Pattern>
-		</layout>
-	</appender>
-    
-    <appender name="EnteringMethodHeaderAppender" class="ch.qos.logback.core.ConsoleAppender">
-        <withJansi>true</withJansi>
-        <encoder>
-            <Pattern>%-4relative [%thread] %green(---------->) Entering method: %cyan( %C{0}.%M) %n</Pattern>
-        </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
-        </filter>
-    </appender>
+  <appender name="CONSOLE"
+    class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <Pattern>
+        %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+      </Pattern>
+    </layout>
+  </appender>
 
-    <appender name="LeavingMethodHeaderAppender" class="ch.qos.logback.core.ConsoleAppender">
-        <withJansi>true</withJansi>
-        <encoder>
-            <Pattern>%-4relative [%thread]             Leaving method : %cyan( %C{0}.%M ) %red(---------->) %n</Pattern>
-        </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
-        </filter>
-    </appender>
+  <appender name="EnteringMethodHeaderAppender"
+    class="ch.qos.logback.core.ConsoleAppender">
+    <withJansi>true</withJansi>
+    <encoder>
+      <Pattern>%-4relative [%thread] %green(---------->) Entering method:
+        %cyan( %C{0}.%M) %n</Pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+  </appender>
 
-    <appender name="EnteringTestHeaderAppender" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <Pattern>%n %n %green(**************************************************************************************************************** %n) %gray(%d{HH:mm:ss.SSS} [%thread]) %green(Entering test: ) %cyan(%C{0} - %M) %green(%n **************************************************************************************************************** %n %n)</Pattern>
-        </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
-        </filter>
-    </appender>
+  <appender name="LeavingMethodHeaderAppender"
+    class="ch.qos.logback.core.ConsoleAppender">
+    <withJansi>true</withJansi>
+    <encoder>
+      <Pattern>%-4relative [%thread] Leaving method : %cyan( %C{0}.%M )
+        %red(---------->) %n</Pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+  </appender>
 
-	<logger name="net.barakiroth" level="debug" additivity="false">
-		<appender-ref ref="CONSOLE" />
-	</logger>
+  <appender name="EnteringTestHeaderAppender"
+    class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <Pattern>%n %n
+        %green(****************************************************************************************************************
+        %n) %gray(%d{HH:mm:ss.SSS} [%thread]) %green(Entering test: )
+        %cyan(%C{0} - %M) %green(%n
+        ****************************************************************************************************************
+        %n %n)</Pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+  </appender>
 
-    <logger name="EnteringMethodHeader" additivity="false">
-        <level value="DEBUG" />
-        <appender-ref ref="EnteringMethodHeaderAppender" />
-    </logger>
+  <logger name="net.barakiroth" level="debug" additivity="false">
+    <appender-ref ref="CONSOLE" />
+  </logger>
 
-    <logger name="LeavingMethodHeader" additivity="false">
-        <level value="DEBUG" />
-        <appender-ref ref="LeavingMethodHeaderAppender" />
-    </logger>
+  <logger name="EnteringMethodHeader" additivity="false">
+    <level value="DEBUG" />
+    <appender-ref ref="EnteringMethodHeaderAppender" />
+  </logger>
 
-    <logger name="EnteringTestHeader" additivity="false">
-        <level value="DEBUG" />
-        <appender-ref ref="EnteringTestHeaderAppender" />
-    </logger>
+  <logger name="LeavingMethodHeader" additivity="false">
+    <level value="DEBUG" />
+    <appender-ref ref="LeavingMethodHeaderAppender" />
+  </logger>
 
-	<root level="error">
-		<appender-ref ref="CONSOLE" />
-	</root>
+  <logger name="EnteringTestHeader" additivity="false">
+    <level value="DEBUG" />
+    <appender-ref ref="EnteringTestHeaderAppender" />
+  </logger>
+
+  <root level="error">
+    <appender-ref ref="CONSOLE" />
+  </root>
 
 </configuration>

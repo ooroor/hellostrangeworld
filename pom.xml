@@ -48,6 +48,8 @@
 		<jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
 		<pitest-maven.version>1.4.10</pitest-maven.version>
 		<owasp.dependency-check-maven.plugin.version>5.2.2</owasp.dependency-check-maven.plugin.version>
+		<maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
+		<javancss-maven-plugin.version>2.1</javancss-maven-plugin.version>
 
 		<!-- Test stuff -->
 		<junit.jupiter.version>5.5.2</junit.jupiter.version>
@@ -476,10 +478,123 @@
 			</build>
 		</profile>
 
+		<profile>
+			<id>ncss</id>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>javancss-maven-plugin</artifactId>
+							<version>${javancss-maven-plugin.version}</version>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>javancss-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>javancss-maven-plugin</artifactId>
+						<version>${javancss-maven-plugin.version}</version>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
+
+		<profile>
+			<id>checkstyle</id>
+			<build>
+
+				<pluginManagement>
+					<plugins>
+					
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-jxr-plugin</artifactId>
+							<version>${maven-jxr-plugin.version}</version>
+						</plugin>
+						
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-checkstyle-plugin</artifactId>
+							<version>${maven-checkstyle-plugin.version}</version>
+							<dependencies>
+								<dependency>
+									<groupId>com.puppycrawl.tools</groupId>
+									<artifactId>checkstyle</artifactId>
+									<version>8.25</version>
+								</dependency>
+							</dependencies>
+						</plugin>
+						
+					</plugins>
+				</pluginManagement>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jxr-plugin</artifactId>
+					</plugin>
+					
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+              <configuration>
+                <configLocation>google_checks.xml</configLocation>
+                <encoding>UTF-8</encoding>
+              </configuration>
+              <executions>
+                <execution>
+                  <id>checkstyle</id>
+                  <phase>validate</phase>
+                  <goals>
+                    <goal>check</goal>
+                  </goals>
+                </execution>
+              </executions>
+					</plugin>
+					
+				</plugins>
+			</build>
+
+			<reporting>
+				<plugins>
+				
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jxr-plugin</artifactId>
+						<version>${maven-jxr-plugin.version}</version>
+					</plugin>
+					
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+						<version>${maven-checkstyle-plugin.version}</version>
+					</plugin>
+					
+				</plugins>
+			</reporting>
+
+		</profile>
+
 	</profiles>
 
 	<reporting>
 		<plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>${maven-jxr-plugin.version}</version>
+      </plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -494,12 +609,6 @@
 				<configuration>
 					<outputDirectory>${basedir}/target/newsite</outputDirectory>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>${maven-jxr-plugin.version}</version>
 			</plugin>
 
 			<plugin>
