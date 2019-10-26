@@ -10,11 +10,11 @@ import net.barakiroth.hellostrangeworld.farbackend.Config;
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class GreetingDescriptorResource {
+public class GreetingDescriptionResource {
   
   private final Config config;
   
-  public GreetingDescriptorResource(final Config config) {
+  public GreetingDescriptionResource(final Config config) {
     this.config = config;
   }
 
@@ -28,6 +28,7 @@ public class GreetingDescriptorResource {
   @Produces({MediaType.APPLICATION_JSON})
   public String getGreetingDescriptor() {
     
+    // TODO: Should call the repository directly?
     final GreetingDescriptor greetingDescriptor =
         new GreetingDescriptor();
     

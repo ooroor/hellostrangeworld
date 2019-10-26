@@ -1,8 +1,8 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer;
 
 import net.barakiroth.hellostrangeworld.farbackend.Config;
-import net.barakiroth.hellostrangeworld.farbackend.GreetingDescriptorJerseyApplication;
-import net.barakiroth.hellostrangeworld.farbackend.greetingdescriptor.GreetingDescriptorResource;
+import net.barakiroth.hellostrangeworld.farbackend.JerseyApplication;
+import net.barakiroth.hellostrangeworld.farbackend.greetingdescriptor.GreetingDescriptionResource;
 import net.barakiroth.hellostrangeworld.farbackend.util.ExceptionSoftener;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -110,7 +110,7 @@ public class JettyManager {
     
     final ServletHolder servletHolder = new ServletHolder(new ServletContainer());
     final String greetingDescriptorJerseyApplicationClassName = 
-        GreetingDescriptorJerseyApplication.class.getName();
+        JerseyApplication.class.getName();
     servletHolder.setInitParameter(
         "javax.ws.rs.Application", 
         greetingDescriptorJerseyApplicationClassName);
@@ -133,7 +133,7 @@ public class JettyManager {
             greetingsDescriptorResourcePathSpec);
     servletHolder.setInitParameter(
             "jersey.config.server.provider.classnames",
-            GreetingDescriptorResource.class.getCanonicalName());
+            GreetingDescriptionResource.class.getCanonicalName());
   
     leavingMethodHeaderLogger.debug(null);
   }

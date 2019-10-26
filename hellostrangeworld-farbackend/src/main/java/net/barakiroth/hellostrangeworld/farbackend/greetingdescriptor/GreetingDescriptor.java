@@ -4,17 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.barakiroth.hellostrangeworld.farbackend.Config;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Repository;
 
 public class GreetingDescriptor {
   
   private final Config config;
   
   /**
-   * A hack until he config may be supplied by the resource.
+   * TODO> A hack until he config may be supplied by the resource.
+   * TODO: Should be made a service?
    */
   public GreetingDescriptor() {
-    this(Config.getSingletonInstance());
+    this(Config.getSingletonInstance()); // TODO:
   }
   
   public GreetingDescriptor(final Config config) {
@@ -27,7 +28,7 @@ public class GreetingDescriptor {
    */
   public String describeGreetee() {
     
-    final String greeteeDescription = getDatabase().describeGreetee();
+    final String greeteeDescription = getRepository().getGreetingDescription();
     final ObjectMapper objectMapper = new ObjectMapper();
     
     String greeteeDescriptionAsJson = null;
@@ -45,13 +46,13 @@ public class GreetingDescriptor {
   public void disconnect() {
   }
 
-  private Database getDatabase() {
+  private Repository getRepository() {
 
-    final Database database = this.config.getDatabase();
-    if (!database.isStarted()) {
-      database.start();
+    final Repository repository = this.config.getRepository();
+    if (!repository.isStarted()) {
+      repository.start();
     }
     
-    return database;
+    return repository;
   }
 }

@@ -1,4 +1,4 @@
-package net.barakiroth.hellostrangeworld;
+package net.barakiroth.hellostrangeworld.backend;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AnyOf.anyOf;
@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.text.MessageFormat;
+import net.barakiroth.hellostrangeworld.backend.HelloStrangeWorldApp;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,8 +58,14 @@ public class HelloStrangeWorldAppTest {
         MessageFormat.format("Hello strange {0}!\r\n", expectedGreetee);
     final String expectedString2 =
         MessageFormat.format("Hello very strange {0}!\r\n", expectedGreetee);
+    final String expectedString3 =
+        MessageFormat.format("Hello immensely strange {0}!\r\n", expectedGreetee);
     
-    assertThat(errContent.toString(), anyOf(is(expectedString1), is(expectedString2)));
+    assertThat(
+        errContent.toString(),
+        anyOf(is(expectedString1), 
+              is(expectedString2), 
+              is(expectedString3)));
   }
 
   @Test

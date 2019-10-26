@@ -1,8 +1,6 @@
-package net.barakiroth.hellostrangeworld;
+package net.barakiroth.hellostrangeworld.backend;
 
 import java.text.MessageFormat;
-
-import net.barakiroth.hellostrangeworld.backend.GreetingPhraser;
 import net.barakiroth.hellostrangeworld.frontend.UserPrompter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

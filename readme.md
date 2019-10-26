@@ -42,34 +42,35 @@
 
 #### Summary over technologies/designs so far
 
-|                  | Frontend      | Backend  | Far backend | Note                                                 |
-| ---------------- |:-------------:| --------:|------------:|-----------------------------------------------------:|
-| Logback          |      X        |   X      |    X        |                                                      |
-| Jupiter          |      X        |   X      |    X        | Junit tests.                                         |
-| Hamcrest         |      X        |   X      |    X        | For tests                                            |
-| JaCoCo           |      X        |   X      |    X        | Code coverage                                        |
-| PiTest           |      X        |   X      |    X        | Mutation tests                                       |
-| H2               |     N/A       |  N/A     |    X        | In-memory database                                   |
-| Lombok           |     N/A?      | NOT YET  |    X        | Getters, setters and other boilerplate code          |
-| Jetty            |     N/A       | NOT YET  |    X        | Servlet container                                    |
-| Jersey           |     N/A       | NOT YET  |    X        |                                                      |
-| Rest client      |   NOT YET     |   X      |   N/A       | Resource API                                         |
-| Rest server      |     N/A       | NOT YET  |    X        | Resource API                                         |
-| Rson serialize   |     N/A       |  N/A     |    X        | Rest communication data format                       |
-| Rson deserialize |   NOT YET     |   X      |   N/A       | Rest communication data format                       |
-| Conf2            |     N/A?      | NOT YET  |    X        | Easy configuration, properties etc.                  |
-| QueryDSL         |     N/A       |  N/A     |   N/A?      | Thin layer above JDBC                                |
-| DoInTransaction  |     N/A       |  N/A     |  NOT YET    | Database transaction support                         |
-| Resilience       |     N/A       | NOT YET  |   N/A       | Guard of downstream calls                            |
-| Prometheus       |     N/A       | NOT YET  |  NOT YET    | Runtime metrics reporting                            |
-| Swagger          |     N/A       | NOT YET  |  NOT YET    | Rest API documentation                               |
-| PACT             |     N/A       | NOT YET  |  NOT YET    | Consumer contracts                                   |
-| Web components   |   NOT YET     |  N/A     |   N/A       | Frontend browser technology                          |
-| NCSS             |   Incompat    | Incompat |  Incompat   | Code complexity reporting                            |
-| OWASP            |      X        |   X      |    X        | Library security vulnerability reporting             |
-| Checkstyle       |      X        |   X      |    X        | Code layout tool                                     |
-| Separate project |   NOT YET     | NOT YET  |  NOT YET    | Split parent and children modules for independencies |
-| Java 9+ modules  |     N/A?      | NOT YET  |  NOT YET    |                                                      |
+|                  | Frontend |  Backend | Far backend |                                                 Note |
+| ---------------- | :------: | -------: | ----------: | ---------------------------------------------------: |
+| Checkstyle       |    X     |        X |           X |                                     Code layout tool |
+| Conf2            |   N/A?   |  NOT YET |           X |                  Easy configuration, properties etc. |
+| DoInTransaction  |   N/A    |      N/A |     X |                         Database transaction support |
+| FlyWay  |   N/A    |     NOT YET   |      X       |                         Database creation and migration |
+| Jupiter          |    X     |     X    |      X      |                                         Junit tests. |
+| Hamcrest         |    X     |        X |           X |                                            For tests |
+| H2               |   N/A    |      N/A |           X |                                   In-memory database |
+| JaCoCo           |    X     |        X |           X |                                        Code coverage |
+| Java 9+ modules  |   N/A?   |  NOT YET |     NOT YET |                                                      |
+| Jersey           |   N/A    |  NOT YET |           X |                                                      |
+| Jetty            |   N/A    |  NOT YET |           X |                                    Servlet container |
+| Json deserialize | NOT YET  |        X |         N/A |                       Rest communication data format |
+| Json serialize   |   N/A    |      N/A |           X |                       Rest communication data format |
+| Logback          |    X     |        X |           X |                                                      |
+| Lombok           |   N/A?   |  NOT YET |           X |          Getters, setters and other boilerplate code |
+| NCSS             | Incompat | Incompat |    Incompat |                            Code complexity reporting |
+| OWASP            |    X     |        X |           X |             Library security vulnerability reporting |
+| PACT             |   N/A    |  NOT YET |     NOT YET |                                   Consumer contracts |
+| PiTest           |    X     |        X |           X |                                       Mutation tests |
+| Prometheus       |   N/A    |  NOT YET |     NOT YET |                            Runtime metrics reporting |
+| QueryDSL         |   N/A    |      N/A |           X |                        Thin fluency layer above JDBC |
+| Resilience4J     |   N/A    |  NOT YET |         N/A |               Resilience guard of downstream calls |
+| Rest client      | NOT YET  |        X |         N/A |                                         Resource API |
+| Rest server      |   N/A    |  NOT YET |           X |                                         Resource API |
+| Separate project | NOT YET  |  NOT YET |     NOT YET | Split parent and children modules for independencies |
+| Swagger          |   N/A    |  NOT YET |     NOT YET |                               Rest API documentation |
+| Web components   | NOT YET  |      N/A |         N/A |                          Frontend browser technology |
 
 #### Detail TODO-s:
 - Stop logging SQL errors when selecting from not existing schema/table
@@ -79,6 +80,7 @@
 - Liveness and readiness
 - Compile all reports to the site directory
 - Tidy up all that report/site mess, please...
+- Remember to add Prometheus to the datasource as well
 #### Done TODO-s:
 ### Future plans and ambitions
 1. A very thin layer above plain JDBC, like QueryDSL?
@@ -152,6 +154,11 @@ CLS&mvn -X org.owasp:dependency-check-maven:check -P owasp
 ```
 CLS&mvn clean install checkstyle:check site -P checkstyle -Dcheckstyle.config.location=google_checks.xml
 ```
+- If hung-up on some FlyWay migration:
+
+```
+CLS&mvn flyway:clean
+```
 
 ### Useful refs: 
 
@@ -176,7 +183,7 @@ CLS&mvn clean install checkstyle:check site -P checkstyle -Dcheckstyle.config.lo
 ](https://stackoverflow.com/questions/1119385/junit-test-for-system-out-println)</BR>
 
 <!---
-[comment]: <> (This is a comment, it will not be included)
+[comment]: <> "This is a comment, it will not be included"
 [//]: # (
 [XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX](WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW)</BR>
 [XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX](WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW)</BR>

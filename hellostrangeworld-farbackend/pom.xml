@@ -20,11 +20,6 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
@@ -155,6 +150,35 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- BEGIN Database stuff -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>${flyway.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-sql</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-sql-codegen</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		</dependency>
+		<!-- END Database stuff -->
+
 	</dependencies>
 
 	<build>
@@ -225,7 +249,7 @@
 										<limit>
 											<counter>COMPLEXITY</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.550</minimum>
+											<minimum>0.10</minimum>
 										</limit>
 									</limits>
 								</rule>
@@ -234,6 +258,77 @@
 					</execution>
 
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>process-resources</id>
+						<goals>
+							<goal>resources</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>${flyway.version}</version>
+				<configuration>
+					<driver>org.h2.Driver</driver>
+					<url>jdbc:h2:~/hellostrangeworld</url>
+					<user>sa</user>
+					<password>sa</password>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>migrate</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>${h2.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>com.querydsl</groupId>
+				<artifactId>querydsl-maven-plugin</artifactId>
+				<version>4.2.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>export</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<jdbcDriver>org.h2.Driver</jdbcDriver>
+					<jdbcUrl>jdbc:h2:~/hellostrangeworld</jdbcUrl>
+					<jdbcUser>sa</jdbcUser>
+					<jdbcPassword>sa</jdbcPassword>
+					<packageName>net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables</packageName>
+					<targetFolder>${project.basedir}/target/generated-sources/java</targetFolder>
+					<sourceFolder>${project.basedir}/target/generated-sources/java</sourceFolder>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>${h2.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 
 		</plugins>
