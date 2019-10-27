@@ -1,6 +1,6 @@
 package net.barakiroth.hellostrangeworld.farbackend;
 
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Repository;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class Main {
     enteringMethodHeaderLogger.debug(null);
 
     final Config config = Config.getSingletonInstance();
-    final Main main = new Main();
+    final Main   main   = new Main();
     main.run(config);
 
     leavingMethodHeaderLogger.debug(null);
@@ -34,8 +34,8 @@ public class Main {
     final JettyManager jettyManager = config.getJettyManager();
     jettyManager.start();
     
-    final Repository repository = config.getRepository();
-    repository.start();
+    final Database database = config.getDatabase();
+    database.start();
     
     leavingMethodHeaderLogger.debug(null);
   }

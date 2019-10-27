@@ -9,8 +9,6 @@
 ### Environment
 - Windows 10
 - Java 13
-- Junit Jupiter 5.4.1 
-- Hamcrest 2.1
 - Maven 3.6.2
 
 ### Inspirations
@@ -23,22 +21,8 @@
 - Use return codes instead of exceptions to communicate flow variations, including errors
 
 ### Tools and technologies used so far
-- logback for logging
-- Junit 5 (Jupiter) for testing
-- JaCoCo for coverage
-- PiTest for mutation testing
 - Maven/surefire/site reporting
-- H2 for RDBMS prod and testing
 - Three layers: Frontend, immediate backend and downstreams far backend
-- Lombok (magic, but allowing)
-- Plain JDBC
-- Jetty for servlet container
-- Jersey for HTTP/rest communication
-- REST with JSON  and HTTP verb calls from backend to far backend
-- org.apache.commons.configuration2 for application.properties related stuff
-- (Code Complexity analysis (NCSS) INCOMPATIBLE with Java 9+)
-- OWASP Threats Protection
-- Checkstyle for consistent code layout etc.
 
 #### Summary over technologies/designs so far
 
@@ -48,15 +32,16 @@
 | Conf2            |   N/A?   |  NOT YET |           X |                  Easy configuration, properties etc. |
 | DoInTransaction  |   N/A    |      N/A |     X |                         Database transaction support |
 | FlyWay  |   N/A    |     NOT YET   |      X       |                         Database creation and migration |
-| Jupiter          |    X     |     X    |      X      |                                         Junit tests. |
 | Hamcrest         |    X     |        X |           X |                                            For tests |
 | H2               |   N/A    |      N/A |           X |                                   In-memory database |
 | JaCoCo           |    X     |        X |           X |                                        Code coverage |
 | Java 9+ modules  |   N/A?   |  NOT YET |     NOT YET |                                                      |
+| JDBC             |   N/A    |      N/A |     No      |                                                      |
 | Jersey           |   N/A    |  NOT YET |           X |                                                      |
 | Jetty            |   N/A    |  NOT YET |           X |                                    Servlet container |
 | Json deserialize | NOT YET  |        X |         N/A |                       Rest communication data format |
 | Json serialize   |   N/A    |      N/A |           X |                       Rest communication data format |
+| Junit/Jupiter    |    X     |     X    |      X      |                                         Junit tests. |
 | Logback          |    X     |        X |           X |                                                      |
 | Lombok           |   N/A?   |  NOT YET |           X |          Getters, setters and other boilerplate code |
 | NCSS             | Incompat | Incompat |    Incompat |                            Code complexity reporting |
@@ -70,26 +55,18 @@
 | Rest server      |   N/A    |  NOT YET |           X |                                         Resource API |
 | Separate project | NOT YET  |  NOT YET |     NOT YET | Split parent and children modules for independencies |
 | Swagger          |   N/A    |  NOT YET |     NOT YET |                               Rest API documentation |
+| Vavr          |   N/A    |  NOT YET |     NOT YET |                               Tuples |
 | Web components   | NOT YET  |      N/A |         N/A |                          Frontend browser technology |
 
 #### Detail TODO-s:
-- Stop logging SQL errors when selecting from not existing schema/table
 - Remove overlapping classes when building fat jars
 - Remove JANSI exception logging originating from surefire
-- Produce database connection from datasource, not the driver itself
 - Liveness and readiness
 - Compile all reports to the site directory
 - Tidy up all that report/site mess, please...
 - Remember to add Prometheus to the datasource as well
-#### Done TODO-s:
 ### Future plans and ambitions
-1. A very thin layer above plain JDBC, like QueryDSL?
-0. Transaction boundaries by simple "doInTransaction" like patterns, no AOP
-0. REST with JSON  and HTTP verb calls from frontend to backend
-0. Resilience for downstreams calls (here: From backend to far backend)
-0. Prometheus for monitoring
-0. Swagger for documentation
-0. PACT for contracts between service consumers and consumed services
+1. REST with JSON  and HTTP verb calls from frontend to backend
 0. Web components with Javascript or Elm. Continuously assessing
 
 ### Technologies that will NOT be used

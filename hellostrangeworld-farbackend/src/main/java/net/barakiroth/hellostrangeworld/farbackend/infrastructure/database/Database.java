@@ -1,6 +1,5 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.database;
 
-import com.querydsl.core.Tuple;
 import com.querydsl.sql.Configuration;
 import com.querydsl.sql.H2Templates;
 import com.querydsl.sql.MySQLTemplates;
@@ -9,9 +8,10 @@ import com.querydsl.sql.PostgreSQLTemplates;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.SQLTemplates;
 import com.zaxxer.hikari.HikariDataSource;
+import io.vavr.Tuple3;
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.Random;
+import java.util.concurrent.Callable;
 import javax.sql.DataSource;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,12 +21,7 @@ import net.barakiroth.hellostrangeworld.farbackend.util.ExceptionSoftener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Split into service and domain independent database
- * @author oor
- *
- */
-public class Repository {
+public class Database {
   
   private enum DbBrand {
     ORACLE(new OracleTemplates()),
@@ -47,27 +42,32 @@ public class Repository {
   }
 
   private static final Logger log =
-      LoggerFactory.getLogger(Repository.class);
+      LoggerFactory.getLogger(Database.class);
   private static final Logger enteringMethodHeaderLogger =
       LoggerFactory.getLogger("EnteringMethodHeader");
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
+
+  public  static final QDescription descriptionTable = QDescription.description;
   
-  private static final QDescription descriptionTable = QDescription.description;
-  
-  private DatabaseConfig     databaseConfig;
-  private DataSource         dataSource         = null;
-  private TransactionManager transactionManager = null;
-  private SQLQueryFactory    queryFactory       = null;
+  private final DatabaseConfig     databaseConfig;
+  private       DataSource         dataSource         = null;
+  private       TransactionManager transactionManager = null;
+  @Getter(AccessLevel.PUBLIC)
+  private       SQLQueryFactory    sqlQueryFactory    = null;
   
   /**
    * Create an instance and set its relevant configuration.
    * @param config Relevant configuration.
    */
-  public Repository(final Config config) {
+  public Database(final Config config) {
+    
+    enteringMethodHeaderLogger.debug(null);
     
     final DatabaseConfig databaseConfig = config.getDatabaseConfig();
     this.databaseConfig = databaseConfig;
+    
+    leavingMethodHeaderLogger.debug(null);
   }
   
   /**
@@ -78,44 +78,73 @@ public class Repository {
     
     enteringMethodHeaderLogger.debug(null);
     
-    this.dataSource = configure(); // TODO: Tuple3<.......>
+    final Tuple3<DataSource, SQLQueryFactory, TransactionManager> configResult =
+        configure();
     
-    /*
-    // TODO: Tuple3<.......>
-    this.dataSource         = tuple3(1);
-    this.queryFactory       = tuple3(2);
-    this.transactionManager = tuple3(3);
-    */
+    this.dataSource = configResult._1();
+    this.sqlQueryFactory = configResult._2();
+    this.transactionManager = configResult._3();
+    
+    leavingMethodHeaderLogger.debug(null);
+  }
+
+  /**
+   * Returns whether a successful
+   * {@link this#start()} has bee
+   * n carried out.
+   * @return whether a successful
+   * {@link this#start()} has been carried out.
+   */
+  public boolean isStarted() {
+    return 
+           (this.databaseConfig     != null)
+        && (this.dataSource         != null)
+        && (this.transactionManager != null)
+        && (this.sqlQueryFactory       != null);
+  }
+
+  /**
+   * Cleans up after use.
+   */
+  public void stop() {
+
+    enteringMethodHeaderLogger.debug(null);
+      
+    if (isStarted()) {
+      this.dataSource         = null;
+      this.transactionManager = null;
+      this.sqlQueryFactory       = null;
+    } else {
+      log.warn("Asked to stop when not connected dataSource == null etc.");
+    }
 
     leavingMethodHeaderLogger.debug(null);
   }
 
   /**
-   * Return the adjective used in the greeting.
+   * Do the things provided by the callable 
+   * within one and only one database SQL transaction.
    * 
-   * @return the adjective used in the greeting.
+   * @param <V> The return type of the provided callable.
+   * @param callable The actions to be performed as contained in the callable.
+   * @return The outcome of the execution of the provided callable.
    */
-  public String getGreetingDescription() {
-
+  public <V> V doInTransaction(final Callable<V> callable) {
+    
     enteringMethodHeaderLogger.debug(null);
     
-    assert (this.dataSource != null);
-    
-    // ===========================================================================
-    final Optional<Description> optionalDescription =
-        this.transactionManager.doInTransaction(() -> getDescription());
-    // ===========================================================================
-    
-    log.debug("Retrieved: {}", optionalDescription);
-    final String descriptionValue = optionalDescription.orElseThrow().value;
-    log.debug("About to return descriptionValue: {}", descriptionValue);
+    if (!isStarted()) {
+      start();
+    }
+
+    final V theThing = this.transactionManager.doInTransaction(callable);
     
     leavingMethodHeaderLogger.debug(null);
     
-    return descriptionValue;
+    return theThing;
   }
-
-  private DataSource configure() { // TODO: Tuple3<.......>
+  
+  private final Tuple3<DataSource, SQLQueryFactory, TransactionManager> configure() {
 
     enteringMethodHeaderLogger.debug(null);
     
@@ -141,7 +170,7 @@ public class Repository {
 
     final TransactionalConnectionProvider transactionalConnectionProvider =
         new TransactionalConnectionProvider(dataSource);
-    final SQLQueryFactory queryFactory =
+    final SQLQueryFactory sqlQueryFactory =
         new SQLQueryFactory(
           new Configuration(
             DbBrand
@@ -156,33 +185,15 @@ public class Repository {
     final TransactionManager transactionManager =
         new TransactionManager(transactionalConnectionProvider);
     
-    this.queryFactory       = queryFactory;
-    this.transactionManager = transactionManager;
+    final Tuple3<DataSource, SQLQueryFactory, TransactionManager> configResult =
+        new Tuple3<DataSource, SQLQueryFactory, TransactionManager>(
+            dataSource, sqlQueryFactory, transactionManager
+        );
     
     leavingMethodHeaderLogger.debug(null);
     
-    return dataSource;// TODO: Tuple3<.......>
+    return configResult;
   }
-  
-  public boolean isStarted() {
-    return this.dataSource != null;
-  }
-
-  /**
-   * Cleans up after use.
-   */
-  public void stop() {
-
-    enteringMethodHeaderLogger.debug(null);
-      
-    if (this.dataSource == null) {
-      log.warn("Asked to disconnect when not connected (dataSource == null).");
-    } else {
-      this.dataSource = null;
-    }
-
-    leavingMethodHeaderLogger.debug(null);
-  }  
 
   private  DataSource createDataSource() {
 
@@ -203,39 +214,6 @@ public class Repository {
     leavingMethodHeaderLogger.debug(null);
 
     return dataSource;
-  }
-
-  private  Optional<Description> getDescription() {
-
-    enteringMethodHeaderLogger.debug(null);
-    
-    assert (this.queryFactory != null);
-    
-    final int id = new Random(System.currentTimeMillis()).nextInt(3) + 1;
-
-    final Tuple row =
-        this.queryFactory
-          .select(descriptionTable.all())
-          .from(descriptionTable)
-          .where(descriptionTable.id.eq(id))
-          .fetchOne()
-    ;
-    final Optional<Description> optionalDescription =
-        Optional.ofNullable(
-          (row == null)
-          ?
-          null
-          :
-          new Description(
-              row.get(descriptionTable.id),
-              row.get(descriptionTable.value)
-          )
-        )
-    ;
-    
-    leavingMethodHeaderLogger.debug(null);
-    
-    return optionalDescription;
   }
 
   private void createAndPopulateAndMigrate(final DataSource dataSource) {

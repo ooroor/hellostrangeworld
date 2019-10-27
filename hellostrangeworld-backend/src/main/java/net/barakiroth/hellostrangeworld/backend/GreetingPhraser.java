@@ -3,7 +3,7 @@ package net.barakiroth.hellostrangeworld.backend;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.text.MessageFormat;
-import net.barakiroth.hellostrangeworld.farbackend.greetingdescriptor.GreetingDescriptor;
+import net.barakiroth.hellostrangeworld.farbackend.domain.GreetingDescriptionResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +14,7 @@ public class GreetingPhraser {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
 
-  GreetingDescriptor greetingDescriptor = null;
+  GreetingDescriptionResource greetingDescriptionResource = null;
   
   /**
    * Returns the type of greeting and the adjective to be used, like e.g. "Hello very strange"
@@ -22,7 +22,10 @@ public class GreetingPhraser {
    */
   public String getGreetingPhrasePrefix() {
     
-    final String greeteeDescriptionAsJson = getGreetingDescriptor().describeGreetee();
+    enteringMethodHeaderLogger.debug(null);
+    
+    final String greeteeDescriptionAsJson = 
+        getGreetingDescriptionResource().getGreetingDescription();
     
     final ObjectMapper objectMapper = new ObjectMapper();
     
@@ -34,28 +37,24 @@ public class GreetingPhraser {
       throw new RuntimeException(e);
     }
     
-    return MessageFormat.format("Hello {0} ", description);
-  }
-
-  /**
-   * Clean up after use.
-   */
-  public void disconnect() {
-      
-    enteringMethodHeaderLogger.debug(null);
-      
-    this.greetingDescriptor.disconnect();
-    this.greetingDescriptor = null;
-      
+    final String greetingPhrasePrefix = MessageFormat.format("Hello {0} ", description);
+    
     leavingMethodHeaderLogger.debug(null);
+    
+    return greetingPhrasePrefix;
   }
 
-  private GreetingDescriptor getGreetingDescriptor() {
+  private GreetingDescriptionResource getGreetingDescriptionResource() {
+    
+    enteringMethodHeaderLogger.debug(null);
+    
 
-    if (this.greetingDescriptor == null) {
-      this.greetingDescriptor = new GreetingDescriptor();
+    if (this.greetingDescriptionResource == null) {
+      this.greetingDescriptionResource = new GreetingDescriptionResource();
     }
+    
+    leavingMethodHeaderLogger.debug(null);
 
-    return this.greetingDescriptor;
+    return this.greetingDescriptionResource;
   }
 }

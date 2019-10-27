@@ -1,4 +1,4 @@
-package net.barakiroth.hellostrangeworld.farbackend.infrastructure.database;
+package net.barakiroth.hellostrangeworld.farbackend.domain;
 
 import lombok.AllArgsConstructor;
 

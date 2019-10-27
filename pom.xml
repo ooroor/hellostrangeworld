@@ -43,7 +43,7 @@
 		<commons-config.version>2.6</commons-config.version>
 		<commons-logging.version>1.2</commons-logging.version>
 		<commons-beanutils.version>1.9.4</commons-beanutils.version>
-		
+		<vavr.version>0.10.2</vavr.version>
 
 		<!-- Plugin stuff -->
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -236,6 +236,12 @@
 						<artifactId>commons-logging</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+						
+			<dependency>
+			    <groupId>io.vavr</groupId>
+			    <artifactId>vavr</artifactId>
+			    <version>${vavr.version}</version>
 			</dependency>
 
 			<dependency>

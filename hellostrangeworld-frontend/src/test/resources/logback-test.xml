@@ -13,12 +13,9 @@
 
   <appender name="EnteringMethodHeaderAppender"
     class="ch.qos.logback.core.ConsoleAppender">
-    <!-- 
-        <withJansi>true</withJansi>
--->
+    <withJansi>true</withJansi>
     <encoder>
-      <Pattern>%-4relative [%thread] %green(---------->) Entering method:
-        %cyan( %C{0}.%M) %n</Pattern>
+      <Pattern>%-4relative [%thread] %green(---------->) Entering method: %cyan( %C{0}.%M) %n</Pattern>
     </encoder>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>DEBUG</level>
@@ -27,12 +24,9 @@
 
   <appender name="LeavingMethodHeaderAppender"
     class="ch.qos.logback.core.ConsoleAppender">
-    <!-- 
-        <withJansi>true</withJansi>
--->
+    <withJansi>true</withJansi>
     <encoder>
-      <Pattern>%-4relative [%thread] Leaving method : %cyan( %C{0}.%M )
-        %red(---------->) %n</Pattern>
+      <Pattern>%-4relative [%thread]             Leaving method : %cyan( %C{0}.%M ) %red(---------->) %n</Pattern>
     </encoder>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>DEBUG</level>
@@ -42,12 +36,7 @@
   <appender name="EnteringTestHeaderAppender"
     class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <Pattern>%n %n
-        %green(****************************************************************************************************************
-        %n) %gray(%d{HH:mm:ss.SSS} [%thread]) %green(Entering test: )
-        %cyan(%C{0} - %M) %green(%n
-        ****************************************************************************************************************
-        %n %n)</Pattern>
+      <Pattern>%n %n %green(**************************************************************************************************************** %n) %gray(%d{HH:mm:ss.SSS} [%thread]) %green(Entering test: ) %cyan(%C{0} - %M) %green(%n **************************************************************************************************************** %n %n)</Pattern>
     </encoder>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>DEBUG</level>

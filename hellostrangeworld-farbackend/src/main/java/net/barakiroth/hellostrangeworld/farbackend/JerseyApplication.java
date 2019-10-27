@@ -1,7 +1,7 @@
 package net.barakiroth.hellostrangeworld.farbackend;
 
-import net.barakiroth.hellostrangeworld.farbackend.greetingdescriptor.GreetingDescriptionResource;
 import org.glassfish.jersey.server.ResourceConfig;
+import net.barakiroth.hellostrangeworld.farbackend.domain.GreetingDescriptionResource;
 
 @SuppressWarnings("WeakerAccess") //Påkrevd public
 public class JerseyApplication extends ResourceConfig {

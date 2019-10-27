@@ -2,7 +2,7 @@ package net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontai
 
 import net.barakiroth.hellostrangeworld.farbackend.Config;
 import net.barakiroth.hellostrangeworld.farbackend.JerseyApplication;
-import net.barakiroth.hellostrangeworld.farbackend.greetingdescriptor.GreetingDescriptionResource;
+import net.barakiroth.hellostrangeworld.farbackend.domain.GreetingDescriptionResource;
 import net.barakiroth.hellostrangeworld.farbackend.util.ExceptionSoftener;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;

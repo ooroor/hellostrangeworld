@@ -35,7 +35,7 @@ public class GreetingPhraserTest {
     
     assertThat(
         greetingPhraser.getGreetingPhrasePrefix(), 
-        anyOf(is("Hello strange "), is("Hello very strange ")));
+        anyOf(is("Hello strange "), is("Hello very strange "), is("Hello immensely strange ")));
   }
   
   @Test

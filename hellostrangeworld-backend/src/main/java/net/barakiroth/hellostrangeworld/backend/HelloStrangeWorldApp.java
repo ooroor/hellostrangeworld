@@ -30,9 +30,7 @@ public class HelloStrangeWorldApp {
     
     final GreetingPhraser greetingPhraser = new GreetingPhraser();
     final String phrasePrefix = greetingPhraser.getGreetingPhrasePrefix();
-    
-    greetingPhraser.disconnect();
-    
+        
     System.err.println(MessageFormat.format(phrasePrefix + "{0}!", greetee));
       
     leavingMethodHeaderLogger.debug(null);

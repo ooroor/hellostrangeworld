@@ -4,7 +4,8 @@ import java.io.File;
 import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Repository;
+import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.DatabaseConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManagerConfig;
@@ -33,6 +34,9 @@ public class Config {
   
   @Getter(AccessLevel.PUBLIC)
   private final DatabaseConfig     databaseConfig;
+  
+  @Getter(AccessLevel.PUBLIC)
+  private final Database           database;
   
   @Getter(AccessLevel.PUBLIC)
   private final Repository         repository;
@@ -71,6 +75,7 @@ public class Config {
     this.jettyManagerConfig = new JettyManagerConfig(this);
     this.jettyManager       = new JettyManager(this);
     this.databaseConfig     = new DatabaseConfig(this);
+    this.database           = new Database(this);
     this.repository         = new Repository(this);
     
     leavingMethodHeaderLogger.debug(null);
