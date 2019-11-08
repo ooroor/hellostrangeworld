@@ -2,6 +2,7 @@ package net.barakiroth.hellostrangeworld.farbackend.infrastructure.database;
 
 import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,7 @@ public class FlywayMigrator {
       LoggerFactory.getLogger("LeavingMethodHeader");
 
   private final DataSource dataSource;
-  private final String[] locations;
+  private final String[]   locations;
 
   /**
    * Uses {@link Flyway} for database creator and maintainer.
@@ -40,10 +41,13 @@ public class FlywayMigrator {
   public void migrate() {
     
     enteringMethodHeaderLogger.debug(null);
-      
-    final Flyway flyway = new Flyway();
-    flyway.setLocations(this.locations);
-    flyway.setDataSource(this.dataSource);
+    
+    final Flyway flyway = 
+        new FluentConfiguration()
+          .locations(this.locations)
+          .dataSource(this.dataSource)
+          .load();
+    
     flyway.migrate();
 
     leavingMethodHeaderLogger.debug(null);

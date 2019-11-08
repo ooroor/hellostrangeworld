@@ -27,10 +27,11 @@
 #### Summary over technologies/designs so far
 
 |                  | Frontend |  Backend | Far backend |                                                 Note |
-| ---------------- | :------: | -------: | ----------: | ---------------------------------------------------: |
+| :--------------- | :------: | :------: | :---------: | :--------------------------------------------------- |
 | Checkstyle       |    X     |        X |           X |                                     Code layout tool |
 | Conf2            |   N/A?   |  NOT YET |           X |                  Easy configuration, properties etc. |
 | DoInTransaction  |   N/A    |      N/A |     X |                         Database transaction support |
+| Elm | ? | ? | ? | Functional programming GUI programming tool. Alternative to Web Components. Could probably also exist side-by-side with Web Components. |
 | FlyWay  |   N/A    |     NOT YET   |      X       |                         Database creation and migration |
 | Hamcrest         |    X     |        X |           X |                                            For tests |
 | H2               |   N/A    |      N/A |           X |                                   In-memory database |
@@ -46,7 +47,7 @@
 | Lombok           |   N/A?   |  NOT YET |           X |          Getters, setters and other boilerplate code |
 | NCSS             | Incompat | Incompat |    Incompat |                            Code complexity reporting |
 | OWASP            |    X     |        X |           X |             Library security vulnerability reporting |
-| PACT             |   N/A    |  NOT YET |     NOT YET |                                   Consumer contracts |
+| PACT             | NOT YET |  NOT YET |     NOT YET | REST server contract testing |
 | PiTest           |    X     |        X |           X |                                       Mutation tests |
 | Prometheus       |   N/A    |  NOT YET |     NOT YET |                            Runtime metrics reporting |
 | QueryDSL         |   N/A    |      N/A |           X |                        Thin fluency layer above JDBC |
@@ -55,16 +56,16 @@
 | Rest server      |   N/A    |  NOT YET |           X |                                         Resource API |
 | Separate project | NOT YET  |  NOT YET |     NOT YET | Split parent and children modules for independencies |
 | Swagger          |   N/A    |  NOT YET |     NOT YET |                               Rest API documentation |
-| Vavr          |   N/A    |  NOT YET |     NOT YET |                               Tuples |
-| Web components   | NOT YET  |      N/A |         N/A |                          Frontend browser technology |
+| Vavr          |   N/A    |  NOT YET |     NOT YET | Functional programming collection library ++(e.g. tuples) |
+| Web components   | NOT YET  |      N/A |         N/A | Frontend browser technology. Alternative to Elm. Could probably also exist side-by-side with Elm. |
 
 #### Detail TODO-s:
 - Remove overlapping classes when building fat jars
-- Remove JANSI exception logging originating from surefire
 - Liveness and readiness
 - Compile all reports to the site directory
 - Tidy up all that report/site mess, please...
 - Remember to add Prometheus to the datasource as well
+- Skip plugin/dependency management in favour of letting mama become a properties bom (bill of materials). Only use management when required to solve transitive dependencies problems.
 ### Future plans and ambitions
 1. REST with JSON  and HTTP verb calls from frontend to backend
 0. Web components with Javascript or Elm. Continuously assessing

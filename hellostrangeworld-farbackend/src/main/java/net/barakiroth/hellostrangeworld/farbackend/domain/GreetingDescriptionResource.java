@@ -43,7 +43,7 @@ public class GreetingDescriptionResource {
       greeteeDescriptionAsJson =
           objectMapper.writeValueAsString(greeteeDescription);
     } catch (JsonProcessingException e) {
-      // TODO Auto-generated catch block
+      // TODO Auto-generated catch block, return a outcome code instead.
       e.printStackTrace();
     }
     

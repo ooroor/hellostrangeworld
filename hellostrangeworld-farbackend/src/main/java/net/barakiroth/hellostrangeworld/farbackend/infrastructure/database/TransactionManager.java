@@ -16,9 +16,9 @@ public class TransactionManager {
   private final TransactionalConnectionProvider transactionalConnectionProvider;
 
   /**
-   * Constructor.  // TODO: Better descr
+   * Constructor storing the connection provider for later use.
    * 
-   * @param transactionalConnectionProvider Provides transactions. // TODO: Better descr
+   * @param transactionalConnectionProvider Provides connections to be used in transactions.
    */
   public TransactionManager(final TransactionalConnectionProvider transactionalConnectionProvider) {
 

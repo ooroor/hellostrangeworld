@@ -30,7 +30,7 @@
 		<h2.version>1.4.200</h2.version>
 		<querydsl-sql.version>4.2.1</querydsl-sql.version>
 		<hikaricp.version>3.4.1</hikaricp.version>
-		<flyway.version>4.2.0</flyway.version>
+		<flyway.version>6.0.8</flyway.version>
 		<!-- END Database stuff -->
 		
 		<jackson.version>2.10.0</jackson.version>
@@ -58,7 +58,7 @@
 		<owasp.dependency-check-maven.plugin.version>5.2.2</owasp.dependency-check-maven.plugin.version>
 		<maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
 		<javancss-maven-plugin.version>2.1</javancss-maven-plugin.version>
-
+		<flyway-maven-plugin.version>6.0.8</flyway-maven-plugin.version>
 		<!-- Test stuff -->
 		<junit.jupiter.version>5.5.2</junit.jupiter.version>
 		<junit.pre.jupiter.version>4.12</junit.pre.jupiter.version>

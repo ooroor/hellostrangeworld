@@ -283,12 +283,13 @@
 			<plugin>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
-				<version>${flyway.version}</version>
+				<version>${flyway-maven-plugin.version}</version>
 				<configuration>
 					<driver>org.h2.Driver</driver>
 					<url>jdbc:h2:~/hellostrangeworld</url>
 					<user>sa</user>
 					<password>sa</password>
+					<baselineOnMigrate>false</baselineOnMigrate>
 				</configuration>
 				<executions>
 					<execution>

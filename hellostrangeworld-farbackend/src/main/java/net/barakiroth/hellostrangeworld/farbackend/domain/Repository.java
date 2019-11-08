@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * TODO: Split into service and domain independent database.
+ * Domain dependent interface to database.
  */
 public class Repository {
 
