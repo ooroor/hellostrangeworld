@@ -56,7 +56,7 @@
 | Rest server      |   N/A    |  NOT YET |           X |                                         Resource API |
 | Separate project | NOT YET  |  NOT YET |     NOT YET | Split parent and children modules for independencies |
 | Swagger          |   N/A    |  NOT YET |     NOT YET |                               Rest API documentation |
-| Vavr          |   N/A    |  NOT YET |     NOT YET | Functional programming collection library ++(e.g. tuples) |
+| Vavr          |   N/A    |  NOT YET |     X | Functional programming collection library ++(e.g. tuples) |
 | Web components   | NOT YET  |      N/A |         N/A | Frontend browser technology. Alternative to Elm. Could probably also exist side-by-side with Elm. |
 
 #### Detail TODO-s:
@@ -122,6 +122,11 @@ CLS&java -ea -cp hellostrangeworld-backend/target/*  net.barakiroth.hellostrange
 ```
 netstat -aon | find /i "listening" | find /i "8087"
 ```
+-Kill a process (e.g. when locking a port):
+
+```
+taskkill /F /PID 8087
+```
 - Run owasp analysis
 
 ```
@@ -137,7 +142,6 @@ CLS&mvn clean install checkstyle:check site -P checkstyle -Dcheckstyle.config.lo
 ```
 CLS&mvn flyway:clean
 ```
-
 ### Useful refs: 
 
 #### Git
