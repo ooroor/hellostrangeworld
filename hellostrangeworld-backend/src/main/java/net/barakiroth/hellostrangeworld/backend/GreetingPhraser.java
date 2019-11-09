@@ -3,6 +3,7 @@ package net.barakiroth.hellostrangeworld.backend;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.text.MessageFormat;
+import net.barakiroth.hellostrangeworld.farbackend.domain.GreetingDescription;
 import net.barakiroth.hellostrangeworld.farbackend.domain.GreetingDescriptionResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,15 +30,17 @@ public class GreetingPhraser {
     
     final ObjectMapper objectMapper = new ObjectMapper();
     
-    String description;
+    GreetingDescription greetingDescription;
     try {
-      description = objectMapper.readValue(greeteeDescriptionAsJson, String.class);
+      greetingDescription =
+          objectMapper.readValue(greeteeDescriptionAsJson, GreetingDescription.class);
     } catch (IOException e) {
       e.printStackTrace();
       throw new RuntimeException(e);
     }
     
-    final String greetingPhrasePrefix = MessageFormat.format("Hello {0} ", description);
+    final String greetingPhrasePrefix =
+        MessageFormat.format("Hello {0} ", greetingDescription.getAdjective());
     
     leavingMethodHeaderLogger.debug(null);
     

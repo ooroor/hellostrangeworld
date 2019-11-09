@@ -97,6 +97,12 @@
 				<version>${logback.version}</version>
 			</dependency>
 
+			<dependency>
+			    <groupId>org.slf4j</groupId>
+			    <artifactId>slf4j-api</artifactId>
+			    <version>1.7.29</version>
+			</dependency>
+
 			<!-- BEGIN Database stuff -->
 			<dependency>
 				<groupId>com.h2database</groupId>
@@ -293,6 +299,11 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
+
+     <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+     </dependency>
 
 		<!-- Test stuff -->
 		<dependency>

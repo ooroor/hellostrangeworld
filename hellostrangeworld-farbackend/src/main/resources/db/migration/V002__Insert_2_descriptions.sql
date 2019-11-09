@@ -1,3 +1,3 @@
-INSERT INTO description(id, value) VALUES(1, 'strange');
-INSERT INTO description(id, value) VALUES(2, 'very strange');
-INSERT INTO description(id, value) VALUES(3, 'immensely strange');
+INSERT INTO greeting_description(id, adjective) VALUES(1, 'strange');
+INSERT INTO greeting_description(id, adjective) VALUES(2, 'very strange');
+INSERT INTO greeting_description(id, adjective) VALUES(3, 'immensely strange');

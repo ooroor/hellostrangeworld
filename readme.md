@@ -137,7 +137,7 @@ CLS&mvn -X org.owasp:dependency-check-maven:check -P owasp
 ```
 CLS&mvn clean install checkstyle:check site -P checkstyle -Dcheckstyle.config.location=google_checks.xml
 ```
-- If hung-up on some FlyWay migration:
+- If hung-up on some FlyWay migration (first change current directory to farbackend):
 
 ```
 CLS&mvn flyway:clean

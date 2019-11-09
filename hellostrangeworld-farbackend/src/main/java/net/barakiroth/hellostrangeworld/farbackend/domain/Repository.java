@@ -36,54 +36,53 @@ public class Repository {
    * 
    * @return the adjective used in the greeting.
    */
-  public String getGreetingDescription() {
+  public Optional<GreetingDescription> getGreetingDescription() {
 
     enteringMethodHeaderLogger.debug(null);
     
     // =========================================================================
-    final Database              database            = this.config.getDatabase();
-    final Optional<Description> optionalDescription =
-        database.doInTransaction(() -> getDescription(database));
+    final Database                      database                    =
+        this.config.getDatabase();
+    final Optional<GreetingDescription> optionalGreetingDescription =
+        database.doInTransaction(() -> getGreetingDescription(database));
     // =========================================================================
     
-    log.debug("Retrieved: {}", optionalDescription);
-    final String descriptionValue = optionalDescription.orElseThrow().value;
-    log.debug("About to return descriptionValue: {}", descriptionValue);
+    log.debug("Retrieved: {}", optionalGreetingDescription);
     
     leavingMethodHeaderLogger.debug(null);
     
-    return descriptionValue;
+    return optionalGreetingDescription;
   }
 
-  private  Optional<Description> getDescription(final Database database) {
+  private  Optional<GreetingDescription> getGreetingDescription(final Database database) {
 
     enteringMethodHeaderLogger.debug(null);
     
     final int             id              = new Random(System.currentTimeMillis()).nextInt(3) + 1;
     final SQLQueryFactory sqlQueryFactory = database.getSqlQueryFactory();
 
-    final Tuple descriptionDatabaseRow =
+    final Tuple greetingDescriptionDatabaseRow =
         sqlQueryFactory
-          .select(Database.descriptionTable.all())
-          .from(Database.descriptionTable)
-          .where(Database.descriptionTable.id.eq(id))
+          .select(Database.greetingDescriptionTable.all())
+          .from(Database.greetingDescriptionTable)
+          .where(Database.greetingDescriptionTable.id.eq(id))
           .fetchOne()
     ;
-    final Optional<Description> optionalDescription =
+    final Optional<GreetingDescription> optionalGreetingDescription =
         Optional.ofNullable(
-          (descriptionDatabaseRow == null)
+          (greetingDescriptionDatabaseRow == null)
           ?
           null
           :
-          new Description(
-              descriptionDatabaseRow.get(Database.descriptionTable.id),
-              descriptionDatabaseRow.get(Database.descriptionTable.value)
+          new GreetingDescription(
+              greetingDescriptionDatabaseRow.get(Database.greetingDescriptionTable.id),
+              greetingDescriptionDatabaseRow.get(Database.greetingDescriptionTable.adjective)
           )
         )
     ;
     
     leavingMethodHeaderLogger.debug(null);
     
-    return optionalDescription;
+    return optionalGreetingDescription;
   }
 }

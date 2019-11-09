@@ -1,19 +1,28 @@
 package net.barakiroth.hellostrangeworld.farbackend.domain;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.barakiroth.hellostrangeworld.farbackend.Config;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class GreetingDescriptionResource {
+
+  private static final Logger log =
+      LoggerFactory.getLogger(GreetingDescriptionResource.class);
+  private static final Logger enteringMethodHeaderLogger =
+      LoggerFactory.getLogger("EnteringMethodHeader");
+  private static final Logger leavingMethodHeaderLogger =
+      LoggerFactory.getLogger("LeavingMethodHeader");
   
   private final Config config;
   
@@ -35,18 +44,31 @@ public class GreetingDescriptionResource {
   @Produces({MediaType.APPLICATION_JSON})
   public String getGreetingDescription() {
     
-    final String greeteeDescription = this.config.getRepository().getGreetingDescription();
-    final ObjectMapper objectMapper = new ObjectMapper();
+    enteringMethodHeaderLogger.debug(null);;
     
-    String greeteeDescriptionAsJson = null;
+    final Optional<GreetingDescription> optionalGreetingDescription =
+        this.config.getRepository().getGreetingDescription();
+    
+    //final String adjective = optionalGreetingDescription.get().getAdjective();
+    final ObjectMapper objectMapper = new ObjectMapper();
+
+    String greetingDescriptionAsJson = null;
     try {
-      greeteeDescriptionAsJson =
-          objectMapper.writeValueAsString(greeteeDescription);
+      greetingDescriptionAsJson =
+          objectMapper
+            .writeValueAsString(
+                optionalGreetingDescription
+                  .orElse(new GreetingDescription(-1, ""))
+            );
     } catch (JsonProcessingException e) {
       // TODO Auto-generated catch block, return a outcome code instead.
       e.printStackTrace();
     }
     
-    return greeteeDescriptionAsJson;
+    log.debug("About to respond:\n\n{}", greetingDescriptionAsJson);
+    
+    leavingMethodHeaderLogger.debug(null);;
+    
+    return greetingDescriptionAsJson;
   }
 }

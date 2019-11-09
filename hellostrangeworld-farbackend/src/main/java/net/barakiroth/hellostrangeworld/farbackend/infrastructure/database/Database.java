@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.barakiroth.hellostrangeworld.farbackend.Config;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QDescription;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QGreetingDescription;
 import net.barakiroth.hellostrangeworld.farbackend.util.ExceptionSoftener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +48,8 @@ public class Database {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
 
-  public  static final QDescription descriptionTable = QDescription.description;
+  public  static final QGreetingDescription greetingDescriptionTable =
+      QGreetingDescription.greetingDescription;
   
   private final DatabaseConfig     databaseConfig;
   private       DataSource         dataSource         = null;
