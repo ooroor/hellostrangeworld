@@ -49,7 +49,7 @@
 | OWASP            |    X     |        X |           X |             Library security vulnerability reporting |
 | PACT             | NOT YET |  NOT YET |     NOT YET | REST server contract testing |
 | PiTest           |    X     |        X |           X |                                       Mutation tests |
-| Prometheus       |   N/A    |  NOT YET |     NOT YET |                            Runtime metrics reporting |
+| Prometheus       |   N/A    |  NOT YET |     X |                            Runtime metrics reporting |
 | QueryDSL         |   N/A    |      N/A |           X |                        Thin fluency layer above JDBC |
 | Resilience4J     |   N/A    |  NOT YET |         N/A |               Resilience guard of downstream calls |
 | Rest client      | NOT YET  |        X |         N/A |                                         Resource API |
@@ -66,6 +66,8 @@
 - Tidy up all that report/site mess, please...
 - Remember to add Prometheus to the datasource as well
 - Skip plugin/dependency management in favour of letting mama become a properties bom (bill of materials). Only use management when required to solve transitive dependencies problems.
+- Let backend call farbackend using HTTP
+- Logback/Prometheus
 ### Future plans and ambitions
 1. REST with JSON  and HTTP verb calls from frontend to backend
 0. Web components with Javascript or Elm. Continuously assessing
@@ -115,17 +117,27 @@ mvn -N versions:update-child-modules
 - Run the far backend servletcontainer:
 
 ```
-CLS&java -ea -cp hellostrangeworld-backend/target/*  net.barakiroth.hellostrangeworld.farbackend.Main
+CLS&java -ea -cp hellostrangeworld-farbackend/target/* net.barakiroth.hellostrangeworld.farbackend.Main
+```
+- Access the resources- 
+
+```
+http://localhost:8089/api/GreetingDescription
+```
+and
+
+```
+http://localhost:8089/internal/metrics/
 ```
 - Find ports listened to in Windows
 
 ```
-netstat -aon | find /i "listening" | find /i "8087"
+netstat -aon | find /i "listening" | find /i "8089"
 ```
 -Kill a process (e.g. when locking a port):
 
 ```
-taskkill /F /PID 8087
+taskkill /F /PID 8089
 ```
 - Run owasp analysis
 

@@ -2,6 +2,7 @@ package net.barakiroth.hellostrangeworld.farbackend.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.prometheus.client.Gauge;
 import java.util.Optional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -9,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import net.barakiroth.hellostrangeworld.farbackend.Config;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.prometheus.PrometheusConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,8 +46,12 @@ public class GreetingDescriptionResource {
   @Produces({MediaType.APPLICATION_JSON})
   public String getGreetingDescription() {
     
-    enteringMethodHeaderLogger.debug(null);;
+    enteringMethodHeaderLogger.debug(null);
     
+    final PrometheusConfig prometheusConfig = this.config.getPrometheusConfig();
+    final Gauge.Timer getGreetingDescriptionDurationGaugeTimer =
+            prometheusConfig.getGetGreetingDescriptionDurationGauge().startTimer();
+
     final Optional<GreetingDescription> optionalGreetingDescription =
         this.config.getRepository().getGreetingDescription();
     
@@ -60,9 +66,12 @@ public class GreetingDescriptionResource {
                 optionalGreetingDescription
                   .orElse(new GreetingDescription(-1, ""))
             );
+      prometheusConfig.getLastGetGreetingDescriptionSuccessGauge().setToCurrentTime();
     } catch (JsonProcessingException e) {
       // TODO Auto-generated catch block, return a outcome code instead.
       e.printStackTrace();
+    } finally {
+      getGreetingDescriptionDurationGaugeTimer.setDuration();
     }
     
     log.debug("About to respond:\n\n{}", greetingDescriptionAsJson);

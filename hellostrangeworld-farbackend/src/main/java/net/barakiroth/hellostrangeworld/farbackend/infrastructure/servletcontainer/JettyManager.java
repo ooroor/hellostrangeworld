@@ -1,10 +1,12 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer;
 
+import io.prometheus.client.exporter.MetricsServlet;
 import net.barakiroth.hellostrangeworld.farbackend.Config;
 import net.barakiroth.hellostrangeworld.farbackend.JerseyApplication;
 import net.barakiroth.hellostrangeworld.farbackend.domain.GreetingDescriptionResource;
 import net.barakiroth.hellostrangeworld.farbackend.util.ExceptionSoftener;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
@@ -89,8 +91,11 @@ public class JettyManager {
     final ServletContextHandler servletContextHandler =
         new ServletContextHandler(this.jettyServer, rootContextPath);
     
+    registerDefaultServlet(this.jettyManagerConfig, servletContextHandler);
+    
     //registerGreetingsDescriptorResourceServlet(jettyManagerConfig, servletContextHandler);
-    registerGreetingDescriptorJerseyApplication(jettyManagerConfig, servletContextHandler);
+    registerGreetingDescriptorJerseyApplication(this.jettyManagerConfig, servletContextHandler);
+    registerMetricsServlet(this.jettyManagerConfig, servletContextHandler);
     
     this.jettyServer.setHandler(servletContextHandler);
     
@@ -106,8 +111,7 @@ public class JettyManager {
     enteringMethodHeaderLogger.debug(null);
     
     final String greetingsDescriptorResourcePathSpec =
-          this.jettyManagerConfig.getGreetingsDescriptorResourcePathSpec();
-    
+          jettyManagerConfig.getGreetingsDescriptorResourcePathSpec();
     final ServletHolder servletHolder = new ServletHolder(new ServletContainer());
     final String greetingDescriptorJerseyApplicationClassName = 
         JerseyApplication.class.getName();
@@ -118,7 +122,33 @@ public class JettyManager {
     
     leavingMethodHeaderLogger.debug(null);
   }
+  
+  private void registerDefaultServlet(
+      final JettyManagerConfig jettyManagerConfig,
+      final ServletContextHandler servletContextHandler) {
 
+    enteringMethodHeaderLogger.debug(null);
+
+    final ServletHolder defaultServletHolder = new ServletHolder(new DefaultServlet());
+    final String defaultPathSpec = jettyManagerConfig.getDefaultPathSpec();
+    servletContextHandler.addServlet(defaultServletHolder, defaultPathSpec);
+
+    leavingMethodHeaderLogger.debug(null);
+}
+
+  private void registerMetricsServlet(
+      final JettyManagerConfig    jettyManagerConfig,
+      final ServletContextHandler servletContextHandler) {
+    
+    enteringMethodHeaderLogger.debug(null);
+
+    final String metricsResourcePathSpec = jettyManagerConfig.getMetricsContextPath();
+    final ServletHolder metricsServletHolder    = new ServletHolder(new MetricsServlet());
+    servletContextHandler.addServlet(metricsServletHolder, metricsResourcePathSpec);
+
+    leavingMethodHeaderLogger.debug(null);
+  }
+/*
   private void registerGreetingsDescriptorResourceServlet(
       final JettyManagerConfig jettyManagerConfig, 
       final ServletContextHandler servletContextHandler) {
@@ -137,10 +167,10 @@ public class JettyManager {
   
     leavingMethodHeaderLogger.debug(null);
   }
-
+*/
   private String getRootContextPath(final JettyManagerConfig jettyManagerConfig) {
     
-    final String rootContextPath = this.jettyManagerConfig.getRootContextPath();
+    final String rootContextPath = jettyManagerConfig.getRootContextPath();
     
     return rootContextPath;
   }

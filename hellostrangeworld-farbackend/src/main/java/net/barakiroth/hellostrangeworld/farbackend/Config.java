@@ -7,6 +7,7 @@ import lombok.Getter;
 import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.DatabaseConfig;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.prometheus.PrometheusConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManagerConfig;
 import org.apache.commons.configuration2.BaseConfiguration;
@@ -16,6 +17,7 @@ import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.SystemConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +48,9 @@ public class Config {
   
   @Getter(AccessLevel.PUBLIC)
   private final JettyManager       jettyManager;
+
+  @Getter(AccessLevel.PUBLIC)
+  private final PrometheusConfig   prometheusConfig;
     
   private Config() {
     
@@ -77,8 +82,15 @@ public class Config {
     this.databaseConfig     = new DatabaseConfig(this);
     this.database           = new Database(this);
     this.repository         = new Repository(this);
+    this.prometheusConfig   = new PrometheusConfig(this);
     
     leavingMethodHeaderLogger.debug(null);
+  }
+
+  public String getRequiredString(final String key) {
+    checkRequired(key);
+    final String value = getString(key, null);
+    return value;
   }
 
   public String getString(final String key, final String defaultValue) {
@@ -108,5 +120,13 @@ public class Config {
     leavingMethodHeaderLogger.debug(null);
     
     return propertyFileConfiguration;
+  }
+
+  private void checkRequired(final String key) {
+    Validate.validState(
+        this.compositeConfiguration.containsKey(key),
+        "Couldn't find configuration value for the key %s",
+        key
+    );
   }
 }

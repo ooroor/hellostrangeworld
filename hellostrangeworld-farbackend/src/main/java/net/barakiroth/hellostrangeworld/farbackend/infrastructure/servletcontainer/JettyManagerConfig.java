@@ -7,8 +7,14 @@ public class JettyManagerConfig {
   private static final String JETTY_SERVER_PORT_KEY     = "jetty.port";
   private static final int    JETTY_SERVER_PORT_DEFAULT = 8080;
 
-  private static final String JETTY_ROOT_CONTEXT_PATH_KEY = "jetty.root.context.path";
+  private static final String JETTY_ROOT_CONTEXT_PATH_KEY = "jetty.root.path.spec";
   private static final String JETTY_ROOT_CONTEXT_PATH_DEFAULT = "/";
+  
+  private static final String JETTY_DEFAULT_CONTEXT_PATH_KEY = "jetty.default.path.spec";
+  private static final String JETTY_DEFAULT_CONTEXT_PATH_DEFAULT = "/*";
+  
+  private static final String JETTY_METRICS_CONTEXT_PATH_KEY = "jetty.metrics.path.spec";
+  private static final String JETTY_METRICS_CONTEXT_PATH_DEFAULT = "/internal/metrics"; 
 
   private static final String JETTY_GREETINGS_DESCRIPTOR_RESOURCE_PATH_SPEC_KEY = 
       "jetty.greetings.descriptor.path.spec";
@@ -37,6 +43,18 @@ public class JettyManagerConfig {
   String getRootContextPath() {
     final String contextPath =
         this.config.getString(JETTY_ROOT_CONTEXT_PATH_KEY, JETTY_ROOT_CONTEXT_PATH_DEFAULT);
+    return contextPath;
+  }
+
+  String getDefaultPathSpec() {
+    final String contextPath =
+        this.config.getString(JETTY_DEFAULT_CONTEXT_PATH_KEY, JETTY_DEFAULT_CONTEXT_PATH_DEFAULT);
+    return contextPath;
+  }
+
+  String getMetricsContextPath() {
+    final String contextPath =
+        this.config.getString(JETTY_METRICS_CONTEXT_PATH_KEY, JETTY_METRICS_CONTEXT_PATH_DEFAULT);
     return contextPath;
   }
 }

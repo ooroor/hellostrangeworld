@@ -2,7 +2,7 @@
 <!DOCTYPE xml>
 <configuration scan="true" scanPeriod="29 seconds">
 
-  <appender name="CONSOLE"
+  <appender name="STDOUT_APPENDER"
     class="ch.qos.logback.core.ConsoleAppender">
     <layout class="ch.qos.logback.classic.PatternLayout">
       <Pattern>
@@ -10,6 +10,8 @@
       </Pattern>
     </layout>
   </appender>
+
+  <appender name="METRICS_APPENDER" class="io.prometheus.client.logback.InstrumentedAppender"/>
 
   <appender name="EnteringMethodHeaderAppender"
     class="ch.qos.logback.core.ConsoleAppender">
@@ -24,9 +26,7 @@
 
   <appender name="LeavingMethodHeaderAppender"
     class="ch.qos.logback.core.ConsoleAppender">
-    <!-- 
-        <withJansi>true</withJansi>
--->
+    <withJansi>true</withJansi>
     <encoder>
       <Pattern>%-4relative [%thread]             Leaving method : %cyan( %C{0}.%M ) %red(---------->) %n</Pattern>
     </encoder>
@@ -46,26 +46,31 @@
   </appender>
 
   <logger name="net.barakiroth" level="debug" additivity="false">
-    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="STDOUT_APPENDER" />
+    <appender-ref ref="METRICS_APPENDER"/>
   </logger>
 
   <logger name="EnteringMethodHeader" additivity="false">
     <level value="DEBUG" />
     <appender-ref ref="EnteringMethodHeaderAppender" />
+    <appender-ref ref="METRICS_APPENDER"/>
   </logger>
 
   <logger name="LeavingMethodHeader" additivity="false">
     <level value="DEBUG" />
     <appender-ref ref="LeavingMethodHeaderAppender" />
+    <appender-ref ref="METRICS_APPENDER"/>
   </logger>
 
   <logger name="EnteringTestHeader" additivity="false">
     <level value="DEBUG" />
     <appender-ref ref="EnteringTestHeaderAppender" />
+    <appender-ref ref="METRICS_APPENDER"/>
   </logger>
 
-  <root level="error">
-    <appender-ref ref="CONSOLE" />
+  <root level="debug">
+    <appender-ref ref="STDOUT_APPENDER" />
+    <appender-ref ref="METRICS_APPENDER"/>
   </root>
 
 </configuration>
