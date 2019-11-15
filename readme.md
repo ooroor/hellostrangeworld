@@ -119,7 +119,7 @@ mvn -N versions:update-child-modules
 ```
 CLS&java -ea -cp hellostrangeworld-farbackend/target/* net.barakiroth.hellostrangeworld.farbackend.Main
 ```
-- Access the resources- 
+- Access the resources
 
 ```
 http://localhost:8089/api/GreetingDescription
