@@ -102,7 +102,7 @@ public class Repository {
     final Callable<Optional<GreetingDescription>> selectRowDecoratedWithCircuitBreaker =
         CircuitBreaker.decorateCallable(circuitBreaker, selectRowWithtimeLimiter);
     
-    // Resilience: Add circuit retry:
+    // Resilience: Add retry:
     final Retry retry = Retry.ofDefaults("backendName");
     final Callable<Optional<GreetingDescription>> selectRowDecoratedWithCircuitBreakerAndRetry =
         Retry
