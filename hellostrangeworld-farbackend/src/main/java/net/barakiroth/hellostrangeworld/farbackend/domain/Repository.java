@@ -42,7 +42,7 @@ public class Repository {
 
   /**
    * Return the adjective used in the greeting.
-   * TODO: Addition of resilience confuscates the code considerably. Refactor.
+   * TODO: Adding resilience confuscates the code considerably. Refactor.
    * 
    * @return the adjective used in the greeting.
    */
@@ -94,24 +94,25 @@ public class Repository {
         TimeLimiter.of("backendName", TimeLimiterConfig.ofDefaults());
     final CompletableFuture<Optional<GreetingDescription>> completableFuture =
         CompletableFuture.supplyAsync(selectRow);
-    final Callable<Optional<GreetingDescription>> selectRowWithtimeLimiter =
+    final Callable<Optional<GreetingDescription>> selectRowWithTimeLimiter =
         TimeLimiter.decorateFutureSupplier(timeLimiter, () -> completableFuture);
     
     // Resilience: Add circuit breaker:
     final CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("backendName");
-    final Callable<Optional<GreetingDescription>> selectRowDecoratedWithCircuitBreaker =
-        CircuitBreaker.decorateCallable(circuitBreaker, selectRowWithtimeLimiter);
+    final Callable<Optional<GreetingDescription>> selectRowWithTimeLimiterAndCircuitBreaker =
+        CircuitBreaker.decorateCallable(circuitBreaker, selectRowWithTimeLimiter);
     
     // Resilience: Add retry:
     final Retry retry = Retry.ofDefaults("backendName");
-    final Callable<Optional<GreetingDescription>> selectRowDecoratedWithCircuitBreakerAndRetry =
-        Retry
-          .decorateCallable(retry, selectRowDecoratedWithCircuitBreaker);
-    
+    final Callable<Optional<GreetingDescription>> 
+        selectRowWithTimeLimiterAndCircuitBreakerAndRetry =
+          Retry
+            .decorateCallable(retry, selectRowWithTimeLimiterAndCircuitBreaker);
+
     // Resilience: Do the actual call to the database:
     final Optional<GreetingDescription> optionalGreetingDescription =
         Try
-          .ofCallable(selectRowDecoratedWithCircuitBreakerAndRetry)
+          .ofCallable(selectRowWithTimeLimiterAndCircuitBreakerAndRetry)
           .recover(
               throwable -> {
                 log.error("Exception received when accessing the database.", throwable);
