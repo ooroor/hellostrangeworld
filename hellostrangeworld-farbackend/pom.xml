@@ -173,13 +173,13 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>swagger-ui</artifactId>
 		</dependency>
-
+<!-- 
 		<dependency>
 			<groupId>org.fusesource.jansi</groupId>
 			<artifactId>jansi</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-
+ -->
 		<dependency>
 			<groupId>io.vavr</groupId>
 			<artifactId>vavr</artifactId>
