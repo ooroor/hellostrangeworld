@@ -90,28 +90,42 @@ public class Repository {
     
     // Resilience: Add timeout:
     final TimeLimiter timeLimiter =
-        TimeLimiter.of("backendName", TimeLimiterConfig.ofDefaults());
+        TimeLimiter.of("selectGreetingDescription", TimeLimiterConfig.ofDefaults());
     final CompletableFuture<Optional<GreetingDescription>> completableFuture =
         CompletableFuture.supplyAsync(selectGreetingDescriptionSupplier);
-    final Callable<Optional<GreetingDescription>> selectRowWithTimeLimiter =
-        TimeLimiter.decorateFutureSupplier(timeLimiter, () -> completableFuture);
+    final Callable<Optional<GreetingDescription>> selectGreetingDescriptionWithTimeLimiterCallable =
+        TimeLimiter
+          .decorateFutureSupplier(
+              timeLimiter, 
+              () -> completableFuture
+          );
     
     // Resilience: Add circuit breaker:
-    final CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("backendName");
-    final Callable<Optional<GreetingDescription>> selectRowWithTimeLimiterAndCircuitBreaker =
-        CircuitBreaker.decorateCallable(circuitBreaker, selectRowWithTimeLimiter);
+    final CircuitBreaker circuitBreaker =
+        CircuitBreaker.ofDefaults("selectGreetingDescription");
+    final Callable<Optional<GreetingDescription>>
+        selectGreetingDescriptionWithTimeLimiterAndCircuitBreakerCallable =
+            CircuitBreaker
+              .decorateCallable(
+                  circuitBreaker,
+                  selectGreetingDescriptionWithTimeLimiterCallable
+              );
     
     // Resilience: Add retry:
-    final Retry retry = Retry.ofDefaults("backendName");
+    final Retry retry =
+        Retry.ofDefaults("selectGreetingDescription");
     final Callable<Optional<GreetingDescription>> 
-        selectRowWithTimeLimiterAndCircuitBreakerAndRetry =
+        selectGreetingDescriptionWithTimeLimiterAndCircuitBreakerAndRetryCallable =
           Retry
-            .decorateCallable(retry, selectRowWithTimeLimiterAndCircuitBreaker);
+            .decorateCallable(
+                retry,
+                selectGreetingDescriptionWithTimeLimiterAndCircuitBreakerCallable
+            );
 
     // Resilience: Do the actual call to the database:
     final Optional<GreetingDescription> optionalGreetingDescription =
         Try
-          .ofCallable(selectRowWithTimeLimiterAndCircuitBreakerAndRetry)
+          .ofCallable(selectGreetingDescriptionWithTimeLimiterAndCircuitBreakerAndRetryCallable)
           .recover(
               throwable -> {
                 log.error("Exception received when accessing the database.", throwable);
