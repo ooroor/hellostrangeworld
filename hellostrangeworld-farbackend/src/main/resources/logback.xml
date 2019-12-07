@@ -58,6 +58,18 @@
     <appender-ref ref="METRICS_APPENDER"/>
   </logger>
 
+  <logger name="org.eclipse.jetty" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="STDOUT_APPENDER" />
+    <appender-ref ref="METRICS_APPENDER"/>
+  </logger>
+  
+  <logger name="com.zaxxer.hikari.pool.HikariPool" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="STDOUT_APPENDER" />
+    <appender-ref ref="METRICS_APPENDER"/>
+  </logger>
+
   <root level="DEBUG">
     <appender-ref ref="STDOUT_APPENDER" />
     <appender-ref ref="METRICS_APPENDER"/>

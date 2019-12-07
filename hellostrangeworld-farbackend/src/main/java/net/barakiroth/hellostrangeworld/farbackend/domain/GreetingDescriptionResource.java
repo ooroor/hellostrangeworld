@@ -3,6 +3,14 @@ package net.barakiroth.hellostrangeworld.farbackend.domain;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.prometheus.client.Gauge;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Contact;
+import io.swagger.annotations.Info;
+import io.swagger.annotations.SwaggerDefinition;
 import java.util.Optional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -17,6 +25,16 @@ import org.slf4j.LoggerFactory;
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@SwaggerDefinition(
+    info = @Info(
+      title       = "Oppgave API",
+      version     = "1",
+      description =   "Service for ornamenting a greeting."
+                    + "It is assumed that the header <strong>\"X-Correlation-ID\"</strong> is set. "
+                    + "Generate it e.g. by the following Javva call: UUID.randomUUID()",
+      contact = @Contact(name = "John Doe")
+    )
+)
 public class GreetingDescriptionResource {
 
   private static final Logger log =
@@ -44,6 +62,25 @@ public class GreetingDescriptionResource {
   @GET
   @Path("/GreetingDescription")
   @Produces({MediaType.APPLICATION_JSON})
+  @ApiOperation(
+      value    = "Henter en random greeting description",
+      response = GreetingDescription.class
+  )
+  @ApiImplicitParams(
+      {
+        @ApiImplicitParam(
+            name      = "X-Correlation-ID",
+            required  = true,
+            dataType  = "string",
+            paramType = "header")
+      }
+  )
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 500, message = "Server error")
+      }
+  )
   public String getGreetingDescription() {
     
     enteringMethodHeaderLogger.debug(null);
@@ -55,7 +92,6 @@ public class GreetingDescriptionResource {
     final Optional<GreetingDescription> optionalGreetingDescription =
         this.config.getRepository().getGreetingDescription();
     
-    //final String adjective = optionalGreetingDescription.get().getAdjective();
     final ObjectMapper objectMapper = new ObjectMapper();
 
     String greetingDescriptionAsJson = null;

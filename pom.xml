@@ -6,7 +6,7 @@
 
 	<groupId>net.barakiroth.hellostrangeworld</groupId>
 	<artifactId>hellostrangeworld</artifactId>
-	<version>0.3.6</version>
+	<version>0.3.7</version>
 	<packaging>pom</packaging>
 
 	<name>hellostrangeworld</name>
@@ -25,14 +25,14 @@
 
 		<logback.version>1.2.3</logback.version>
 		<bcel.version>6.3.1</bcel.version>
-		
+
 		<!-- BEGIN Database stuff -->
 		<h2.version>1.4.200</h2.version>
 		<querydsl-sql.version>4.2.1</querydsl-sql.version>
 		<hikaricp.version>3.4.1</hikaricp.version>
 		<flyway.version>6.0.8</flyway.version>
 		<!-- END Database stuff -->
-		
+
 		<jackson.version>2.10.0</jackson.version>
 		<jersey.version>2.29</jersey.version>
 		<jakarta.inject.version>2.6.1</jakarta.inject.version>
@@ -44,7 +44,11 @@
 		<commons-logging.version>1.2</commons-logging.version>
 		<commons-beanutils.version>1.9.4</commons-beanutils.version>
 		<vavr.version>0.10.2</vavr.version>
-    <prometheus.version>0.6.0</prometheus.version>
+		<prometheus.version>0.6.0</prometheus.version>
+
+		<swagger.version>1.5.24</swagger.version>
+		<swagger-ui.version>3.24.0</swagger-ui.version>
+		<resilience4j.version>1.2.0</resilience4j.version>
 
 		<!-- Plugin stuff -->
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -99,9 +103,9 @@
 			</dependency>
 
 			<dependency>
-			    <groupId>org.slf4j</groupId>
-			    <artifactId>slf4j-api</artifactId>
-			    <version>1.7.29</version>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.29</version>
 			</dependency>
 
 			<!-- BEGIN Database stuff -->
@@ -120,40 +124,52 @@
 			<dependency>
 				<groupId>com.querydsl</groupId>
 				<artifactId>querydsl-sql-codegen</artifactId>
-        <version>${querydsl-sql.version}</version>
+				<version>${querydsl-sql.version}</version>
 				<scope>provided</scope>
 			</dependency>
 
-      <dependency>
-        <groupId>com.zaxxer</groupId>
-        <artifactId>HikariCP</artifactId>
-        <version>${hikaricp.version}</version>
-      </dependency>
+			<dependency>
+				<groupId>com.zaxxer</groupId>
+				<artifactId>HikariCP</artifactId>
+				<version>${hikaricp.version}</version>
+			</dependency>
 			<!-- END Database stuff -->
 
-      <dependency>
-          <groupId>io.prometheus</groupId>
-          <artifactId>simpleclient</artifactId>
-          <version>${prometheus.version}</version>
-      </dependency>
+			<dependency>
+				<groupId>io.prometheus</groupId>
+				<artifactId>simpleclient</artifactId>
+				<version>${prometheus.version}</version>
+			</dependency>
 
-      <dependency>
-          <groupId>io.prometheus</groupId>
-          <artifactId>simpleclient_hotspot</artifactId>
-          <version>${prometheus.version}</version>
-      </dependency>
+			<dependency>
+				<groupId>io.prometheus</groupId>
+				<artifactId>simpleclient_hotspot</artifactId>
+				<version>${prometheus.version}</version>
+			</dependency>
 
-      <dependency>
-          <groupId>io.prometheus</groupId>
-          <artifactId>simpleclient_servlet</artifactId>
-          <version>${prometheus.version}</version>
-      </dependency>
+			<dependency>
+				<groupId>io.prometheus</groupId>
+				<artifactId>simpleclient_servlet</artifactId>
+				<version>${prometheus.version}</version>
+			</dependency>
 
-      <dependency>
-          <groupId>io.prometheus</groupId>
-          <artifactId>simpleclient_logback</artifactId>
-          <version>${prometheus.version}</version>
-      </dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-jersey2-jaxrs</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.webjars</groupId>
+				<artifactId>swagger-ui</artifactId>
+				<version>${swagger-ui.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.prometheus</groupId>
+				<artifactId>simpleclient_logback</artifactId>
+				<version>${prometheus.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
@@ -268,11 +284,11 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-						
+
 			<dependency>
-			    <groupId>io.vavr</groupId>
-			    <artifactId>vavr</artifactId>
-			    <version>${vavr.version}</version>
+				<groupId>io.vavr</groupId>
+				<artifactId>vavr</artifactId>
+				<version>${vavr.version}</version>
 			</dependency>
 
 			<dependency>
@@ -292,6 +308,24 @@
 						<artifactId>commons-logging</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>io.github.resilience4j</groupId>
+				<artifactId>resilience4j-timelimiter</artifactId>
+				<version>${resilience4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.github.resilience4j</groupId>
+				<artifactId>resilience4j-retry</artifactId>
+				<version>${resilience4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.github.resilience4j</groupId>
+				<artifactId>resilience4j-circuitbreaker</artifactId>
+				<version>${resilience4j.version}</version>
 			</dependency>
 
 			<!-- Test stuff -->
@@ -325,10 +359,10 @@
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 
-     <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-api</artifactId>
-     </dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
 
 		<!-- Test stuff -->
 		<dependency>

@@ -1,4 +1,4 @@
-CREATE TABLE greeting_description (
+CREATE TABLE IF NOT EXISTS greeting_description (
     id        INTEGER       NOT NULL,
     adjective VARCHAR2(255) NOT NULL,
 

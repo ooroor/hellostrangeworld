@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>net.barakiroth.hellostrangeworld</groupId>
 		<artifactId>hellostrangeworld</artifactId>
-		<version>0.3.6</version>
+		<version>0.3.7</version>
 	</parent>
 
 	<dependencies>
@@ -144,25 +144,35 @@
 			<artifactId>commons-logging</artifactId>
 		</dependency>
 
-    <dependency>
-        <groupId>io.prometheus</groupId>
-        <artifactId>simpleclient</artifactId>
-    </dependency>
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient</artifactId>
+		</dependency>
 
-    <dependency>
-        <groupId>io.prometheus</groupId>
-        <artifactId>simpleclient_hotspot</artifactId>
-    </dependency>
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_hotspot</artifactId>
+		</dependency>
 
-    <dependency>
-        <groupId>io.prometheus</groupId>
-        <artifactId>simpleclient_servlet</artifactId>
-    </dependency>
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_servlet</artifactId>
+		</dependency>
 
-    <dependency>
-        <groupId>io.prometheus</groupId>
-        <artifactId>simpleclient_logback</artifactId>
-    </dependency>
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_logback</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-jersey2-jaxrs</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>swagger-ui</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.fusesource.jansi</groupId>
@@ -203,6 +213,21 @@
 			<artifactId>HikariCP</artifactId>
 		</dependency>
 		<!-- END Database stuff -->
+
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-retry</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-circuitbreaker</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-timelimiter</artifactId>
+		</dependency>
 
 	</dependencies>
 

@@ -42,7 +42,7 @@
 | Jetty            |   N/A    |  NOT YET |           X |                                    Servlet container |
 | Json deserialize | NOT YET  |        X |         N/A |                       Rest communication data format |
 | Json serialize   |   N/A    |      N/A |           X |                       Rest communication data format |
-| Junit/Jupiter    |    X     |     X    |      X      |                                         Junit tests. |
+| Junit/Jupiter    |    X     |     X    |      X      |                                         Unit tests |
 | Logback          |    X     |        X |           X |                                                      |
 | Lombok           |   N/A?   |  NOT YET |           X |          Getters, setters and other boilerplate code |
 | NCSS             | Incompat | Incompat |    Incompat |                            Code complexity reporting |
@@ -51,23 +51,23 @@
 | PiTest           |    X     |        X |           X |                                       Mutation tests |
 | Prometheus       |   N/A    |  NOT YET |     X |                            Runtime metrics reporting |
 | QueryDSL         |   N/A    |      N/A |           X |                        Thin fluency layer above JDBC |
-| Resilience4J     |   N/A    |  NOT YET |         N/A |               Resilience guard of downstream calls |
-| Rest client      | NOT YET  |        X |         N/A |                                         Resource API |
-| Rest server      |   N/A    |  NOT YET |           X |                                         Resource API |
+| Resilience4J     |   N/A    |  NOT YET |         X |               Resilience guard of downstream calls |
+| Rest client      | NOT YET  |        X |         N/A |                           |
+| Rest server      |   N/A    |  NOT YET |           X |                          Resource API, REST endpoint |
 | Separate project | NOT YET  |  NOT YET |     NOT YET | Split parent and children modules for independencies |
-| Swagger          |   N/A    |  NOT YET |     NOT YET |                               Rest API documentation |
+| Swagger          |   N/A    |  NOT YET |   X |                               Rest API documentation |
 | Vavr          |   N/A    |  NOT YET |     X | Functional programming collection library ++(e.g. tuples) |
 | Web components   | NOT YET  |      N/A |         N/A | Frontend browser technology. Alternative to Elm. Could probably also exist side-by-side with Elm. |
 
 #### Detail TODO-s:
+- Let backend call far backend using HTTP
+- Increase coverage
 - Remove overlapping classes when building fat jars
 - Liveness and readiness
 - Compile all reports to the site directory
-- Tidy up all that report/site mess, please...
+- Tidy up all that report/site mess
 - Remember to add Prometheus to the datasource as well
 - Skip plugin/dependency management in favour of letting mama become a properties bom (bill of materials). Only use management when required to solve transitive dependencies problems.
-- Let backend call farbackend using HTTP
-- Logback/Prometheus
 ### Future plans and ambitions
 1. REST with JSON  and HTTP verb calls from frontend to backend
 0. Web components with Javascript or Elm. Continuously assessing
@@ -78,6 +78,16 @@
 - AOP, not even for transaction boundaries
 
 ### Useful commands
+- Run a complete build
+
+``` 
+CLS&mvn clean install org.pitest:pitest-maven:mutationCoverage
+```
+- Run a complete build of the far backend when flyway clean has been run or it has never before been built
+
+``` 
+CLS&cd hellostrangeworld-farbackend&mvn clean flyway:migrate install&cd..
+```
 - Run the pitests:
 
 ```
@@ -88,13 +98,7 @@ mvn org.pitest:pitest-maven:mutationCoverage
 ```
 CLS&mvn -P mutation-tests clean install
 ```
-- Run a complete build
-
-``` 
-mvn clean install org.pitest:pitest-maven:mutationCoverage
-```
 - Make a build site (run from the sub roots)
-
 
 ```
 mvn site
@@ -124,7 +128,7 @@ CLS&java -ea -cp hellostrangeworld-farbackend/target/* net.barakiroth.hellostran
 ```
 http://localhost:8089/api/GreetingDescription
 ```
-and
+or
 
 ```
 http://localhost:8089/internal/metrics/
@@ -152,10 +156,11 @@ CLS&mvn clean install checkstyle:check site -P checkstyle -Dcheckstyle.config.lo
 - If hung-up on some FlyWay migration (first change current directory to farbackend):
 
 ```
-CLS&mvn flyway:clean
+CLS&cd hellostrangeworld-farbackend&mvn flyway:clean&mvn flyway:migrate&cd..
 ```
 ### Useful refs: 
-
+#### Flyway
+[Documentation](https://flywaydb.org/documentation/)
 #### Git
 [Ecipse/Git: EGit/User Guide](https://wiki.eclipse.org/EGit/User_Guide#The_Preferences_Dialog)</BR>
 #### Java 11
@@ -171,11 +176,14 @@ CLS&mvn flyway:clean
 [My PITEST won't run. Coverage generation minion exited abnormally. I need help to configure my pom.xml properly](https://stackoverflow.com/questions/55680025/my-pitest-wont-run-coverage-generation-minion-exited-abnormally-i-need-help-t/55680225#55680225)</BR>
 #### RDBMS
 [Most fundamental use of H2](https://github.com/h2database/h2database/blob/master/h2/src/test/org/h2/samples/HelloWorld.java)</BR>
+#### Resilience4J
+[Guide to Resilience4j](https://www.baeldung.com/resilience4j)</BR>
+[Fault tolerance library designed for functional programming](https://github.com/resilience4j/resilience4j#introduction)</BR>
+
 #### Testing
 [JUnit 5 Tutorial: Writing Assertions With Hamcrest](https://www.petrikainulainen.net/programming/testing/junit-5-tutorial-writing-assertions-with-hamcrest/)</BR>
 [JUnit test for System.out.println()
 ](https://stackoverflow.com/questions/1119385/junit-test-for-system-out-println)</BR>
-
 <!---
 [comment]: <> "This is a comment, it will not be included"
 [//]: # (
