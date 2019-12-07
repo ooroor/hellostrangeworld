@@ -6,7 +6,6 @@ import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.timelimiter.TimeLimiter;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
-import io.vavr.concurrent.Future;
 import io.vavr.control.Try;
 import java.util.Optional;
 import java.util.Random;
@@ -52,7 +51,7 @@ public class Repository {
     
     final Database database = this.config.getDatabase();
     final int id = new Random(System.currentTimeMillis()).nextInt(3) + 1;
-    final Supplier<Optional<GreetingDescription>> selectRow =
+    final Supplier<Optional<GreetingDescription>> selectGreetingDescriptionSupplier =
         new Supplier<>() {
           private final Database        databaseParm        = database;
           private final SQLQueryFactory sqlQueryFactoryParm = databaseParm.getSqlQueryFactory();
@@ -93,7 +92,7 @@ public class Repository {
     final TimeLimiter timeLimiter =
         TimeLimiter.of("backendName", TimeLimiterConfig.ofDefaults());
     final CompletableFuture<Optional<GreetingDescription>> completableFuture =
-        CompletableFuture.supplyAsync(selectRow);
+        CompletableFuture.supplyAsync(selectGreetingDescriptionSupplier);
     final Callable<Optional<GreetingDescription>> selectRowWithTimeLimiter =
         TimeLimiter.decorateFutureSupplier(timeLimiter, () -> completableFuture);
     
