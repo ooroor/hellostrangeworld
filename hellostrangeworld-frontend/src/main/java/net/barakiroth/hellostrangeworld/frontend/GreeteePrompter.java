@@ -5,7 +5,7 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UserPrompter {
+public class GreeteePrompter {
   
   private static final Logger enteringMethodHeaderLogger =
       LoggerFactory.getLogger("EnteringMethodHeader");
@@ -16,7 +16,7 @@ public class UserPrompter {
    * Print a prompt and retrieve the user's greetings object.
    * @return the greetings object.
    */
-  public String askWhomTheUserWantsToGreet() {
+  public String getGreetee() {
       
     enteringMethodHeaderLogger.debug(null);
       

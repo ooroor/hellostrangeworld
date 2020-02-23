@@ -1,8 +1,8 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
-import net.barakiroth.hellostrangeworld.farbackend.Config;
+import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class JettyManagerTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final Config config = Config.getSingletonInstance();
+    final FarBackendConfig config = FarBackendConfig.getSingletonInstance();
     final JettyManager jettyManager = config.getJettyManager();
     Thread thread = null;
     try {
@@ -29,7 +29,7 @@ public class JettyManagerTest {
         new Thread(
             new Runnable() {
               public void run() {
-                assertDoesNotThrow(
+                assertThatCode(
                     () -> {
                     jettyManager.start();
                     while (!jettyManager.isStarted()) {
@@ -41,7 +41,8 @@ public class JettyManagerTest {
                       }
                     }
                   }
-                );
+                )
+                .doesNotThrowAnyException();;
               }
             }
         );

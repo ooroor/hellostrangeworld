@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 
 public class FlywayMigrator {
   
-  private static final Logger log =
-      LoggerFactory.getLogger(FlywayMigrator.class);
   private static final Logger enteringMethodHeaderLogger =
       LoggerFactory.getLogger("EnteringMethodHeader");
   private static final Logger leavingMethodHeaderLogger =

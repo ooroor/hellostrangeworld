@@ -20,14 +20,14 @@ public class Main {
 
     enteringMethodHeaderLogger.debug(null);
 
-    final Config config = Config.getSingletonInstance();
-    final Main   main   = new Main();
+    final IFarBackendConfig config = FarBackendConfig.getSingletonInstance();
+    final Main              main   = new Main();
     main.run(config);
 
     leavingMethodHeaderLogger.debug(null);
   }
 
-  private void run(final Config config) {
+  private void run(final IFarBackendConfig config) {
     
     enteringMethodHeaderLogger.debug(null);
     

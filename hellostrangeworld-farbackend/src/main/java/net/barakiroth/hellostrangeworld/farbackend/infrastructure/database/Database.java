@@ -8,16 +8,15 @@ import com.querydsl.sql.PostgreSQLTemplates;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.SQLTemplates;
 import com.zaxxer.hikari.HikariDataSource;
-import io.vavr.Tuple3;
+import io.vavr.Tuple2;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import javax.sql.DataSource;
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.barakiroth.hellostrangeworld.farbackend.Config;
+import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QGreetingDescription;
-import net.barakiroth.hellostrangeworld.farbackend.util.ExceptionSoftener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,8 +51,8 @@ public class Database {
       QGreetingDescription.greetingDescription;
   
   private final DatabaseConfig     databaseConfig;
-  private       DataSource         dataSource         = null;
   private       TransactionManager transactionManager = null;
+  private       boolean            isStarted          = false;
   @Getter(AccessLevel.PUBLIC)
   private       SQLQueryFactory    sqlQueryFactory    = null;
   
@@ -61,12 +60,13 @@ public class Database {
    * Create an instance and set its relevant configuration.
    * @param config Relevant configuration.
    */
-  public Database(final Config config) {
+  public Database(final FarBackendConfig config) {
     
     enteringMethodHeaderLogger.debug(null);
     
-    final DatabaseConfig databaseConfig = config.getDatabaseConfig();
-    this.databaseConfig = databaseConfig;
+    // TODO: validateNotNull(config);
+    
+    this.databaseConfig = config.getDatabaseConfig();
     
     leavingMethodHeaderLogger.debug(null);
   }
@@ -75,18 +75,19 @@ public class Database {
    * Must be run before the class instance may be used.
    * Establishes and configures connection(s) and datasource(s)
    */
-  public void start() {
+  public Database start() {
     
     enteringMethodHeaderLogger.debug(null);
     
-    final Tuple3<DataSource, SQLQueryFactory, TransactionManager> configResult =
-        configure();
+    final Tuple2<SQLQueryFactory, TransactionManager> configResult = configure();
     
-    this.dataSource = configResult._1();
-    this.sqlQueryFactory = configResult._2();
-    this.transactionManager = configResult._3();
+    this.sqlQueryFactory = configResult._1();
+    this.transactionManager = configResult._2();
+    this.isStarted = true;
     
     leavingMethodHeaderLogger.debug(null);
+    
+     return this;
   }
 
   /**
@@ -97,29 +98,27 @@ public class Database {
    * {@link this#start()} has been carried out.
    */
   public boolean isStarted() {
-    return 
-           (this.databaseConfig     != null)
-        && (this.dataSource         != null)
-        && (this.transactionManager != null)
-        && (this.sqlQueryFactory       != null);
+    return this.isStarted;
   }
 
   /**
    * Cleans up after use.
    */
-  public void stop() {
+  public Database stop() {
 
     enteringMethodHeaderLogger.debug(null);
       
     if (isStarted()) {
-      this.dataSource         = null;
       this.transactionManager = null;
-      this.sqlQueryFactory       = null;
+      this.sqlQueryFactory    = null;
+      this.isStarted          = false;
     } else {
       log.warn("Asked to stop when not connected dataSource == null etc.");
     }
 
     leavingMethodHeaderLogger.debug(null);
+    
+    return this;
   }
 
   /**
@@ -145,7 +144,7 @@ public class Database {
     return theThing;
   }
   
-  private final Tuple3<DataSource, SQLQueryFactory, TransactionManager> configure() {
+  private final Tuple2<SQLQueryFactory, TransactionManager> configure() {
 
     enteringMethodHeaderLogger.debug(null);
     
@@ -162,8 +161,7 @@ public class Database {
             .getMetaData()
             .getDatabaseProductName();
       } catch (SQLException e) {
-        ExceptionSoftener.uncheck(e);
-        dbBrandFromConnectionTemp = null;
+        throw new RuntimeException(e);
       }    
       dbBrandFromConnection = dbBrandFromConnectionTemp;
       log.debug("DATABASE IS \"{}\"", dbBrandFromConnection);
@@ -186,9 +184,9 @@ public class Database {
     final TransactionManager transactionManager =
         new TransactionManager(transactionalConnectionProvider);
     
-    final Tuple3<DataSource, SQLQueryFactory, TransactionManager> configResult =
-        new Tuple3<DataSource, SQLQueryFactory, TransactionManager>(
-            dataSource, sqlQueryFactory, transactionManager
+    final Tuple2<SQLQueryFactory, TransactionManager> configResult =
+        new Tuple2<SQLQueryFactory, TransactionManager>(
+            sqlQueryFactory, transactionManager
         );
     
     leavingMethodHeaderLogger.debug(null);
@@ -227,51 +225,30 @@ public class Database {
   }
   
   private String getUser() {
-    
-    assert (this.databaseConfig != null);
-    
     return this.databaseConfig.getUser();
   }
   
   private String getPwd() {
-    
-    assert (this.databaseConfig != null);
-    
     return this.databaseConfig.getPwd();
   }
   
-  private String getUrl() { 
-    
-    assert (this.databaseConfig != null);
-    
+  private String getUrl() {
     return this.databaseConfig.getUrl();
   }
   
   private int getConnectionTimeout() {
-    
-    assert (this.databaseConfig != null);
-    
     return this.databaseConfig.getConnectionTimeout();
   }
   
   private int getMaxLifetime() {
-    
-    assert (this.databaseConfig != null);
-    
     return this.databaseConfig.getMaxLifetime();
   }
   
   private int getLeakDetectionThreshold() {
-    
-    assert (this.databaseConfig != null);
-    
     return this.databaseConfig.getLeakDetectionThreshold();
   }
   
   private int getMaximumPoolSize() {
-    
-    assert (this.databaseConfig != null);
-    
     return this.databaseConfig.getMaximumPoolSize();
   }
 }

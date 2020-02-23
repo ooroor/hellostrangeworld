@@ -4,7 +4,7 @@ public class DatabaseException  extends RuntimeException {
 
   private static final long serialVersionUID = 6369605649919724472L;
 
-  DatabaseException(Exception cause) {
+  DatabaseException(final Throwable cause) {
     super(cause);
   }
 }

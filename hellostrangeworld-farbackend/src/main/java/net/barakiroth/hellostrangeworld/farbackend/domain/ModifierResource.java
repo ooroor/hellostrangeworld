@@ -17,7 +17,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import net.barakiroth.hellostrangeworld.farbackend.Config;
+import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.prometheus.PrometheusConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,22 +35,22 @@ import org.slf4j.LoggerFactory;
       contact = @Contact(name = "John Doe")
     )
 )
-public class GreetingDescriptionResource {
+public class ModifierResource {
 
   private static final Logger log =
-      LoggerFactory.getLogger(GreetingDescriptionResource.class);
+      LoggerFactory.getLogger(ModifierResource.class);
   private static final Logger enteringMethodHeaderLogger =
       LoggerFactory.getLogger("EnteringMethodHeader");
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
   
-  private final Config config;
+  private final FarBackendConfig config;
   
-  public GreetingDescriptionResource() {
-    this(Config.getSingletonInstance());
+  public ModifierResource() {
+    this(FarBackendConfig.getSingletonInstance());
   }
   
-  public GreetingDescriptionResource(final Config config) {
+  public ModifierResource(final FarBackendConfig config) {
     this.config = config;
   }
 
@@ -60,11 +60,11 @@ public class GreetingDescriptionResource {
    * @return the adjective to be used in the greeting.
    */
   @GET
-  @Path("/GreetingDescription")
+  @Path("/Modifier")
   @Produces({MediaType.APPLICATION_JSON})
   @ApiOperation(
-      value    = "Henter en random greeting description",
-      response = GreetingDescription.class
+      value    = "Henter en random modifier",
+      response = ModifierDo.class
   )
   @ApiImplicitParams(
       {
@@ -81,7 +81,7 @@ public class GreetingDescriptionResource {
         @ApiResponse(code = 500, message = "Server error")
       }
   )
-  public String getGreetingDescription() {
+  public String getModifier() {
     
     enteringMethodHeaderLogger.debug(null);
     
@@ -89,18 +89,18 @@ public class GreetingDescriptionResource {
     final Gauge.Timer getGreetingDescriptionDurationGaugeTimer =
             prometheusConfig.getGetGreetingDescriptionDurationGauge().startTimer();
 
-    final Optional<GreetingDescription> optionalGreetingDescription =
-        this.config.getRepository().getGreetingDescription();
+    final Optional<ModifierDo> optionalGreetingDescription =
+        this.config.getRepository().getModifierDo();
     
     final ObjectMapper objectMapper = new ObjectMapper();
 
-    String greetingDescriptionAsJson = null;
+    String modifierAsJson = null;
     try {
-      greetingDescriptionAsJson =
+      modifierAsJson =
           objectMapper
             .writeValueAsString(
                 optionalGreetingDescription
-                  .orElse(new GreetingDescription(-1, ""))
+                  .orElse(new ModifierDo(-1, ""))
             );
       prometheusConfig.getLastGetGreetingDescriptionSuccessGauge().setToCurrentTime();
     } catch (JsonProcessingException e) {
@@ -110,10 +110,10 @@ public class GreetingDescriptionResource {
       getGreetingDescriptionDurationGaugeTimer.setDuration();
     }
     
-    log.debug("About to respond:\n\n{}", greetingDescriptionAsJson);
+    log.debug("About to respond:\n\n{}", modifierAsJson);
     
     leavingMethodHeaderLogger.debug(null);;
     
-    return greetingDescriptionAsJson;
+    return modifierAsJson;
   }
 }

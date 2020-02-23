@@ -1,6 +1,6 @@
 package net.barakiroth.hellostrangeworld.farbackend;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -22,11 +22,13 @@ public class MainTest {
         new Thread(
             new Runnable() {
               public void run() {
-                assertDoesNotThrow(() -> Main.main(null));
+                assertThatCode(() -> Main.main(null)).doesNotThrowAnyException();
               }
             }
         );
       thread.start();
+      Thread.sleep(400);
+      thread.join();
     } finally {
       thread.stop();
     }

@@ -12,7 +12,7 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
-import net.barakiroth.hellostrangeworld.farbackend.Config;
+import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +29,13 @@ public class Repository {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
   
-  private final Config config;
+  private final FarBackendConfig config;
   
   /**
    * Create an instance and set its relevant configuration.
    * @param config Relevant configuration.
    */
-  public Repository(final Config config) {
+  public Repository(final FarBackendConfig config) {
     this.config = config;
   }
 
@@ -45,21 +45,21 @@ public class Repository {
    * 
    * @return the adjective used in the greeting.
    */
-  public Optional<GreetingDescription> getGreetingDescription() {
+  public Optional<ModifierDo> getModifierDo() {
 
     enteringMethodHeaderLogger.debug(null);
     
     final Database database = this.config.getDatabase();
     final int id = new Random(System.currentTimeMillis()).nextInt(3) + 1;
-    final Supplier<Optional<GreetingDescription>> selectGreetingDescriptionSupplier =
+    final Supplier<Optional<ModifierDo>> selectGreetingDescriptionSupplier =
         new Supplier<>() {
           private final Database        databaseParm        = database;
           private final SQLQueryFactory sqlQueryFactoryParm = databaseParm.getSqlQueryFactory();
-          private final int             idParm              = id;          
-          
+          private final int             idParm              = id;
+
           @Override
-          public Optional<GreetingDescription> get() {
-            
+          public Optional<ModifierDo> get() {
+
             final Tuple greetingDescriptionDatabaseRow =
                 databaseParm
                   .doInTransaction(
@@ -70,13 +70,13 @@ public class Repository {
                         .where(Database.greetingDescriptionTable.id.eq(idParm))
                         .fetchOne());
             
-            final Optional<GreetingDescription> optionalGreetingDescription =
+            final Optional<ModifierDo> optionalGreetingDescription =
                 Optional.ofNullable(
                   (greetingDescriptionDatabaseRow == null)
                   ?
                   null
                   :
-                  new GreetingDescription(
+                  new ModifierDo(
                       greetingDescriptionDatabaseRow
                         .get(Database.greetingDescriptionTable.id),
                       greetingDescriptionDatabaseRow
@@ -91,9 +91,9 @@ public class Repository {
     // Resilience: Add timeout:
     final TimeLimiter timeLimiter =
         TimeLimiter.of("selectGreetingDescription", TimeLimiterConfig.ofDefaults());
-    final CompletableFuture<Optional<GreetingDescription>> completableFuture =
+    final CompletableFuture<Optional<ModifierDo>> completableFuture =
         CompletableFuture.supplyAsync(selectGreetingDescriptionSupplier);
-    final Callable<Optional<GreetingDescription>> selectGreetingDescriptionWithTimeLimiterCallable =
+    final Callable<Optional<ModifierDo>> selectGreetingDescriptionWithTimeLimiterCallable =
         TimeLimiter
           .decorateFutureSupplier(
               timeLimiter, 
@@ -103,7 +103,7 @@ public class Repository {
     // Resilience: Add circuit breaker:
     final CircuitBreaker circuitBreaker =
         CircuitBreaker.ofDefaults("selectGreetingDescription");
-    final Callable<Optional<GreetingDescription>>
+    final Callable<Optional<ModifierDo>>
         selectGreetingDescriptionWithTimeLimiterAndCircuitBreakerCallable =
             CircuitBreaker
               .decorateCallable(
@@ -114,7 +114,7 @@ public class Repository {
     // Resilience: Add retry:
     final Retry retry =
         Retry.ofDefaults("selectGreetingDescription");
-    final Callable<Optional<GreetingDescription>> 
+    final Callable<Optional<ModifierDo>> 
         selectGreetingDescriptionWithTimeLimiterAndCircuitBreakerAndRetryCallable =
           Retry
             .decorateCallable(
@@ -123,7 +123,7 @@ public class Repository {
             );
 
     // Resilience: Do the actual call to the database:
-    final Optional<GreetingDescription> optionalGreetingDescription =
+    final Optional<ModifierDo> optionalGreetingDescription =
         Try
           .ofCallable(selectGreetingDescriptionWithTimeLimiterAndCircuitBreakerAndRetryCallable)
           .recover(

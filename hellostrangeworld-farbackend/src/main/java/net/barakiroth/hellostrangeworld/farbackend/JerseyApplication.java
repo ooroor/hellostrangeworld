@@ -1,12 +1,12 @@
 package net.barakiroth.hellostrangeworld.farbackend;
 
+import net.barakiroth.hellostrangeworld.farbackend.domain.ModifierResource;
 import org.glassfish.jersey.server.ResourceConfig;
-import net.barakiroth.hellostrangeworld.farbackend.domain.GreetingDescriptionResource;
 
 @SuppressWarnings("WeakerAccess") //Påkrevd public
 public class JerseyApplication extends ResourceConfig {
   
-  private final Config config;
+  private final FarBackendConfig config;
   
   /**
    * Used by the Jetty servlet container to configure
@@ -14,12 +14,12 @@ public class JerseyApplication extends ResourceConfig {
    */
   public JerseyApplication() {
     
-    final Config config = Config.getSingletonInstance();
+    final FarBackendConfig config = FarBackendConfig.getSingletonInstance();
     registerGreetingDescriptionApiResources(config);
     this.config = config;
   }
   
-  private void registerGreetingDescriptionApiResources(final Config config) {
-    register(new GreetingDescriptionResource(config));
+  private void registerGreetingDescriptionApiResources(final FarBackendConfig config) {
+    register(new ModifierResource(config));
   }
 }

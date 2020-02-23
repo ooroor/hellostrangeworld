@@ -1,4 +1,4 @@
-package net.barakiroth.hellostrangeworld.farbackend.domain;
+package net.barakiroth.hellostrangeworld.backend.domain;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class GreetingDescription {
+public class InitialPartDo {
   @Getter(AccessLevel.PUBLIC)
-  public int    id;
-  @Getter(AccessLevel.PUBLIC)
-  public String adjective;
+  public String initialPart;
 }

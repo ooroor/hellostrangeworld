@@ -12,6 +12,6 @@ public class UnknownDatabaseBrandException extends RuntimeException {
   
   @Override
   public String getMessage() {
-    return "Database unknownb: " +  this.dbBrand;
+    return super.getMessage() + ". Database unknown: " +  this.dbBrand;
   }
 }

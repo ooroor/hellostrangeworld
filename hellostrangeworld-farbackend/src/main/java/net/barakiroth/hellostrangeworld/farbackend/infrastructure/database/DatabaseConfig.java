@@ -1,6 +1,6 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.database;
 
-import net.barakiroth.hellostrangeworld.farbackend.Config;
+import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 
 public class DatabaseConfig {
   
@@ -20,15 +20,13 @@ public class DatabaseConfig {
   private static final String DB_URL_DEFAULT                      = 
       "jdbc:h2:mem:hellostrangeworld;DB_CLOSE_DELAY=-1";
 
-  private final Config config;
+  private final FarBackendConfig config;
 
-  public DatabaseConfig(final Config config) {
+  public DatabaseConfig(final FarBackendConfig config) {
     this.config = config;
   }
   
   String getUrl() {
-    
-    assert (this.config != null);
     
     final String url = this.config.getString(DB_URL_KEY, DB_URL_DEFAULT);
 
@@ -37,16 +35,12 @@ public class DatabaseConfig {
   
   String getUser() {
     
-    assert (this.config != null);
-    
     final String user = this.config.getString(DB_USER_KEY, DB_USER_DEFAULT);
     
     return user;
   }
   
   String getPwd() {
-    
-    assert (this.config != null);
     
     final String pwd = this.config.getString(DB_PWD_KEY, DB_PWD_DEFAULT);
     
@@ -55,9 +49,7 @@ public class DatabaseConfig {
   
   int getConnectionTimeout() {
     
-    assert (this.config != null);
-    
-    int connectionTimeout = this.config.getInteger(
+    int connectionTimeout = this.config.getInt(
           DB_CONNECTION_TIMEOUT_KEY, 
           DB_CONNECTION_TIMEOUT_DEFAULT);
     
@@ -66,10 +58,8 @@ public class DatabaseConfig {
   
   int getMaxLifetime() {
     
-    assert (this.config != null);
-    
     final int maxLifetime =
-        this.config.getInteger(
+        this.config.getInt(
           DB_MAX_LIFETIME_KEY, 
           DB_MAX_LIFETIME_DEFAULT);
     return maxLifetime;
@@ -77,10 +67,8 @@ public class DatabaseConfig {
 
   int getLeakDetectionThreshold() {
     
-    assert (this.config != null);
-    
     final int leakDetectionThreshold =
-        this.config.getInteger(
+        this.config.getInt(
           DB_LEAK_DETECTION_THRESHOLD_KEY, 
           DB_LEAK_DETECTION_THRESHOLD_DEFAULT);
     return leakDetectionThreshold;
@@ -88,10 +76,8 @@ public class DatabaseConfig {
   
   int getMaximumPoolSize() {
     
-    assert (this.config != null);
-    
     final int maximumPoolSize =
-        this.config.getInteger(
+        this.config.getInt(
           DB_MAXIMUM_POOLSIZE_KEY, 
           DB_MAXIMUM_POOLSIZE_DEFAULT);
     return maximumPoolSize;

@@ -1,10 +1,22 @@
-# Three layers template hello world like Java application, back end and downstreams microservices with a banal/trivial business logic.
+# Three layers template hello world like Java application, back end and downstream microservices with a banal/trivial business logic.
 
 ### Business Logic
-1. Frontend asks user whom too greet, e.g. "world"
-0. Backend is asked for verb to be used in the greeting, e.g. "Hello"
-0. A downstream microservice is asked for the adjective to colour the greeting, e.g. "strange"
-0. The resulting greeting is presented for the user, e.g. "Hello strange world"
+1. The frontend asks the user whom too greet, and the user answers e.g. ```"world"```.
+0. The frontend does a HTTP call to the backend microservice asking for a verb and an adjective to be used in the greeting, e.g. ```"Hello strange"```.
+0. The backend does a downstream HTTP call to the far backend microservice asking for an adjective with which to colour the greeting, e.g. ```"strange"```.
+0. The frontend presents to the user the resulting greeting , e.g. ```"Hello strange world"```.
+
+### Terms
+| Term             |Description| Example |
+| :--------------- | :----- | :----- |
+|```Greeting``` | |"Hello, strange world!" or "Goodnight, somewhat sleepy dog!"|
+|```Initial part``` | |"Hello, strange" or "Goodbye, very dark"|
+|```Interjection``` | |"Hello" or "Hi"|
+|```Modifier``` | |"strange" or "immensely weird"|
+|```Greetee``` | |"world" or "human being"|
+|```Frontend``` |Prompts the user for the greetee, calls downstream to get the rest of the greeting and presents the result| |
+|```Backend``` |Calls downstream to the far backend to get the modifier and concatenates it to produce the initial part of the greeting| |
+|```Far backend``` |Queries an RDBMS to get a random modifier| |
 
 ### Environment
 - Windows 10
@@ -22,60 +34,83 @@
 
 ### Tools and technologies used so far
 - Maven/surefire/site reporting
-- Three layers: Frontend, immediate backend and downstreams far backend
+- Three layers: Frontend, immediate backend and downstream far backend
 
 #### Summary over technologies/designs so far
 
 |                  | Frontend |  Backend | Far backend |                                                 Note |
 | :--------------- | :------: | :------: | :---------: | :--------------------------------------------------- |
+| AssertJ | X | X | X | Fluent test layer above Jupiter |
 | Checkstyle       |    X     |        X |           X |                                     Code layout tool |
-| Conf2            |   N/A?   |  NOT YET |           X |                  Easy configuration, properties etc. |
-| DoInTransaction  |   N/A    |      N/A |     X |                         Database transaction support |
-| Elm | ? | ? | ? | Functional programming GUI programming tool. Alternative to Web Components. Could probably also exist side-by-side with Web Components. |
-| FlyWay  |   N/A    |     NOT YET   |      X       |                         Database creation and migration |
-| Hamcrest         |    X     |        X |           X |                                            For tests |
+| Conf2            |   X   |  X |           X |                  Easy configuration, properties etc. |
+| doInTransaction |   N/A    |      N/A |     X |                   Database transaction pattern |
+| Elm | ? | N/A | N/A | Functional programming GUI programming tool. Alternative to Web Components. Could probably also exist side-by-side with Web Components. |
+| FlyWay  |   N/A    |  N/A   |      X       |                         Database creation and migration |
 | H2               |   N/A    |      N/A |           X |                                   In-memory database |
 | JaCoCo           |    X     |        X |           X |                                        Code coverage |
 | Java 9+ modules  |   N/A?   |  NOT YET |     NOT YET |                                                      |
 | JDBC             |   N/A    |      N/A |     No      |                                                      |
-| Jersey           |   N/A    |  NOT YET |           X |                                                      |
-| Jetty            |   N/A    |  NOT YET |           X |                                    Servlet container |
-| Json deserialize | NOT YET  |        X |         N/A |                       Rest communication data format |
+| Jersey           |   N/A    |  X |           X |                                                      |
+| Jetty            |   N/A    |  X |           X |                                    Servlet container |
+| Json deserialize | X |        X |  In test |                       Rest communication data format |
 | Json serialize   |   N/A    |      N/A |           X |                       Rest communication data format |
 | Junit/Jupiter    |    X     |     X    |      X      |                                         Unit tests |
 | Logback          |    X     |        X |           X |                                                      |
-| Lombok           |   N/A?   |  NOT YET |           X |          Getters, setters and other boilerplate code |
-| NCSS             | Incompat | Incompat |    Incompat |                            Code complexity reporting |
+| Lombok           |   X   |  X |           X |          Getters, setters and other boilerplate code |
+| NCSS             | Incompat. | Incompat. |   Incompat. |                            Code complexity reporting |
 | OWASP            |    X     |        X |           X |             Library security vulnerability reporting |
 | PACT             | NOT YET |  NOT YET |     NOT YET | REST server contract testing |
 | PiTest           |    X     |        X |           X |                                       Mutation tests |
-| Prometheus       |   N/A    |  NOT YET |     X |                            Runtime metrics reporting |
+| Prometheus       |   N/A    | X |     X |                            Runtime metrics reporting |
 | QueryDSL         |   N/A    |      N/A |           X |                        Thin fluency layer above JDBC |
 | Resilience4J     |   N/A    |  NOT YET |         X |               Resilience guard of downstream calls |
-| Rest client      | NOT YET  |        X |         N/A |                           |
+| RestAssured | N/A | NOT YET | NOT YET | For testing an application's REST endpoint(s) |
+| Rest client      | NOT YET  |        X | In test |                           |
 | Rest server      |   N/A    |  NOT YET |           X |                          Resource API, REST endpoint |
-| Separate project | NOT YET  |  NOT YET |     NOT YET | Split parent and children modules for independencies |
+| Independent project | NOT YET  |  NOT YET |     X | Split parent and children modules for independencies |
 | Swagger          |   N/A    |  NOT YET |   X |                               Rest API documentation |
-| Vavr          |   N/A    |  NOT YET |     X | Functional programming collection library ++(e.g. tuples) |
+| Vavr          |   N/A    |  NOT YET |     X | Functional programming collection library etc. (e.g. tuples) |
+| WireMock | X | X | N/A | Stubs an endpoint being called by some method |
 | Web components   | NOT YET  |      N/A |         N/A | Frontend browser technology. Alternative to Elm. Could probably also exist side-by-side with Elm. |
 
 #### Detail TODO-s:
-- Let backend call far backend using HTTP
-- Increase coverage
+- Increase coverage in far backend
+- Increase coverage in backend
+- Increase coverage in frontend
 - Remove overlapping classes when building fat jars
 - Liveness and readiness
 - Compile all reports to the site directory
 - Tidy up all that report/site mess
-- Remember to add Prometheus to the datasource as well
+- Remember to add Prometheus to the data source as well
 - Skip plugin/dependency management in favour of letting mama become a properties bom (bill of materials). Only use management when required to solve transitive dependencies problems.
+- Config injection
+- Consistent naming
+- Remove exception rethrows
+- Tidy up the poms
+- Move more common stuff to the common library
 ### Future plans and ambitions
-1. REST with JSON  and HTTP verb calls from frontend to backend
-0. Web components with Javascript or Elm. Continuously assessing
+- ?
 
 ### Technologies that will NOT be used
 - Spring
 - Hibernate and/or JPA or other ORM technologies of very high complexity
 - AOP, not even for transaction boundaries
+
+### Run the far backend
+- Start the servlet container running the far backend application: ```java -jar hellostrangeworld\hellostrangeworld-farbackend\target\hellostrangeworld-farbackend.jar```
+- In the browser, access: ```http://localhost:8099/api/Modifier```
+- Refresh the browser to get different database entries
+
+### Run the backend
+- Run the far backend as described above
+- Start the servlet container running the backend application: ```java -jar hellostrangeworld-backend\target\hellostrangeworld-backend.jar```
+- In the browser, access: ```http://localhost:8089/api/InitialPart```
+- Refresh the browser to get different database entries
+
+### Run the frontend
+- Run the far backend as described above
+- Run the backend as described above
+- Run the frontend: ```java -jar hellostrangeworld\hellostrangeworld-frontend\target\hellostrangeworld-frontend.jar```
 
 ### Useful commands
 - Run a complete build
@@ -88,12 +123,12 @@ CLS&mvn clean install org.pitest:pitest-maven:mutationCoverage
 ``` 
 CLS&cd hellostrangeworld-farbackend&mvn clean flyway:migrate install&cd..
 ```
-- Run the pitests:
+- Run the pi tests:
 
 ```
 mvn org.pitest:pitest-maven:mutationCoverage
 ```
-- Run pitests on all the applications (Reports: **/target/pit-reports/YYYYMMDDHHmm/index.htmla
+- Run pi tests on all the applications (Reports: **/target/pit-reports/YYYYMMDDHHmm/index.html)
 
 ```
 CLS&mvn -P mutation-tests clean install
@@ -103,35 +138,24 @@ CLS&mvn -P mutation-tests clean install
 ```
 mvn site
 ```
-- Run the application from the command line
+- Build the application without tests
 
 ```
-CLS&java -jar hellostrangeworld-backend/target/hellostrangeworld-backend-0.3.6.jar
+CLS&mvn clean install -v -DskipTests=true
 ```
-- Build the application without tests and then run it from the command line
-
-```
-CLS&mvn clean install -v -DskipTests=true&java -jar hellostrangeworld-backend/target/hellostrangeworld-backend-0.3.6.jar
-```
-- Update the parent versions in the children's pom.xml's
-
-```
-mvn -N versions:update-child-modules
-```
-- Run the far backend servletcontainer:
+- Run the far backend servlet container:
 
 ```
 CLS&java -ea -cp hellostrangeworld-farbackend/target/* net.barakiroth.hellostrangeworld.farbackend.Main
 ```
-- Access the resources
+- Access the metrics
 
 ```
-http://localhost:8089/api/GreetingDescription
+http://localhost:8099/internal/metrics/ 
 ```
 or
-
 ```
-http://localhost:8089/internal/metrics/
+http://localhost:8089/internal/metrics/ 
 ```
 - Find ports listened to in Windows
 
@@ -153,7 +177,7 @@ CLS&mvn -X org.owasp:dependency-check-maven:check -P owasp
 ```
 CLS&mvn clean install checkstyle:check site -P checkstyle -Dcheckstyle.config.location=google_checks.xml
 ```
-- If hung-up on some FlyWay migration (first change current directory to farbackend):
+- If hung-up on some FlyWay migration (first change current directory to far backend):
 
 ```
 CLS&cd hellostrangeworld-farbackend&mvn flyway:clean&mvn flyway:migrate&cd..

@@ -1,10 +1,11 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer;
 
 import io.prometheus.client.exporter.MetricsServlet;
-import net.barakiroth.hellostrangeworld.farbackend.Config;
+import lombok.AccessLevel;
+import lombok.Getter;
+import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.JerseyApplication;
-import net.barakiroth.hellostrangeworld.farbackend.domain.GreetingDescriptionResource;
-import net.barakiroth.hellostrangeworld.farbackend.util.ExceptionSoftener;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManager;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -21,24 +22,33 @@ public class JettyManager {
       LoggerFactory.getLogger("EnteringMethodHeader");
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
+  
+  @Getter(AccessLevel.PUBLIC)
+  private static JettyManager singletonInstance = null;
 
   private final JettyManagerConfig jettyManagerConfig;
   private final Server             jettyServer;
   
-  /**
-   * Configures and starts the Jetty servlet container .
-   * @param config The application global configuration "central".
-   */
-  public JettyManager(final Config config) {
+  private JettyManager(final IFarBackendConfig config) {
     
     enteringMethodHeaderLogger.debug(null);
     
     this.jettyManagerConfig = config.getJettyManagerConfig();
     
-    final int serverPort = getServerPort(config);
+    final int serverPort = getServerPort(this.jettyManagerConfig);
     this.jettyServer = new Server(serverPort);
     
     leavingMethodHeaderLogger.debug(null);
+  }
+  
+  public static JettyManager createSingletonInstance(final IFarBackendConfig config) {
+
+    if (JettyManager.singletonInstance != null) {
+      throw new IllegalStateException("Singleton already created");
+    }
+    JettyManager.singletonInstance = new JettyManager(config);
+
+    return JettyManager.getSingletonInstance();
   }
   
   /**
@@ -55,7 +65,7 @@ public class JettyManager {
       log.info("The Jetty server successfully started.");
     } catch (Exception e) {
       log.error("Exception received when trying to start the servlet container", e);
-      ExceptionSoftener.uncheck(e);
+      throw new RuntimeException(e);
     }
     jettyServer.dumpStdErr();
     
@@ -77,7 +87,7 @@ public class JettyManager {
       this.jettyServer.stop();
     } catch (Exception e) {
       log.error("Exception received when trying to stop the servlet container", e);
-      ExceptionSoftener.uncheck(e);
+      throw new RuntimeException(e);
     }
     
     leavingMethodHeaderLogger.debug(null);
@@ -94,7 +104,7 @@ public class JettyManager {
     registerDefaultServlet(this.jettyManagerConfig, servletContextHandler);
     
     //registerGreetingsDescriptorResourceServlet(jettyManagerConfig, servletContextHandler);
-    registerGreetingDescriptorJerseyApplication(this.jettyManagerConfig, servletContextHandler);
+    registerJerseyApplication(this.jettyManagerConfig, servletContextHandler);
     registerMetricsServlet(this.jettyManagerConfig, servletContextHandler);
     
     this.jettyServer.setHandler(servletContextHandler);
@@ -104,21 +114,21 @@ public class JettyManager {
     return this.jettyServer;
   }
 
-  void registerGreetingDescriptorJerseyApplication(
+  void registerJerseyApplication(
       final JettyManagerConfig    jettyManagerConfig, 
       final ServletContextHandler servletContextHandler) {
     
     enteringMethodHeaderLogger.debug(null);
     
-    final String greetingsDescriptorResourcePathSpec =
-          jettyManagerConfig.getGreetingsDescriptorResourcePathSpec();
+    final String resourcePathSpec =
+          jettyManagerConfig.getResourcePathSpec();
     final ServletHolder servletHolder = new ServletHolder(new ServletContainer());
     final String greetingDescriptorJerseyApplicationClassName = 
         JerseyApplication.class.getName();
     servletHolder.setInitParameter(
         "javax.ws.rs.Application", 
         greetingDescriptorJerseyApplicationClassName);
-    servletContextHandler.addServlet(servletHolder, greetingsDescriptorResourcePathSpec);
+    servletContextHandler.addServlet(servletHolder, resourcePathSpec);
     
     leavingMethodHeaderLogger.debug(null);
   }
@@ -148,7 +158,8 @@ public class JettyManager {
 
     leavingMethodHeaderLogger.debug(null);
   }
-/*
+  
+  /*
   private void registerGreetingsDescriptorResourceServlet(
       final JettyManagerConfig jettyManagerConfig, 
       final ServletContextHandler servletContextHandler) {
@@ -167,7 +178,8 @@ public class JettyManager {
   
     leavingMethodHeaderLogger.debug(null);
   }
-*/
+  */
+  
   private String getRootContextPath(final JettyManagerConfig jettyManagerConfig) {
     
     final String rootContextPath = jettyManagerConfig.getRootContextPath();
@@ -175,9 +187,9 @@ public class JettyManager {
     return rootContextPath;
   }
 
-  private int getServerPort(final Config config) {
+  private int getServerPort(final JettyManagerConfig jettyManagerConfig) {
     
-    final int port = this.jettyManagerConfig.getServerPort();
+    final int port = jettyManagerConfig.getServerPort();
     
     return port;
   }

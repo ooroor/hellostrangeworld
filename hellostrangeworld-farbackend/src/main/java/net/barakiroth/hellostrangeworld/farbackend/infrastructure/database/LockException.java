@@ -4,7 +4,7 @@ public class LockException extends RuntimeException {
 
   private static final long serialVersionUID = 5132755141860422391L;
 
-  public LockException(String message) {
+  public LockException(final String message) {
     super(message);
   }
 }

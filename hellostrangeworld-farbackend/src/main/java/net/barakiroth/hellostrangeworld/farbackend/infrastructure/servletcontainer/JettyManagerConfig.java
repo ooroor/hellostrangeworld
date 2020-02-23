@@ -1,11 +1,13 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer;
 
-import net.barakiroth.hellostrangeworld.farbackend.Config;
+import lombok.AccessLevel;
+import lombok.Getter;
+import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
 
 public class JettyManagerConfig {
   
   private static final String JETTY_SERVER_PORT_KEY     = "jetty.port";
-  private static final int    JETTY_SERVER_PORT_DEFAULT = 8080;
+  private static final int    JETTY_SERVER_PORT_DEFAULT = 8098;
 
   private static final String JETTY_ROOT_CONTEXT_PATH_KEY = "jetty.root.path.spec";
   private static final String JETTY_ROOT_CONTEXT_PATH_DEFAULT = "/";
@@ -16,27 +18,35 @@ public class JettyManagerConfig {
   private static final String JETTY_METRICS_CONTEXT_PATH_KEY = "jetty.metrics.path.spec";
   private static final String JETTY_METRICS_CONTEXT_PATH_DEFAULT = "/internal/metrics"; 
 
-  private static final String JETTY_GREETINGS_DESCRIPTOR_RESOURCE_PATH_SPEC_KEY = 
-      "jetty.greetings.descriptor.path.spec";
-  private static final String JETTY_GREETINGS_DESCRIPTOR_RESOURCE_PATH_SPEC_DEFAULT = 
-      "/greetings/*";
+  private static final String JETTY_RESOURCE_PATH_SPEC_KEY = "jetty.greetings.descriptor.path.spec";
+  private static final String JETTY_RESOURCE_PATH_SPEC_DEFAULT = "/greetings/*";
   
-  private final Config config;
+  @Getter(AccessLevel.PUBLIC)
+  private static JettyManagerConfig singletonInstance = null;
+  
+  private final IFarBackendConfig config;
 
-  public JettyManagerConfig(final Config config) {
+  private JettyManagerConfig(final IFarBackendConfig config) {
     this.config = config;
+  }
+  
+  public static JettyManagerConfig createSingletonInstance(final IFarBackendConfig config) {
+    
+    if (JettyManagerConfig.singletonInstance != null) {
+      throw new IllegalStateException("Singleton already created");
+    }
+    JettyManagerConfig.singletonInstance = new JettyManagerConfig(config);
+    return JettyManagerConfig.getSingletonInstance();
   }
 
   int getServerPort() {
-    final int port = this.config.getInteger(JETTY_SERVER_PORT_KEY, JETTY_SERVER_PORT_DEFAULT);
+    final int port = this.config.getInt(JETTY_SERVER_PORT_KEY, JETTY_SERVER_PORT_DEFAULT);
     return port;
   }
 
-  String getGreetingsDescriptorResourcePathSpec() {
+  String getResourcePathSpec() {
     final String contextPath = 
-        this.config.getString(
-            JETTY_GREETINGS_DESCRIPTOR_RESOURCE_PATH_SPEC_KEY, 
-            JETTY_GREETINGS_DESCRIPTOR_RESOURCE_PATH_SPEC_DEFAULT);
+        this.config.getString(JETTY_RESOURCE_PATH_SPEC_KEY, JETTY_RESOURCE_PATH_SPEC_DEFAULT);
     return contextPath;
   }
 
