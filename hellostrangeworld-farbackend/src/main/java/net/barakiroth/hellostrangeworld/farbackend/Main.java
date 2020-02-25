@@ -1,42 +1,93 @@
 package net.barakiroth.hellostrangeworld.farbackend;
 
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManager;
+
 public class Main {
 
-  private static final Logger enteringMethodHeaderLogger =
-      LoggerFactory.getLogger("EnteringMethodHeader");
-  private static final Logger leavingMethodHeaderLogger =
-      LoggerFactory.getLogger("LeavingMethodHeader");
+	private static final Logger enteringMethodHeaderLogger = LoggerFactory.getLogger("EnteringMethodHeader");
+	private static final Logger leavingMethodHeaderLogger = LoggerFactory.getLogger("LeavingMethodHeader");
 
-  /**
-   * Start the embedded servlet container and database and make ready for REST calls.
-   * @param args Not used
-   */
-  public static void main(final String[] args) {
+	private static final Main main = new Main();
 
-    enteringMethodHeaderLogger.debug(null);
+	private IFarBackendConfig config;
+	private JettyManager jettyManager;
+	private Database database;
 
-    final IFarBackendConfig config = FarBackendConfig.getSingletonInstance();
-    final Main              main   = new Main();
-    main.run(config);
+	private Main() {
+	}
 
-    leavingMethodHeaderLogger.debug(null);
-  }
+	/**
+	 * Start the embedded servlet container and database and make ready for REST
+	 * calls.
+	 * 
+	 * @param args Not used
+	 */
+	public static void main(final String[] args) {
 
-  private void run(final IFarBackendConfig config) {
-    
-    enteringMethodHeaderLogger.debug(null);
-    
-    final JettyManager jettyManager = config.getJettyManager();
-    jettyManager.start();
-    
-    final Database database = config.getDatabase();
-    database.start();
-    
-    leavingMethodHeaderLogger.debug(null);
-  }
+		enteringMethodHeaderLogger.debug(null);
+
+		final Main main = getSingletonInstance();
+		main.run();
+
+		leavingMethodHeaderLogger.debug(null);
+	}
+
+	static Main getSingletonInstance() {
+		return Main.main;
+	}
+
+	private void run() {
+
+		enteringMethodHeaderLogger.debug(null);
+
+		final IFarBackendConfig config = getConfig();
+
+		final JettyManager jettyManager = getJettyManager(config);
+		jettyManager.start();
+
+		final Database database = getDatabase(config);
+		database.start();
+
+		leavingMethodHeaderLogger.debug(null);
+	}
+
+	private void setConfig(final IFarBackendConfig config) {
+		this.config = config;
+	}
+
+	private IFarBackendConfig getConfig() {
+		if (this.config == null) {
+			final IFarBackendConfig config = FarBackendConfig.getSingletonInstance();
+			setConfig(config);
+		}
+		return this.config;
+	}
+
+	private void setJettyManager(final JettyManager jettyManager) {
+		this.jettyManager = jettyManager;
+	}
+
+	private JettyManager getJettyManager(final IFarBackendConfig config) {
+		if (this.jettyManager == null) {
+			final JettyManager jettyManager = config.getJettyManager();
+			setJettyManager(jettyManager);
+		}
+		return this.jettyManager;
+	}
+
+	private void setDatabase(final Database database) {
+		this.database = database;
+	}
+
+	private Database getDatabase(final IFarBackendConfig config) {
+		if (this.database == null) {
+			final Database database = config.getDatabase();
+			setDatabase(database);
+		}
+		return this.database;
+	}
 }

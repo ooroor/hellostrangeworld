@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.barakiroth.hellostrangeworld.common.AbstractConfig;
+import net.barakiroth.hellostrangeworld.frontend.consumer.InitialPartConsumer;
 
 public class FrontendConfig extends AbstractConfig implements IFrontendConfig {
 
@@ -16,7 +17,28 @@ public class FrontendConfig extends AbstractConfig implements IFrontendConfig {
 	@Getter(AccessLevel.PUBLIC)
 	private static final FrontendConfig singletonInstance = new FrontendConfig();
 
-	public FrontendConfig() {
+	FrontendConfig() {
 		super();
+	}
+	
+	@Override
+	public GreeteePrompter getGreeteePrompter() {
+		
+		// TODO: Introduce singleton:
+		final GreeteePrompter greeteePrompter =
+				new GreeteePrompter();
+		
+		return greeteePrompter;
+	}
+	
+
+	@Override 
+	public InitialPartConsumer getInitialPartConsumer() {
+		
+		// TODO: Introduce singleton:
+		final InitialPartConsumer initialPartConsumer =
+				new InitialPartConsumer();
+		
+		return initialPartConsumer;
 	}
 }

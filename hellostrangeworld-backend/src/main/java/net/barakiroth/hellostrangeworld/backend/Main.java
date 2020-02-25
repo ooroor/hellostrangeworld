@@ -6,33 +6,69 @@ import org.slf4j.LoggerFactory;
 
 public class Main {
 
-  private static final Logger enteringMethodHeaderLogger =
-      LoggerFactory.getLogger("EnteringMethodHeader");
-  private static final Logger leavingMethodHeaderLogger =
-      LoggerFactory.getLogger("LeavingMethodHeader");
+	private static final Logger enteringMethodHeaderLogger = LoggerFactory.getLogger("EnteringMethodHeader");
+	private static final Logger leavingMethodHeaderLogger = LoggerFactory.getLogger("LeavingMethodHeader");
 
-  /**
-   * Start the embedded servlet container and make ready for REST calls.
-   * @param args Not used
-   */
-  public static void main(final String[] args) {
+	private static final Main main = new Main();
 
-    enteringMethodHeaderLogger.debug(null);
+	private IBackendConfig config;
+	private JettyManager jettyManager;
 
-    final BackendConfig config = BackendConfig.getSingletonInstance();
-    final Main   main   = new Main();
-    main.run(config);
+	private Main() {
+	}
 
-    leavingMethodHeaderLogger.debug(null);
-  }
+	/**
+	 * Start the embedded servlet container and make ready for REST calls.
+	 * 
+	 * @param args Not used
+	 */
+	public static void main(final String[] args) {
 
-  private void run(final BackendConfig config) {
-    
-    enteringMethodHeaderLogger.debug(null);
-    
-    final JettyManager jettyManager = config.getJettyManager();
-    jettyManager.start();
-    
-    leavingMethodHeaderLogger.debug(null);
-  }
+		enteringMethodHeaderLogger.debug(null);
+
+		final Main main = getSingletonInstance();
+		main.run();
+
+		leavingMethodHeaderLogger.debug(null);
+	}
+
+	static Main getSingletonInstance() {
+		return Main.main;
+	}
+
+	private void run() {
+
+		enteringMethodHeaderLogger.debug(null);
+
+		final IBackendConfig config = getConfig();
+
+		final JettyManager jettyManager = getJettyManager(config);
+		jettyManager.start();
+
+		leavingMethodHeaderLogger.debug(null);
+	}
+
+	private void setConfig(final IBackendConfig config) {
+		this.config = config;
+	}
+
+	private IBackendConfig getConfig() {
+		if (this.config == null) {
+			final IBackendConfig config = BackendConfig.getSingletonInstance();
+			setConfig(config);
+		}
+		return this.config;
+	}
+
+	private void setJettyManager(final JettyManager jettyManager) {
+		this.jettyManager = jettyManager;
+	}
+
+	private JettyManager getJettyManager(final IBackendConfig config) {
+		if (this.jettyManager == null) {
+			final JettyManager jettyManager = config.getJettyManager();
+			setJettyManager(jettyManager);
+		}
+		return this.jettyManager;
+	}
 }

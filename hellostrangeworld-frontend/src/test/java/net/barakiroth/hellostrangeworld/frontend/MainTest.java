@@ -105,8 +105,9 @@ public class MainTest {
     enteringTestHeaderLogger.debug(null);
     
     Main.getSingletonInstance().setGreeteePrompter(null);
+    final IFrontendConfig config = FrontendConfig.getSingletonInstance();
  
-    assertThatCode(() -> Main.getSingletonInstance().getGreeteePrompter()).doesNotThrowAnyException();
+    assertThatCode(() -> Main.getSingletonInstance().getGreeteePrompter(config)).doesNotThrowAnyException();
   }
 
   @Test
@@ -115,8 +116,9 @@ public class MainTest {
     enteringTestHeaderLogger.debug(null);
     
     Main.getSingletonInstance().setGreeteePrompter(null);
+    final IFrontendConfig config = FrontendConfig.getSingletonInstance();
     
-    assertThat(Main.getSingletonInstance().getGreeteePrompter()).isNotNull();
+    assertThat(Main.getSingletonInstance().getGreeteePrompter(config)).isNotNull();
   }
 
   @Test
@@ -126,9 +128,10 @@ public class MainTest {
     enteringTestHeaderLogger.debug(null);
     
     Main.getSingletonInstance().setInitialPartConsumer(null);
+    final IFrontendConfig config = FrontendConfig.getSingletonInstance();
     
     assertThatCode(
-        () -> Main.getSingletonInstance().getInitialPartConsumer()
+        () -> Main.getSingletonInstance().getInitialPartConsumer(config)
     ).doesNotThrowAnyException();
   }
 
@@ -138,9 +141,10 @@ public class MainTest {
     enteringTestHeaderLogger.debug(null);
  
     Main.getSingletonInstance().setInitialPartConsumer(null);
+    final IFrontendConfig config = FrontendConfig.getSingletonInstance();
     
     assertThat(
-    		Main.getSingletonInstance().getInitialPartConsumer()
+    		Main.getSingletonInstance().getInitialPartConsumer(config)
     ).isNotNull();
   }
   
