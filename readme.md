@@ -25,6 +25,8 @@
 
 ### Inspirations
 - Simplicity
+- Testability
+- High coverage
 - Not using overkill technologies and frameworks
 - Decoupling
 - No superfluous, silly or evident commenting
