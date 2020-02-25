@@ -3,7 +3,7 @@ package net.barakiroth.hellostrangeworld.farbackend.infrastructure.prometheus;
 import io.prometheus.client.Gauge;
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
+import net.barakiroth.hellostrangeworld.common.IConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ public class PrometheusConfig {
   private static final String METR_GETGREETINGDESCRIPTION_SUCCESS_GAUGE_HELP_KEY  =
       "prometheus.GetGreetingDescription.success.gauge.help";
 
-  private final IFarBackendConfig config;
+  private final IConfig config;
   private final Gauge   getGreetingDescriptionDurationGauge;
   private final Gauge   lastGetGreetingDescriptionSuccessGauge;
   
@@ -35,7 +35,7 @@ public class PrometheusConfig {
    * 
    * @param config The ubiquitous general configuration.
    */
-  private PrometheusConfig(final IFarBackendConfig config) {
+  private PrometheusConfig(final IConfig config) {
 
     enteringMethodHeaderLogger.debug(null);
 
@@ -47,7 +47,7 @@ public class PrometheusConfig {
     leavingMethodHeaderLogger.debug(null);
   }
   
-  public static PrometheusConfig createSingletonInstance(final IFarBackendConfig config) {
+  public static PrometheusConfig createSingletonInstance(final IConfig config) {
     if (PrometheusConfig.singletonInstance != null) {
       throw new IllegalStateException("Singleton already created");
     }

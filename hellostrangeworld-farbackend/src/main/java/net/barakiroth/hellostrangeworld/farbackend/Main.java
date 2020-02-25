@@ -9,13 +9,13 @@ import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontain
 public class Main {
 
 	private static final Logger enteringMethodHeaderLogger = LoggerFactory.getLogger("EnteringMethodHeader");
-	private static final Logger leavingMethodHeaderLogger = LoggerFactory.getLogger("LeavingMethodHeader");
+	private static final Logger leavingMethodHeaderLogger  = LoggerFactory.getLogger("LeavingMethodHeader");
 
 	private static final Main main = new Main();
 
 	private IFarBackendConfig config;
-	private JettyManager jettyManager;
-	private Database database;
+	private JettyManager      jettyManager;
+	private Database          database;
 
 	private Main() {
 	}

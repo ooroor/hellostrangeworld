@@ -1,5 +1,6 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.database;
 
+import net.barakiroth.hellostrangeworld.common.IConfig;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 
 public class DatabaseConfig {
@@ -20,9 +21,9 @@ public class DatabaseConfig {
   private static final String DB_URL_DEFAULT                      = 
       "jdbc:h2:mem:hellostrangeworld;DB_CLOSE_DELAY=-1";
 
-  private final FarBackendConfig config;
+  private final IConfig config;
 
-  public DatabaseConfig(final FarBackendConfig config) {
+  public DatabaseConfig(final IConfig config) {
     this.config = config;
   }
   

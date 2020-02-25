@@ -3,6 +3,7 @@ package net.barakiroth.hellostrangeworld.backend.infrastructure.servletcontainer
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.barakiroth.hellostrangeworld.backend.IBackendConfig;
+import net.barakiroth.hellostrangeworld.common.IConfig;
 
 public class JettyManagerConfig {
   
@@ -24,9 +25,9 @@ public class JettyManagerConfig {
   @Getter(AccessLevel.PUBLIC)
   private static JettyManagerConfig singletonInstance = null;
   
-  private final IBackendConfig config;
+  private final IConfig config;
 
-  private JettyManagerConfig(final IBackendConfig config) {
+  private JettyManagerConfig(final IConfig config) {
     this.config = config;
   }
   

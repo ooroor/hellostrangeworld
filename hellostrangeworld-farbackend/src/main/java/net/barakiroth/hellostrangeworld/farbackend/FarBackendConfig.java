@@ -20,38 +20,94 @@ public class FarBackendConfig extends AbstractConfig implements IFarBackendConfi
 
 	@Getter(AccessLevel.PUBLIC)
 	private static final IFarBackendConfig singletonInstance = new FarBackendConfig();
-
-	@Getter(AccessLevel.PUBLIC)
-	private final DatabaseConfig databaseConfig;
-
-	@Getter(AccessLevel.PUBLIC)
-	private final Database database;
-
-	@Getter(AccessLevel.PUBLIC)
-	private final Repository repository;
-
-	@Getter(AccessLevel.PUBLIC)
-	private final JettyManagerConfig jettyManagerConfig;
-
-	@Getter(AccessLevel.PUBLIC)
-	private final JettyManager jettyManager;
-
-	@Getter(AccessLevel.PUBLIC)
-	private final PrometheusConfig prometheusConfig;
+	
+	private JettyManagerConfig jettyManagerConfig;
+	private JettyManager       jettyManager;
+	private DatabaseConfig     databaseConfig;
+	private Database           database;
+	private Repository         repository;
+	private PrometheusConfig   prometheusConfig;
 
 	private FarBackendConfig() {
-
 		super();
-
-		enteringMethodHeaderLogger.debug(null);
-
-		this.jettyManagerConfig = JettyManagerConfig.createSingletonInstance(this);
-		this.jettyManager = JettyManager.createSingletonInstance(this);
-		this.databaseConfig = new DatabaseConfig(this);
-		this.database = new Database(this);
-		this.repository = new Repository(this);
-		this.prometheusConfig = PrometheusConfig.createSingletonInstance(this);
-
-		leavingMethodHeaderLogger.debug(null);
 	}
+	
+	private void setJettyManagerConfig(final JettyManagerConfig jettyManagerConfig) {
+		this.jettyManagerConfig = jettyManagerConfig;
+	}
+
+	public JettyManagerConfig getJettyManagerConfig() {
+		if (this.jettyManagerConfig == null) {
+			// TODO: Should call the getter, not the creator:
+			final JettyManagerConfig jettyManagerConfig = JettyManagerConfig.createSingletonInstance(this);
+			setJettyManagerConfig(jettyManagerConfig);
+		}
+		return this.jettyManagerConfig;
+	}
+	
+	private void setJettyManager(final JettyManager jettyManager) {
+		this.jettyManager = jettyManager;
+	}
+
+	public JettyManager getJettyManager() {
+		if (this.jettyManager == null) {
+			// TODO: Should call the getter, not the creator:
+			final JettyManager jettyManager = JettyManager.createSingletonInstance(this);
+			setJettyManager(jettyManager);
+		}
+		return this.jettyManager;
+	}
+	
+	private void setDatabaseConfig(final DatabaseConfig databaseConfig) {
+		this.databaseConfig = databaseConfig;
+	}
+
+	public DatabaseConfig getDatabaseConfig() {
+		if (this.databaseConfig == null) {
+			// TODO: Should call the getter, not the constructor:
+			final DatabaseConfig databaseConfig = new DatabaseConfig(this);
+			setDatabaseConfig(databaseConfig);
+		}
+		return this.databaseConfig;
+	}
+	
+	private void setDatabase(final Database database) {
+		this.database = database;
+	}
+
+	public Database getDatabase() {
+		if (this.database == null) {
+			// TODO: Should call the getter, not the constructor:
+			final Database database = new Database(this);
+			setDatabase(database);
+		}
+		return this.database;
+	}
+	
+	private void setRepository(final Repository repository) {
+		this.repository = repository;
+	}
+
+	public Repository getRepository() {
+		if (this.repository == null) {
+			// TODO: Should call the getter, not the constructor:
+			final Repository repository = new Repository(this);
+			setRepository(repository);
+		}
+		return this.repository;
+	}
+	
+	private void setPrometheusConfig(final PrometheusConfig prometheusConfig) {
+		this.prometheusConfig = prometheusConfig;
+	}
+
+	public PrometheusConfig getPrometheusConfig() {
+		if (this.prometheusConfig == null) {
+			// TODO: Should call the getter, not the creator:
+			final PrometheusConfig prometheusConfig = PrometheusConfig.createSingletonInstance(this);
+			setPrometheusConfig(prometheusConfig);
+		}
+		return this.prometheusConfig;
+	}
+	
 }

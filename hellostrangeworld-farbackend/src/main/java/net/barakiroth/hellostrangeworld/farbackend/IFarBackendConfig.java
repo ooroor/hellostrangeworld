@@ -10,15 +10,10 @@ import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontain
 
 public interface IFarBackendConfig extends IConfig {
 
-	DatabaseConfig getDatabaseConfig();
-
-	Database getDatabase();
-
-	Repository getRepository();
-
-	JettyManager getJettyManager();
-
+	DatabaseConfig     getDatabaseConfig();
+	Database           getDatabase();
+	Repository         getRepository();
+	JettyManager       getJettyManager();
 	JettyManagerConfig getJettyManagerConfig();
-
-	PrometheusConfig getPrometheusConfig();
+	PrometheusConfig   getPrometheusConfig();
 }

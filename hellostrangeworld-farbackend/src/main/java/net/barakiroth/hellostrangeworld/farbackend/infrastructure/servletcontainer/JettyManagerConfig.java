@@ -2,7 +2,7 @@ package net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontai
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
+import net.barakiroth.hellostrangeworld.common.IConfig;
 
 public class JettyManagerConfig {
   
@@ -18,19 +18,20 @@ public class JettyManagerConfig {
   private static final String JETTY_METRICS_CONTEXT_PATH_KEY = "jetty.metrics.path.spec";
   private static final String JETTY_METRICS_CONTEXT_PATH_DEFAULT = "/internal/metrics"; 
 
+  // TODO: Remove references to greetings.descriptor and the likes.
   private static final String JETTY_RESOURCE_PATH_SPEC_KEY = "jetty.greetings.descriptor.path.spec";
   private static final String JETTY_RESOURCE_PATH_SPEC_DEFAULT = "/greetings/*";
   
   @Getter(AccessLevel.PUBLIC)
   private static JettyManagerConfig singletonInstance = null;
   
-  private final IFarBackendConfig config;
+  private final IConfig config;
 
-  private JettyManagerConfig(final IFarBackendConfig config) {
-    this.config = config;
+  private JettyManagerConfig(final IConfig farBackendConfig) {
+    this.config = farBackendConfig;
   }
   
-  public static JettyManagerConfig createSingletonInstance(final IFarBackendConfig config) {
+  public static JettyManagerConfig createSingletonInstance(final IConfig config) {
     
     if (JettyManagerConfig.singletonInstance != null) {
       throw new IllegalStateException("Singleton already created");
