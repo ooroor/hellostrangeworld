@@ -19,7 +19,7 @@ public class FarBackendConfig extends AbstractConfig implements IFarBackendConfi
 	private static final Logger leavingMethodHeaderLogger = LoggerFactory.getLogger("LeavingMethodHeader");
 
 	@Getter(AccessLevel.PUBLIC)
-	private static final FarBackendConfig singletonInstance = new FarBackendConfig();
+	private static final IFarBackendConfig singletonInstance = new FarBackendConfig();
 
 	@Getter(AccessLevel.PUBLIC)
 	private final DatabaseConfig databaseConfig;

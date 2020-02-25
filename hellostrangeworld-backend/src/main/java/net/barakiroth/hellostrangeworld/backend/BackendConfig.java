@@ -17,7 +17,7 @@ public class BackendConfig extends AbstractConfig implements IBackendConfig {
 	private static final Logger leavingMethodHeaderLogger = LoggerFactory.getLogger("LeavingMethodHeader");
 
 	@Getter(AccessLevel.PUBLIC)
-	private static final BackendConfig singletonInstance = new BackendConfig();
+	private static final IBackendConfig singletonInstance = new BackendConfig();
 
 	@Getter(AccessLevel.PUBLIC)
 	private final JettyManagerConfig jettyManagerConfig;

@@ -3,6 +3,8 @@ package net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontai
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
+import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
+
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +23,7 @@ public class JettyManagerTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final FarBackendConfig config = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig config = FarBackendConfig.getSingletonInstance();
     final JettyManager jettyManager = config.getJettyManager();
     Thread thread = null;
     try {

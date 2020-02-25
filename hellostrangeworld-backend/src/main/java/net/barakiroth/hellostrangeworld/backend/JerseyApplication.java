@@ -6,7 +6,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 @SuppressWarnings("WeakerAccess") //Påkrevd public
 public class JerseyApplication extends ResourceConfig {
   
-  private final BackendConfig config;
+  private final IBackendConfig config;
   
   /**
    * Used by the Jetty servlet container to configure
@@ -14,12 +14,12 @@ public class JerseyApplication extends ResourceConfig {
    */
   public JerseyApplication() {
     
-    final BackendConfig config = BackendConfig.getSingletonInstance();
+    final IBackendConfig config = BackendConfig.getSingletonInstance();
     registerModifierApiResources(config);
     this.config = config;
   }
   
-  private void registerModifierApiResources(final BackendConfig config) {
+  private void registerModifierApiResources(final IBackendConfig config) {
     register(new InitialPartResource(config));
   }
 }

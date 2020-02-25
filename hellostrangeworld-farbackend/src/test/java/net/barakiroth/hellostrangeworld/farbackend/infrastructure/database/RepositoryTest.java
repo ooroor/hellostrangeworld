@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import java.util.Optional;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
+import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.domain.ModifierDo;
 import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
 import org.junit.jupiter.api.AfterEach;
@@ -34,7 +35,7 @@ public class RepositoryTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final FarBackendConfig config = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig config = FarBackendConfig.getSingletonInstance();
     assertThatCode(() -> config.getRepository()).doesNotThrowAnyException();
   }
 
@@ -44,7 +45,7 @@ public class RepositoryTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final FarBackendConfig config = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig config = FarBackendConfig.getSingletonInstance();
     final Repository repository = config.getRepository();
     try {
       assertThatCode(() -> repository.getModifierDo()).doesNotThrowAnyException();
@@ -59,7 +60,7 @@ public class RepositoryTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final FarBackendConfig config = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig config = FarBackendConfig.getSingletonInstance();
     final Repository repository = config.getRepository();
     try {
       repository.getModifierDo();
@@ -75,7 +76,7 @@ public class RepositoryTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final FarBackendConfig config = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig config = FarBackendConfig.getSingletonInstance();
     final Database database = config.getDatabase();
     final Repository repository = config.getRepository();
     assertThat(database.isStarted()).isFalse();

@@ -18,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
+import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.prometheus.PrometheusConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,13 +45,13 @@ public class ModifierResource {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
   
-  private final FarBackendConfig config;
+  private final IFarBackendConfig config;
   
   public ModifierResource() {
     this(FarBackendConfig.getSingletonInstance());
   }
   
-  public ModifierResource(final FarBackendConfig config) {
+  public ModifierResource(final IFarBackendConfig config) {
     this.config = config;
   }
 
