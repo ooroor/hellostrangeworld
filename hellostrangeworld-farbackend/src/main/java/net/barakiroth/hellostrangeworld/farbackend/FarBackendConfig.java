@@ -53,7 +53,7 @@ public class FarBackendConfig extends AbstractConfig implements IFarBackendConfi
 	public JettyManager getJettyManager() {
 		if (this.jettyManager == null) {
 			// TODO: Should call the getter, not the creator:
-			final JettyManager jettyManager = JettyManager.createSingletonInstance(this);
+			final JettyManager jettyManager = JettyManager.getSingletonInstance(this);
 			setJettyManager(jettyManager);
 		}
 		return this.jettyManager;

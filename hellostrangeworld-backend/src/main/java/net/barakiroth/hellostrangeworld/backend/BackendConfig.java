@@ -36,7 +36,7 @@ public class BackendConfig extends AbstractConfig implements IBackendConfig {
 		enteringMethodHeaderLogger.debug(null);
 
 		this.jettyManagerConfig = JettyManagerConfig.createSingletonInstance(this);
-		this.jettyManager = JettyManager.createSingletonInstance(this);
+		this.jettyManager = JettyManager.getSingletonInstance(this);
 		this.prometheusConfig = PrometheusConfig.createSingletonInstance(this);
 
 		leavingMethodHeaderLogger.debug(null);
