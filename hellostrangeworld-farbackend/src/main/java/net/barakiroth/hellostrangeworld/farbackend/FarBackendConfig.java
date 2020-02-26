@@ -3,12 +3,13 @@ package net.barakiroth.hellostrangeworld.farbackend;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.barakiroth.hellostrangeworld.common.AbstractConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManagerConfig;
 import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.DatabaseConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.prometheus.PrometheusConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManager;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManagerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,25 +22,25 @@ public class FarBackendConfig extends AbstractConfig implements IFarBackendConfi
 	@Getter(AccessLevel.PUBLIC)
 	private static final IFarBackendConfig singletonInstance = new FarBackendConfig();
 	
-	private JettyManagerConfig jettyManagerConfig;
-	private JettyManager       jettyManager;
-	private DatabaseConfig     databaseConfig;
-	private Database           database;
-	private Repository         repository;
-	private PrometheusConfig   prometheusConfig;
+	private IJettyManagerConfig jettyManagerConfig;
+	private JettyManager        jettyManager;
+	private DatabaseConfig      databaseConfig;
+	private Database            database;
+	private Repository          repository;
+	private PrometheusConfig    prometheusConfig;
 
 	private FarBackendConfig() {
 		super();
 	}
 	
-	private void setJettyManagerConfig(final JettyManagerConfig jettyManagerConfig) {
+	private void setJettyManagerConfig(final IJettyManagerConfig jettyManagerConfig) {
 		this.jettyManagerConfig = jettyManagerConfig;
 	}
 
-	public JettyManagerConfig getJettyManagerConfig() {
+	public IJettyManagerConfig getJettyManagerConfig() {
 		if (this.jettyManagerConfig == null) {
 			// TODO: Should call the getter, not the creator:
-			final JettyManagerConfig jettyManagerConfig = JettyManagerConfig.createSingletonInstance(this);
+			final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.createSingletonInstance(this);
 			setJettyManagerConfig(jettyManagerConfig);
 		}
 		return this.jettyManagerConfig;

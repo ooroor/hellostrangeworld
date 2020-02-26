@@ -1,8 +1,8 @@
 package net.barakiroth.hellostrangeworld.backend;
 
 import net.barakiroth.hellostrangeworld.common.IConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
 import net.barakiroth.hellostrangeworld.backend.infrastructure.servletcontainer.JettyManager;
-import net.barakiroth.hellostrangeworld.backend.infrastructure.servletcontainer.JettyManagerConfig;
 import net.barakiroth.hellostrangeworld.backend.infrastructure.prometheus.PrometheusConfig;
 
 public interface IBackendConfig extends IConfig {
@@ -14,7 +14,7 @@ public interface IBackendConfig extends IConfig {
 
 	JettyManager getJettyManager();
 
-	JettyManagerConfig getJettyManagerConfig();
+	IJettyManagerConfig getJettyManagerConfig();
 
 	PrometheusConfig getPrometheusConfig();
 

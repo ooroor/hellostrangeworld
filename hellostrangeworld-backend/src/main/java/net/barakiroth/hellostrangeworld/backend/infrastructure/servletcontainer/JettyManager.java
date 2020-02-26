@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import net.barakiroth.hellostrangeworld.backend.IBackendConfig;
 import net.barakiroth.hellostrangeworld.backend.JerseyApplication;
-import net.barakiroth.hellostrangeworld.backend.infrastructure.servletcontainer.JettyManagerConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -26,8 +26,8 @@ public class JettyManager {
   @Getter(AccessLevel.PUBLIC)
   private static JettyManager singletonInstance = null;
   
-  private final JettyManagerConfig jettyManagerConfig;
-  private final Server             jettyServer;
+  private final IJettyManagerConfig jettyManagerConfig;
+  private final Server              jettyServer;
   
   private JettyManager(final IBackendConfig config) {
     
@@ -94,7 +94,7 @@ public class JettyManager {
   }
 
   void registerJerseyApplication(
-      final JettyManagerConfig    jettyManagerConfig, 
+      final IJettyManagerConfig    jettyManagerConfig, 
       final ServletContextHandler servletContextHandler) {
     
     enteringMethodHeaderLogger.debug(null);
@@ -113,7 +113,7 @@ public class JettyManager {
   }
   
   private void registerDefaultServlet(
-      final JettyManagerConfig jettyManagerConfig,
+      final IJettyManagerConfig   jettyManagerConfig,
       final ServletContextHandler servletContextHandler) {
 
     enteringMethodHeaderLogger.debug(null);
@@ -126,8 +126,8 @@ public class JettyManager {
   }
 
   private void registerMetricsServlet(
-      final JettyManagerConfig    jettyManagerConfig,
-      final ServletContextHandler servletContextHandler) {
+      final IJettyManagerConfig    jettyManagerConfig,
+      final ServletContextHandler  servletContextHandler) {
     
     enteringMethodHeaderLogger.debug(null);
 
@@ -138,14 +138,14 @@ public class JettyManager {
     leavingMethodHeaderLogger.debug(null);
   }
   
-  private String getRootContextPath(final JettyManagerConfig jettyManagerConfig) {
+  private String getRootContextPath(final IJettyManagerConfig jettyManagerConfig) {
     
     final String rootContextPath = jettyManagerConfig.getRootContextPath();
     
     return rootContextPath;
   }
 
-  private int getServerPort(final JettyManagerConfig jettyManagerConfig) {
+  private int getServerPort(final IJettyManagerConfig jettyManagerConfig) {
     
     final int port = jettyManagerConfig.getServerPort();
     

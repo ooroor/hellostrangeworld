@@ -4,8 +4,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import net.barakiroth.hellostrangeworld.backend.infrastructure.prometheus.PrometheusConfig;
 import net.barakiroth.hellostrangeworld.backend.infrastructure.servletcontainer.JettyManager;
-import net.barakiroth.hellostrangeworld.backend.infrastructure.servletcontainer.JettyManagerConfig;
 import net.barakiroth.hellostrangeworld.common.AbstractConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManagerConfig;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ public class BackendConfig extends AbstractConfig implements IBackendConfig {
 	private static final IBackendConfig singletonInstance = new BackendConfig();
 
 	@Getter(AccessLevel.PUBLIC)
-	private final JettyManagerConfig jettyManagerConfig;
+	private final IJettyManagerConfig jettyManagerConfig;
 
 	@Getter(AccessLevel.PUBLIC)
 	private final JettyManager jettyManager;
