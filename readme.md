@@ -69,7 +69,7 @@
 | RestAssured | N/A | NOT YET | NOT YET | For testing an application's REST endpoint(s) |
 | Rest client      | NOT YET  |        X | In test |                           |
 | Rest server      |   N/A    |  X |           X |                          Resource API, REST endpoint |
-| Independent project | NOT YET  |  NOT YET |     X | Split parent and children modules for independencies |
+| Independent project | X  |  X |     X | Split parent and children modules for independencies |
 | Swagger          |   N/A    |  NOT YET |   X |                               Rest API documentation |
 | Vavr          |   N/A    |  NOT YET |     X | Functional programming collection library etc. (e.g. tuples) |
 | WireMock | X | X | N/A | Stubs an endpoint being called by some method |
