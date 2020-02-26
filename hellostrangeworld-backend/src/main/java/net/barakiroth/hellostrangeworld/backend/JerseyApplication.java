@@ -13,10 +13,10 @@ public class JerseyApplication extends ResourceConfig {
   public JerseyApplication() {
     
     final IBackendConfig config = BackendConfig.getSingletonInstance();
-    registerModifierApiResources(config);
+    registerApiResources(config);
   }
   
-  private void registerModifierApiResources(final IBackendConfig config) {
+  private void registerApiResources(final IBackendConfig config) {
     register(new InitialPartResource(config));
   }
 }

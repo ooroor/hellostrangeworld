@@ -24,12 +24,14 @@ public class JettyManager {
 
   private final IJettyManagerConfig jettyManagerConfig;
   private Server jettyServer;
+  private String jerseyApplicationClassName;
 
-  private JettyManager(final IBackendConfig config) {
+  private JettyManager(final IBackendConfig config, final String jerseyApplicationClassName) {
 
     enteringMethodHeaderLogger.debug(null);
 
     this.jettyManagerConfig = config.getJettyManagerConfig();
+    this.jerseyApplicationClassName = jerseyApplicationClassName;
 
     leavingMethodHeaderLogger.debug(null);
   }
@@ -38,10 +40,12 @@ public class JettyManager {
     JettyManager.singletonInstance = jettyManager;
   }
 
-  public static JettyManager getSingletonInstance(final IBackendConfig config) {
+  public static JettyManager getSingletonInstance(
+      final IBackendConfig config,
+      final String jerseyApplicationClassName) {
 
     if (JettyManager.singletonInstance == null) {
-      final JettyManager jettyManager = new JettyManager(config);
+      final JettyManager jettyManager = new JettyManager(config, jerseyApplicationClassName);
       setSingletonInstance(jettyManager);
     }
     return JettyManager.singletonInstance;
@@ -117,7 +121,7 @@ public class JettyManager {
 
     final String resourcePathSpec = getResourcePathSpec(jettyManagerConfig);
     final ServletHolder servletHolder = new ServletHolder(new ServletContainer());
-    final String jerseyApplicationClassName = JerseyApplication.class.getName();
+    final String jerseyApplicationClassName = getJerseyApplicationClassName();
     servletHolder.setInitParameter("javax.ws.rs.Application", jerseyApplicationClassName);
     servletContextHandler.addServlet(servletHolder, resourcePathSpec);
 
@@ -221,4 +225,16 @@ public class JettyManager {
     return this.jettyServer;
   }
 
+  private void setJerseyApplicationClassName(final String jerseyApplicationClassName) {
+    this.jerseyApplicationClassName = jerseyApplicationClassName;
+  }
+
+  private String getJerseyApplicationClassName() {
+
+    if (this.jerseyApplicationClassName == null) {
+      final String jerseyApplicationClassName = JerseyApplication.class.getName();
+      setJerseyApplicationClassName(jerseyApplicationClassName);
+    }
+    return this.jerseyApplicationClassName;
+  }
 }
