@@ -84,6 +84,7 @@
 - Compile all reports to the site directory
 - Tidy up all that report/site mess
 - Remember to add Prometheus to the data source as well
+- Remember  to add Prometheus to the logback configuration as well
 - Skip plugin/dependency management in favour of letting mama become a properties bom (bill of materials). Only use management when required to solve transitive dependencies problems.
 - Config injection
 - Consistent naming
