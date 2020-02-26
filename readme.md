@@ -68,7 +68,7 @@
 | Resilience4J     |   N/A    |  NOT YET |         X |               Resilience guard of downstream calls |
 | RestAssured | N/A | NOT YET | NOT YET | For testing an application's REST endpoint(s) |
 | Rest client      | NOT YET  |        X | In test |                           |
-| Rest server      |   N/A    |  NOT YET |           X |                          Resource API, REST endpoint |
+| Rest server      |   N/A    |  X |           X |                          Resource API, REST endpoint |
 | Independent project | NOT YET  |  NOT YET |     X | Split parent and children modules for independencies |
 | Swagger          |   N/A    |  NOT YET |   X |                               Rest API documentation |
 | Vavr          |   N/A    |  NOT YET |     X | Functional programming collection library etc. (e.g. tuples) |
