@@ -12,7 +12,6 @@ public class JettyManagerConfig implements IJettyManagerConfig {
   static final String JETTY_RESOURCE_PATH_SPEC_DEFAULT = "/someResource/*";
   
   private static final String JERSEY_APPLICATION_CLASS_NAME_KEY = "jersey.application.class.name";
-
   private static final String JETTY_SERVER_PORT_KEY = "jetty.port";
   private static final String JETTY_ROOT_CONTEXT_PATH_KEY = "jetty.root.path.spec";
   private static final String JETTY_DEFAULT_CONTEXT_PATH_KEY = "jetty.default.path.spec";

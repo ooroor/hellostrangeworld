@@ -92,15 +92,15 @@ public class JettyManager {
 
     enteringMethodHeaderLogger.debug(null);
 
-    final String rootContextPath = getRootContextPath(this.jettyManagerConfig);
+    final String rootContextPath = getRootContextPath(getJettyManagerConfig());
     final ServletContextHandler servletContextHandler =
         new ServletContextHandler(getServer(), rootContextPath);
 
-    registerDefaultServlet(this.jettyManagerConfig, servletContextHandler);
+    registerDefaultServlet(getJettyManagerConfig(), servletContextHandler);
 
     // registerGreetingsDescriptorResourceServlet(jettyManagerConfig, servletContextHandler);
-    registerJerseyApplication(this.jettyManagerConfig, servletContextHandler);
-    registerMetricsServlet(this.jettyManagerConfig, servletContextHandler);
+    registerJerseyApplication(getJettyManagerConfig(), servletContextHandler);
+    registerMetricsServlet(getJettyManagerConfig(), servletContextHandler);
 
     getServer().setHandler(servletContextHandler);
 

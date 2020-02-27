@@ -2,7 +2,9 @@ package net.barakiroth.hellostrangeworld.common;
 
 import java.io.File;
 import java.util.stream.Stream;
-
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManagerConfig;
 import org.apache.commons.configuration2.BaseConfiguration;
 import org.apache.commons.configuration2.CompositeConfiguration;
 import org.apache.commons.configuration2.EnvironmentConfiguration;
@@ -13,9 +15,6 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
-import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
-import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManagerConfig;
 
 public abstract class AbstractConfig implements IConfig {
 
