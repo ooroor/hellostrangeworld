@@ -1,8 +1,7 @@
 package net.barakiroth.hellostrangeworld.backend.infrastructure.servletcontainer;
 
 import io.prometheus.client.exporter.MetricsServlet;
-import net.barakiroth.hellostrangeworld.backend.IBackendConfig;
-import net.barakiroth.hellostrangeworld.backend.JerseyApplication;
+import net.barakiroth.hellostrangeworld.common.IConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -24,14 +23,12 @@ public class JettyManager {
 
   private final IJettyManagerConfig jettyManagerConfig;
   private Server jettyServer;
-  private String jerseyApplicationClassName;
 
-  private JettyManager(final IBackendConfig config, final String jerseyApplicationClassName) {
+  private JettyManager(final IConfig config) {
 
     enteringMethodHeaderLogger.debug(null);
 
     this.jettyManagerConfig = config.getJettyManagerConfig();
-    this.jerseyApplicationClassName = jerseyApplicationClassName;
 
     leavingMethodHeaderLogger.debug(null);
   }
@@ -40,12 +37,10 @@ public class JettyManager {
     JettyManager.singletonInstance = jettyManager;
   }
 
-  public static JettyManager getSingletonInstance(
-      final IBackendConfig config,
-      final String jerseyApplicationClassName) {
+  public static JettyManager getSingletonInstance(final IConfig config) {
 
     if (JettyManager.singletonInstance == null) {
-      final JettyManager jettyManager = new JettyManager(config, jerseyApplicationClassName);
+      final JettyManager jettyManager = new JettyManager(config);
       setSingletonInstance(jettyManager);
     }
     return JettyManager.singletonInstance;
@@ -225,16 +220,7 @@ public class JettyManager {
     return this.jettyServer;
   }
 
-  private void setJerseyApplicationClassName(final String jerseyApplicationClassName) {
-    this.jerseyApplicationClassName = jerseyApplicationClassName;
-  }
-
   private String getJerseyApplicationClassName() {
-
-    if (this.jerseyApplicationClassName == null) {
-      final String jerseyApplicationClassName = JerseyApplication.class.getName();
-      setJerseyApplicationClassName(jerseyApplicationClassName);
-    }
-    return this.jerseyApplicationClassName;
+    return getJettyManagerConfig().getJerseyApplicationClassName();
   }
 }

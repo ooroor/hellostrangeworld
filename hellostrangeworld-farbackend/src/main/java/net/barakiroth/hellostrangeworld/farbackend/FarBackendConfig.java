@@ -3,8 +3,6 @@ package net.barakiroth.hellostrangeworld.farbackend;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.barakiroth.hellostrangeworld.common.AbstractConfig;
-import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
-import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManagerConfig;
 import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.DatabaseConfig;
@@ -16,7 +14,7 @@ public class FarBackendConfig extends AbstractConfig implements IFarBackendConfi
   @Getter(AccessLevel.PUBLIC)
   private static final IFarBackendConfig singletonInstance = new FarBackendConfig();
 
-  private IJettyManagerConfig jettyManagerConfig;
+  
   private JettyManager jettyManager;
   private DatabaseConfig databaseConfig;
   private Database database;
@@ -25,21 +23,6 @@ public class FarBackendConfig extends AbstractConfig implements IFarBackendConfi
 
   private FarBackendConfig() {
     super();
-  }
-
-  private void setJettyManagerConfig(final IJettyManagerConfig jettyManagerConfig) {
-    this.jettyManagerConfig = jettyManagerConfig;
-  }
-
-  @Override
-  public IJettyManagerConfig getJettyManagerConfig() {
-    if (this.jettyManagerConfig == null) {
-      // TODO: Should call the getter, not the creator:
-      final IJettyManagerConfig jettyManagerConfig =
-          JettyManagerConfig.createSingletonInstance(this);
-      setJettyManagerConfig(jettyManagerConfig);
-    }
-    return this.jettyManagerConfig;
   }
 
   private void setJettyManager(final JettyManager jettyManager) {
@@ -51,7 +34,7 @@ public class FarBackendConfig extends AbstractConfig implements IFarBackendConfi
     if (this.jettyManager == null) {
       // TODO: Should call the getter, not the creator:
       final JettyManager jettyManager =
-          JettyManager.getSingletonInstance(this, JerseyApplication.class.getName());
+          JettyManager.getSingletonInstance(this);
       setJettyManager(jettyManager);
     }
     return this.jettyManager;

@@ -6,4 +6,5 @@ public interface IJettyManagerConfig {
 	String getRootContextPath();
 	String getDefaultPathSpec();
 	String getMetricsContextPath();
+	String getJerseyApplicationClassName();
 }

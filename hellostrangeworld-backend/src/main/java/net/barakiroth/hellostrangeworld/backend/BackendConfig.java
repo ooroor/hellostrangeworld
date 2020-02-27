@@ -13,28 +13,12 @@ public class BackendConfig extends AbstractConfig implements IBackendConfig {
   @Getter(AccessLevel.PUBLIC)
   private static final IBackendConfig singletonInstance = new BackendConfig();
 
-  private IJettyManagerConfig jettyManagerConfig;
   private JettyManager        jettyManager;
   private PrometheusConfig    prometheusConfig;
 
   private BackendConfig() {
     super();
-  }
-
-  private void setJettyManagerConfig(final IJettyManagerConfig jettyManagerConfig) {
-    this.jettyManagerConfig = jettyManagerConfig;
-  }
-
-  @Override
-  public IJettyManagerConfig getJettyManagerConfig() {
-    if (this.jettyManagerConfig == null) {
-      // TODO: Should call the getter, not the creator:
-      final IJettyManagerConfig jettyManagerConfig =
-          JettyManagerConfig.createSingletonInstance(this);
-      setJettyManagerConfig(jettyManagerConfig);
-    }
-    return this.jettyManagerConfig;
-  }
+  }  
 
   private void setJettyManager(final JettyManager jettyManager) {
     this.jettyManager = jettyManager;
@@ -45,7 +29,7 @@ public class BackendConfig extends AbstractConfig implements IBackendConfig {
     if (this.jettyManager == null) {
       // TODO: Should call the getter, not the creator:
       final JettyManager jettyManager =
-          JettyManager.getSingletonInstance(this, JerseyApplication.class.getName());
+          JettyManager.getSingletonInstance(this);
       setJettyManager(jettyManager);
     }
     return this.jettyManager;

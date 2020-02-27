@@ -13,6 +13,8 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManagerConfig;
 
 public abstract class AbstractConfig implements IConfig {
 
@@ -23,6 +25,7 @@ public abstract class AbstractConfig implements IConfig {
 	      LoggerFactory.getLogger("LeavingMethodHeader");
 	  
 	  private final CompositeConfiguration compositeConfiguration;
+	  private IJettyManagerConfig jettyManagerConfig;
 	    
 	  protected AbstractConfig() {
 	    
@@ -104,5 +107,19 @@ public abstract class AbstractConfig implements IConfig {
 	    leavingMethodHeaderLogger.debug(null);
 	    
 	    return propertyFileConfiguration;
+	  }
+
+	  private void setJettyManagerConfig(final IJettyManagerConfig jettyManagerConfig) {
+	    this.jettyManagerConfig = jettyManagerConfig;
+	  }
+
+	  @Override
+	  public IJettyManagerConfig getJettyManagerConfig() {
+	    if (this.jettyManagerConfig == null) {
+	      final IJettyManagerConfig jettyManagerConfig =
+	          JettyManagerConfig.getSingletonInstance(this);
+	      setJettyManagerConfig(jettyManagerConfig);
+	    }
+	    return this.jettyManagerConfig;
 	  }
 }

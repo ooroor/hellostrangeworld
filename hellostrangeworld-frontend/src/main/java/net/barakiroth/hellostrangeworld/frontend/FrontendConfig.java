@@ -30,7 +30,6 @@ public class FrontendConfig extends AbstractConfig implements IFrontendConfig {
 		
 		return greeteePrompter;
 	}
-	
 
 	@Override 
 	public InitialPartConsumer getInitialPartConsumer() {
