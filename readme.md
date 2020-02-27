@@ -91,6 +91,7 @@
 - Remove exception rethrows
 - Tidy up the poms
 - Move more common stuff to the common library
+- Error page upon HTTP errors
 ### Future plans and ambitions
 - ?
 
@@ -100,7 +101,7 @@
 - AOP, not even for transaction boundaries
 
 ### Run the far backend
-- Start the servlet container running the far backend application: ```java -jar hellostrangeworld\hellostrangeworld-farbackend\target\hellostrangeworld-farbackend.jar```
+- Start the servlet container running the far backend application: ```java -jar hellostrangeworld-farbackend\target\hellostrangeworld-farbackend.jar```
 - In the browser, access: ```http://localhost:8099/api/Modifier```
 - Refresh the browser to get different database entries
 
@@ -113,7 +114,7 @@
 ### Run the frontend
 - Run the far backend as described above
 - Run the backend as described above
-- Run the frontend: ```java -jar hellostrangeworld\hellostrangeworld-frontend\target\hellostrangeworld-frontend.jar```
+- Run the frontend: ```java -jar hellostrangeworld-frontend\target\hellostrangeworld-frontend.jar```
 
 ### Useful commands
 - Run a complete build

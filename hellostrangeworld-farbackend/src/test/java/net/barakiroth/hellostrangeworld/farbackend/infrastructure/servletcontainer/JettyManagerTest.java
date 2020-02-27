@@ -1,7 +1,7 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
 

@@ -15,7 +15,6 @@ import java.util.concurrent.Callable;
 import javax.sql.DataSource;
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QGreetingDescription;
 import org.slf4j.Logger;

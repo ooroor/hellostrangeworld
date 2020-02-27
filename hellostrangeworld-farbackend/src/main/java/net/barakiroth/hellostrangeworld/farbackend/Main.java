@@ -2,9 +2,8 @@ package net.barakiroth.hellostrangeworld.farbackend;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManager;
 
 public class Main {
 

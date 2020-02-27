@@ -3,11 +3,11 @@ package net.barakiroth.hellostrangeworld.farbackend;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.barakiroth.hellostrangeworld.common.AbstractConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.DatabaseConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.prometheus.PrometheusConfig;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManager;
 
 public class FarBackendConfig extends AbstractConfig implements IFarBackendConfig {
 

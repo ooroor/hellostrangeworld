@@ -1,7 +1,6 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.database;
 
 import net.barakiroth.hellostrangeworld.common.IConfig;
-import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 
 public class DatabaseConfig {
   

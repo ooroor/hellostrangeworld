@@ -3,20 +3,14 @@ package net.barakiroth.hellostrangeworld.farbackend.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
-
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManager;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.servletcontainer.JettyManagerTest;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;

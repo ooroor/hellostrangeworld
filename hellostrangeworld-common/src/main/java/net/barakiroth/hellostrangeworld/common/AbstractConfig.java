@@ -14,6 +14,7 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManagerConfig;
 
 public abstract class AbstractConfig implements IConfig {
@@ -25,7 +26,8 @@ public abstract class AbstractConfig implements IConfig {
 	      LoggerFactory.getLogger("LeavingMethodHeader");
 	  
 	  private final CompositeConfiguration compositeConfiguration;
-	  private IJettyManagerConfig jettyManagerConfig;
+	  private       IJettyManagerConfig    jettyManagerConfig;
+	  private       JettyManager           jettyManager;
 	    
 	  protected AbstractConfig() {
 	    
@@ -121,5 +123,19 @@ public abstract class AbstractConfig implements IConfig {
 	      setJettyManagerConfig(jettyManagerConfig);
 	    }
 	    return this.jettyManagerConfig;
+	  }  
+
+	  private void setJettyManager(final JettyManager jettyManager) {
+	    this.jettyManager = jettyManager;
+	  }
+
+	  @Override
+	  public JettyManager getJettyManager() {
+	    if (this.jettyManager == null) {
+	      final JettyManager jettyManager =
+	          JettyManager.getSingletonInstance(this);
+	      setJettyManager(jettyManager);
+	    }
+	    return this.jettyManager;
 	  }
 }

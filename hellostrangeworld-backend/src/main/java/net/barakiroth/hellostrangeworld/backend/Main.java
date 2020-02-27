@@ -1,8 +1,8 @@
 package net.barakiroth.hellostrangeworld.backend;
 
-import net.barakiroth.hellostrangeworld.backend.infrastructure.servletcontainer.JettyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 
 public class Main {
 
