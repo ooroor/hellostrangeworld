@@ -9,7 +9,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.text.MessageFormat;
-
+import net.barakiroth.hellostrangeworld.frontend.consumer.InitialPartConsumer;
+import net.barakiroth.hellostrangeworld.frontend.consumer.InitialPartDo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,8 +19,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.barakiroth.hellostrangeworld.frontend.consumer.InitialPartConsumer;
-import net.barakiroth.hellostrangeworld.frontend.consumer.InitialPartDo;
 
 @ExtendWith(MockitoExtension.class)
 public class MainTest {

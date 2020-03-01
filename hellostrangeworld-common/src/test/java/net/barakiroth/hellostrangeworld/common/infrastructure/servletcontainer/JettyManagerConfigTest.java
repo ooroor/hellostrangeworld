@@ -1,7 +1,7 @@
 package net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,5 +74,30 @@ public class JettyManagerConfigTest {
     final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingletonInstance(config);
     
     assertThat(jettyManagerConfig.getMetricsContextPath()).isEqualTo(JettyManagerConfig.JETTY_METRICS_CONTEXT_PATH_DEFAULT);
+  }
+
+  @Test
+  void when_getting_the_jersey_application_class_name_then_the_value_of_the_apropriate_sys_prop_should_be_returned() {
+    
+    enteringTestHeaderLogger.debug(null);
+    
+    final IConfig config = new AbstractConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingletonInstance(config);
+    final String expectedJerseyApplicationClassName = "someRubbishForTestingPurposes";
+    System.setProperty(JettyManagerConfig.JERSEY_APPLICATION_CLASS_NAME_KEY, expectedJerseyApplicationClassName);
+    
+    assertThat(jettyManagerConfig.getJerseyApplicationClassName()).isEqualTo(expectedJerseyApplicationClassName);
+  }
+
+  @Test
+  void when_getting_the_jersey_application_class_name_when_sys_prop_not_set_then_an_exception_should_be_thrown() {
+    
+    enteringTestHeaderLogger.debug(null);
+    
+    final IConfig config = new AbstractConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingletonInstance(config);
+    System.clearProperty(JettyManagerConfig.JERSEY_APPLICATION_CLASS_NAME_KEY);
+    
+    assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> jettyManagerConfig.getJerseyApplicationClassName());
   }
 }

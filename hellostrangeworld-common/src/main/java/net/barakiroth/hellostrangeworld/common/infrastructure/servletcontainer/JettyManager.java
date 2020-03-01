@@ -21,8 +21,8 @@ public class JettyManager {
 
   private static JettyManager singletonInstance = null;
 
-  private final IJettyManagerConfig jettyManagerConfig;
-  private Server jettyServer;
+  private final  IJettyManagerConfig jettyManagerConfig;
+  private        Server              jettyServer;
 
   private JettyManager(final IConfig config) {
 
@@ -33,7 +33,7 @@ public class JettyManager {
     leavingMethodHeaderLogger.debug(null);
   }
 
-  public static void setSingletonInstance(final JettyManager jettyManager) {
+  private static void setSingletonInstance(final JettyManager jettyManager) {
     JettyManager.singletonInstance = jettyManager;
   }
 
@@ -88,6 +88,42 @@ public class JettyManager {
     leavingMethodHeaderLogger.debug(null);
   }
 
+  int getServerPort(final IJettyManagerConfig jettyManagerConfig) {
+
+    final int port = jettyManagerConfig.getServerPort();
+    log.debug("port: {}", port);
+
+    return port;
+  }
+
+  void setServer(final Server jettyServer) {
+    this.jettyServer = jettyServer;
+  }
+
+  Server getServer() {
+
+    if (this.jettyServer == null) {
+      final Server jettyServer = new Server(getServerPort(getJettyManagerConfig()));
+      setServer(jettyServer);
+    }
+    return this.jettyServer;
+  }
+
+  private void registerJerseyApplication(
+      final IJettyManagerConfig   jettyManagerConfig,
+      final ServletContextHandler servletContextHandler) {
+
+    enteringMethodHeaderLogger.debug(null);
+
+    final String resourcePathSpec = getResourcePathSpec(jettyManagerConfig);
+    final ServletHolder servletHolder = new ServletHolder(new ServletContainer());
+    final String jerseyApplicationClassName = getJerseyApplicationClassName();
+    servletHolder.setInitParameter("javax.ws.rs.Application", jerseyApplicationClassName);
+    servletContextHandler.addServlet(servletHolder, resourcePathSpec);
+
+    leavingMethodHeaderLogger.debug(null);
+  }
+
   private Server configure() {
 
     enteringMethodHeaderLogger.debug(null);
@@ -107,20 +143,6 @@ public class JettyManager {
     leavingMethodHeaderLogger.debug(null);
 
     return getServer();
-  }
-
-  void registerJerseyApplication(final IJettyManagerConfig jettyManagerConfig,
-      final ServletContextHandler servletContextHandler) {
-
-    enteringMethodHeaderLogger.debug(null);
-
-    final String resourcePathSpec = getResourcePathSpec(jettyManagerConfig);
-    final ServletHolder servletHolder = new ServletHolder(new ServletContainer());
-    final String jerseyApplicationClassName = getJerseyApplicationClassName();
-    servletHolder.setInitParameter("javax.ws.rs.Application", jerseyApplicationClassName);
-    servletContextHandler.addServlet(servletHolder, resourcePathSpec);
-
-    leavingMethodHeaderLogger.debug(null);
   }
 
   private void registerDefaultServlet(final IJettyManagerConfig jettyManagerConfig,
@@ -175,14 +197,6 @@ public class JettyManager {
     return rootContextPath;
   }
 
-  private int getServerPort(final IJettyManagerConfig jettyManagerConfig) {
-
-    final int port = jettyManagerConfig.getServerPort();
-    log.debug("port: {}", port);
-
-    return port;
-  }
-
   private String getMetricsContextPath(final IJettyManagerConfig jettyManagerConfig) {
 
     final String metricsResourcePathSpec = jettyManagerConfig.getMetricsContextPath();
@@ -205,19 +219,6 @@ public class JettyManager {
     log.debug("defaultPathSpec: {}", defaultPathSpec);
 
     return defaultPathSpec;
-  }
-
-  private void setServer(final Server jettyServer) {
-    this.jettyServer = jettyServer;
-  }
-
-  private Server getServer() {
-
-    if (this.jettyServer == null) {
-      final Server jettyServer = new Server(getServerPort(getJettyManagerConfig()));
-      setServer(jettyServer);
-    }
-    return this.jettyServer;
   }
 
   private String getJerseyApplicationClassName() {
