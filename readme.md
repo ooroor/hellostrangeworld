@@ -39,7 +39,7 @@
 - This is NOT a framework
 - This is NOT a utility repo
 - This does not solve any business problems for you
-- It is meant as an offer from which you can pick the most appropriate module(s) and code from a working full-fled three layer microservice-based app with a business logic as simple as you can imagine
+- It is meant as an offer from which you can pick the most appropriate module(s) and code from a working full-fledged three layer microservice-based app with a business logic as simple as you can imagine
 - It covers many of the technologies often called upon in such an environment, like e.g. REST, json, resilience, swagger, database, ...
 
 ### Tools and technologies used so far
