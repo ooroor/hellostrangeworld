@@ -1,6 +1,7 @@
 package net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer;
 
 import io.prometheus.client.exporter.MetricsServlet;
+
 import net.barakiroth.hellostrangeworld.common.IConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
 import org.eclipse.jetty.server.Server;
@@ -21,8 +22,9 @@ public class JettyManager {
 
   private static JettyManager singletonInstance = null;
 
-  private final  IJettyManagerConfig jettyManagerConfig;
-  private        Server              jettyServer;
+  private final IJettyManagerConfig jettyManagerConfig;
+  
+  private Server jettyServer;
 
   private JettyManager(final IConfig config) {
 
@@ -109,8 +111,7 @@ public class JettyManager {
     return this.jettyServer;
   }
 
-  private void registerJerseyApplication(
-      final IJettyManagerConfig   jettyManagerConfig,
+  private void registerJerseyApplication(final IJettyManagerConfig jettyManagerConfig,
       final ServletContextHandler servletContextHandler) {
 
     enteringMethodHeaderLogger.debug(null);

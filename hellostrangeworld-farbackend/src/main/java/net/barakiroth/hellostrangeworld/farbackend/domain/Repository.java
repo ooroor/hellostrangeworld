@@ -13,6 +13,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
+import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,16 +30,21 @@ public class Repository {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
   
-  private final FarBackendConfig config;
+  private IFarBackendConfig farBackendConfig;
+  private Database          database;
   
-  /**
-   * Create an instance and set its relevant configuration.
-   * @param config Relevant configuration.
-   */
-  public Repository(final FarBackendConfig config) {
-    this.config = config;
+  public Repository(final IFarBackendConfig farBackendConfig) {
+    this.farBackendConfig = farBackendConfig;
   }
 
+  private static Database createDatabase(final IFarBackendConfig farBackendConfig) {
+    return farBackendConfig.getDatabase();
+  }
+
+  private static IFarBackendConfig createFarBackendConfig() {
+    return FarBackendConfig.getSingletonInstance();
+  }
+  
   /**
    * Return the adjective used in the greeting.
    * TODO: Adding resilience confuscates the code considerably. Refactor.
@@ -49,7 +55,7 @@ public class Repository {
 
     enteringMethodHeaderLogger.debug(null);
     
-    final Database database = this.config.getDatabase();
+    final Database database = getDatabase();
     final int id = new Random(System.currentTimeMillis()).nextInt(3) + 1;
     final Supplier<Optional<ModifierDo>> selectGreetingDescriptionSupplier =
         new Supplier<>() {
@@ -140,4 +146,29 @@ public class Repository {
     
     return optionalGreetingDescription;
   }
+  
+  private void setDatabase(final Database database) {
+    this.database = database;
+  }
+  
+  private Database getDatabase() {
+    if (this.database == null) {
+      final Database database = Repository.createDatabase(getFarBackendConfig());
+      setDatabase(database);
+    }
+    return this.database;
+  }
+  
+  private void setFarBackendConfig(final IFarBackendConfig farBackendConfig) {
+    this.farBackendConfig = farBackendConfig;
+  }
+  
+  private IFarBackendConfig getFarBackendConfig() {
+    if (this.farBackendConfig == null) {
+      final IFarBackendConfig farBackendConfig = Repository.createFarBackendConfig();
+      setFarBackendConfig(farBackendConfig);
+    }
+    return this.farBackendConfig;
+  }
+  
 }

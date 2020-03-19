@@ -1,16 +1,19 @@
-package net.barakiroth.hellostrangeworld.backend;
+package net.barakiroth.hellostrangeworld.backend.consumer;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.matching;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import java.net.URISyntaxException;
 import net.barakiroth.hellostrangeworld.backend.consumer.ModifierDo;
+import net.barakiroth.hellostrangeworld.backend.BackendConfig;
+import net.barakiroth.hellostrangeworld.backend.IBackendConfig;
 import net.barakiroth.hellostrangeworld.backend.consumer.ModifierConsumer;
 import org.apache.http.conn.HttpHostConnectException;
 import org.junit.jupiter.api.AfterAll;
@@ -131,6 +134,15 @@ public class ModifierConsumerTest {
     setupStubWithOkUrlAndOkResponseEntity();
     
     assertThat(modifierConsumer.getModifierDo().getModifier()).isEqualTo("nice");
+  }
+  
+  @Test
+  void when_created_without_parms_thenno_exception_should_be_thrown()
+      throws JsonProcessingException {
+    
+    enteringTestHeaderLogger.debug(null);
+     
+    assertThatCode(() -> new ModifierConsumer()).doesNotThrowAnyException();
   }
 
   private void setupStubWithOkUrlAndOkResponseEntity()

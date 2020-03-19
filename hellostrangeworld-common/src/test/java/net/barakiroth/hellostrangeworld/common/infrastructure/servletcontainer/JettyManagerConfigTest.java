@@ -100,4 +100,32 @@ public class JettyManagerConfigTest {
     
     assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> jettyManagerConfig.getJerseyApplicationClassName());
   }
+
+  @Test
+  void when_getting_jetty_manager_for_the_first_time_then_a_new_one_should_be_created() {
+
+    enteringTestHeaderLogger.debug(null);
+
+    final IConfig config = new AbstractConfig() {
+      {
+      }
+    };
+    assertThat(config.getJettyManagerConfig().getJettyManager()).isNotNull();
+  }
+
+  @Test
+  void when_getting_jetty_manager_twice_then_the_second_one_should_be_the_same_as_the_first_one() {
+
+    enteringTestHeaderLogger.debug(null);
+
+    final IConfig config = new AbstractConfig() {
+      {
+      }
+    };
+    
+    final IJettyManagerConfig jettyManagerConfig = config.getJettyManagerConfig();
+    
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    assertThat(jettyManagerConfig.getJettyManager()).isSameAs(jettyManager);
+  }
 }

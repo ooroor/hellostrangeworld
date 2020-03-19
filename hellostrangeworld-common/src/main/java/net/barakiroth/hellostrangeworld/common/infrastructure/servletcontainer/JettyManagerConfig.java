@@ -2,6 +2,7 @@ package net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer;
 
 import net.barakiroth.hellostrangeworld.common.IConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 
 public class JettyManagerConfig implements IJettyManagerConfig {
 
@@ -21,7 +22,8 @@ public class JettyManagerConfig implements IJettyManagerConfig {
   
   private static IJettyManagerConfig singletonInstance = null;
   private final IConfig config;
-
+  private JettyManager jettyManager;
+  
   private JettyManagerConfig(final IConfig config) {
     this.config = config;
   }
@@ -43,8 +45,21 @@ public class JettyManagerConfig implements IJettyManagerConfig {
     return new JettyManagerConfig(config);
   }
   
+  private static JettyManager createJettyManager(final IConfig config) {
+    return JettyManager.getSingletonInstance(config);
+  }
+  
   private IConfig getConfig() {
     return this.config;
+  }
+
+  @Override
+  public JettyManager getJettyManager() {
+    if (this.jettyManager == null) {
+      final JettyManager jettyManager = createJettyManager(getConfig());
+      setJettyManager(jettyManager);
+    }
+    return this.jettyManager;
   }
 
   @Override
@@ -87,4 +102,11 @@ public class JettyManagerConfig implements IJettyManagerConfig {
         getConfig().getRequiredString(JERSEY_APPLICATION_CLASS_NAME_KEY);
     return jerseyApplicationClassName;
   }
+  
+  private void setJettyManager(final JettyManager jettyManager) {
+    this.jettyManager = jettyManager;
+  }
 }
+
+
+

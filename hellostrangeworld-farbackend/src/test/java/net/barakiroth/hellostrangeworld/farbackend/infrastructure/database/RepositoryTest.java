@@ -2,7 +2,11 @@ package net.barakiroth.hellostrangeworld.farbackend.infrastructure.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.mockito.Mockito.doReturn;
 
+import com.querydsl.sql.SQLQueryFactory;
+import com.querydsl.sql.SQLQuery;
+import com.querydsl.core.Tuple;
 import java.util.Optional;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
@@ -11,13 +15,20 @@ import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@ExtendWith(MockitoExtension.class)
 public class RepositoryTest {
 
   private static final Logger enteringTestHeaderLogger =
       LoggerFactory.getLogger("EnteringTestHeader");
+  
+  @Mock
+  private Database mockedDatabase;
   
   @BeforeEach
   void beforeEach() {
@@ -89,4 +100,33 @@ public class RepositoryTest {
     }
   }
   
+  @Mock
+  private SQLQuery<Tuple> mockedSQLQueryOfTuple;
+  
+  @Mock
+  private SQLQueryFactory mockedSQLQueryFactory;
+  
+  @Test
+  void when_x_then_y() {
+    
+    /*
+    mockedDatabase
+    
+    SQLQuery<Tuple>
+    
+    
+    
+    */
+    
+    /*
+    doReturn(mockedSQLQueryFactory).when(mockedDatabase).getSqlQueryFactory();
+    
+    doReturn(mockedSQLQueryOfTuple).when(mockedSQLQueryFactory).select(any);
+    doReturn(mockedSQLQueryOfTuple).when(mockedSQLQueryFactory).from(any);
+    doReturn(mockedSQLQueryOfTuple).when(mockedSQLQueryFactory).where(any);
+    doReturn(mockedSQLQueryOfTuple).when(mockedSQLQueryFactory).fe
+    */
+    
+    
+  }
 }

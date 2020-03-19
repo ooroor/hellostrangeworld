@@ -5,10 +5,10 @@ import net.barakiroth.hellostrangeworld.frontend.consumer.InitialPartConsumer;
 
 public interface IFrontendConfig extends IConfig {
 
-	final String DOWNSTREAM_RESOURCE_ENDPOINT_PROTOCOL_KEY = "downsream.resource.endpoint.protocol";
-	final String DOWNSTREAM_RESOURCE_ENDPOINT_HOSTNAME_KEY = "downsream.resource.endpoint.hostname";
-	final String DOWNSTREAM_RESOURCE_ENDPOINT_PORT_KEY = "downsream.resource.endpoint.port";
-	final String DOWNSTREAM_RESOURCE_ENDPOINT_CONTEXT_KEY = "downsream.resource.endpoint.context";
+	final String DOWNSTREAM_RESOURCE_ENDPOINT_PROTOCOL_KEY = "downstream.resource.endpoint.protocol";
+	final String DOWNSTREAM_RESOURCE_ENDPOINT_HOSTNAME_KEY = "downstream.resource.endpoint.hostname";
+	final String DOWNSTREAM_RESOURCE_ENDPOINT_PORT_KEY = "downstream.resource.endpoint.port";
+	final String DOWNSTREAM_RESOURCE_ENDPOINT_CONTEXT_KEY = "downstream.resource.endpoint.context";
 
 	default String getDownstreamResourceEndpointUriString() {
 		return getRequiredString(DOWNSTREAM_RESOURCE_ENDPOINT_PROTOCOL_KEY) + "://"

@@ -3,55 +3,21 @@ package net.barakiroth.hellostrangeworld.farbackend;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.barakiroth.hellostrangeworld.common.AbstractConfig;
-import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.DatabaseConfig;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.prometheus.PrometheusConfig;
 
 public class FarBackendConfig extends AbstractConfig implements IFarBackendConfig {
 
   @Getter(AccessLevel.PUBLIC)
   private static final IFarBackendConfig singletonInstance = new FarBackendConfig();
-
   
-  private JettyManager jettyManager;
   private DatabaseConfig databaseConfig;
   private Database database;
   private Repository repository;
-  private PrometheusConfig prometheusConfig;
 
   private FarBackendConfig() {
     super();
-  }
-
-  private void setJettyManager(final JettyManager jettyManager) {
-    this.jettyManager = jettyManager;
-  }
-
-  @Override
-  public JettyManager getJettyManager() {
-    if (this.jettyManager == null) {
-      // TODO: Should call the getter, not the creator:
-      final JettyManager jettyManager =
-          JettyManager.getSingletonInstance(this);
-      setJettyManager(jettyManager);
-    }
-    return this.jettyManager;
-  }
-
-  private void setPrometheusConfig(final PrometheusConfig prometheusConfig) {
-    this.prometheusConfig = prometheusConfig;
-  }
-
-  @Override
-  public PrometheusConfig getPrometheusConfig() {
-    if (this.prometheusConfig == null) {
-      // TODO: Should call the getter, not the creator:
-      final PrometheusConfig prometheusConfig = PrometheusConfig.createSingletonInstance(this);
-      setPrometheusConfig(prometheusConfig);
-    }
-    return this.prometheusConfig;
   }
 
   private void setDatabaseConfig(final DatabaseConfig databaseConfig) {

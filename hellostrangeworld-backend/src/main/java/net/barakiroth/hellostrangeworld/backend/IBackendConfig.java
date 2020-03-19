@@ -1,16 +1,13 @@
 package net.barakiroth.hellostrangeworld.backend;
 
 import net.barakiroth.hellostrangeworld.common.IConfig;
-import net.barakiroth.hellostrangeworld.backend.infrastructure.prometheus.PrometheusConfig;
 
 public interface IBackendConfig extends IConfig {
 
-	public final String DOWNSTREAM_RESOURCE_ENDPOINT_PROTOCOL_KEY = "downstream.resource.endpoint.protocol";
-	public final String DOWNSTREAM_RESOURCE_ENDPOINT_HOSTNAME_KEY = "downstream.resource.endpoint.hostname";
-	public final String DOWNSTREAM_RESOURCE_ENDPOINT_PORT_KEY = "downstream.resource.endpoint.port";
-	public final String DOWNSTREAM_RESOURCE_ENDPOINT_CONTEXT_KEY = "downstream.resource.endpoint.context";
-
-	PrometheusConfig getPrometheusConfig();
+	final String DOWNSTREAM_RESOURCE_ENDPOINT_PROTOCOL_KEY = "downstream.resource.endpoint.protocol";
+	final String DOWNSTREAM_RESOURCE_ENDPOINT_HOSTNAME_KEY = "downstream.resource.endpoint.hostname";
+	final String DOWNSTREAM_RESOURCE_ENDPOINT_PORT_KEY = "downstream.resource.endpoint.port";
+	final String DOWNSTREAM_RESOURCE_ENDPOINT_CONTEXT_KEY = "downstream.resource.endpoint.context";
 
 	default String getModifierResourceEndpointUriString() {
 		return getRequiredString(DOWNSTREAM_RESOURCE_ENDPOINT_PROTOCOL_KEY) + "://"

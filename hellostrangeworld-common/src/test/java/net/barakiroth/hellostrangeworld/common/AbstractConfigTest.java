@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import net.barakiroth.hellostrangeworld.common.infrastructure.prometheus.IPrometheusConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 
@@ -166,9 +167,10 @@ public class AbstractConfigTest {
   }
 
   @Test
-  void when_getting_jety_manager_config_for_the_first_time_then_a_new_one_should_be_created() {
+  void when_getting_jetty_manager_config_for_the_first_time_then_a_new_one_should_implicitly_be_created() {
 
     enteringTestHeaderLogger.debug(null);
+    
 
     final IConfig config = new AbstractConfig() {
       {
@@ -178,7 +180,7 @@ public class AbstractConfigTest {
   }
 
   @Test
-  void when_getting_jety_manager_config_twice_then_the_second_one_should_be_the_same_as_the_first_one() {
+  void when_getting_jetty_manager_config_twice_then_the_second_one_should_be_the_same_as_the_first_one() {
 
     enteringTestHeaderLogger.debug(null);
 
@@ -191,19 +193,20 @@ public class AbstractConfigTest {
   }
 
   @Test
-  void when_getting_jety_manager_for_the_first_time_then_a_new_one_should_be_created() {
+  void when_getting_PrometheusConfig_for_the_first_time_then_a_new_one_should_implicitly_be_created() {
 
     enteringTestHeaderLogger.debug(null);
+    
 
     final IConfig config = new AbstractConfig() {
       {
       }
     };
-    assertThat(config.getJettyManager()).isNotNull();
+    assertThat(config.getPrometheusConfig()).isNotNull();
   }
 
   @Test
-  void when_getting_jety_manager_twice_then_the_second_one_should_be_the_same_as_the_first_one() {
+  void when_getting_PrometheusConfig_twice_then_the_second_one_should_be_the_same_as_the_first_one() {
 
     enteringTestHeaderLogger.debug(null);
 
@@ -211,7 +214,7 @@ public class AbstractConfigTest {
       {
       }
     };
-    final JettyManager jettyManager = config.getJettyManager();
-    assertThat(config.getJettyManager()).isSameAs(jettyManager);
+    final IPrometheusConfig prometheusConfig = config.getPrometheusConfig();
+    assertThat(config.getPrometheusConfig()).isSameAs(prometheusConfig);
   }
 }

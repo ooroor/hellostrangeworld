@@ -58,7 +58,7 @@ public class MainTest {
   }
   
   @Test
-  public void should_print_correct_string_to_stdout_unconditionally() {
+  public void when_running_main_then_an_expected_greeting_should_be_produced() {
     
     enteringTestHeaderLogger.debug(null);
     
@@ -91,11 +91,24 @@ public class MainTest {
   }
 
   @Test
-  public void should_not_throw_when_instantiating() {
+  public void when_implcitly_creating_a_main_instance_then_no_exception_should_be_thrown() { 
     
     enteringTestHeaderLogger.debug(null);    
  
     assertThatCode(() -> Main.getSingletonInstance()).doesNotThrowAnyException();
+  }
+
+  @Test
+  public void when_GreeteePrompter_is_explicitly_set_then_it_should_be_returned_by_a_subsequent_get() {
+    
+    enteringTestHeaderLogger.debug(null);
+    
+    final Main main = Main.getSingletonInstance();
+    final IFrontendConfig frontendConfig = main.getFrontendConfig();
+    final GreeteePrompter greeteePrompter = new GreeteePrompter() {{}};
+    main.setGreeteePrompter(greeteePrompter);
+ 
+    assertThat(greeteePrompter).isEqualTo(main.getGreeteePrompter(frontendConfig));
   }
 
   @Test
@@ -118,6 +131,19 @@ public class MainTest {
     final IFrontendConfig config = FrontendConfig.getSingletonInstance();
     
     assertThat(Main.getSingletonInstance().getGreeteePrompter(config)).isNotNull();
+  }
+
+  @Test
+  public void when_InitialPartConsumer_is_explicitly_set_then_it_should_be_returned_by_a_subsequent_get() {
+    
+    enteringTestHeaderLogger.debug(null);
+    
+    final Main main = Main.getSingletonInstance();
+    final IFrontendConfig frontendConfig = main.getFrontendConfig();
+    final InitialPartConsumer initialPartConsumer = new InitialPartConsumer() {{}};
+    main.setInitialPartConsumer(initialPartConsumer);
+ 
+    assertThat(initialPartConsumer).isEqualTo(main.getInitialPartConsumer(frontendConfig));
   }
 
   @Test
@@ -145,6 +171,18 @@ public class MainTest {
     assertThat(
     		Main.getSingletonInstance().getInitialPartConsumer(config)
     ).isNotNull();
+  }
+
+  @Test
+  public void when_getting_the_config_twice_then_the_same_config_should_be_returned() {
+    
+    enteringTestHeaderLogger.debug(null);
+ 
+    final Main main = Main.getSingletonInstance();
+    final IFrontendConfig frontendConfig1 = main.getFrontendConfig();
+    final IFrontendConfig frontendConfig2 = main.getFrontendConfig();
+    
+    assertThat(frontendConfig1).isEqualTo(frontendConfig2);
   }
   
 }

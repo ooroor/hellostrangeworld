@@ -2,8 +2,9 @@ package net.barakiroth.hellostrangeworld.common;
 
 import java.io.File;
 import java.util.stream.Stream;
+import net.barakiroth.hellostrangeworld.common.infrastructure.prometheus.IPrometheusConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.prometheus.PrometheusConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
-import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManagerConfig;
 import org.apache.commons.configuration2.BaseConfiguration;
 import org.apache.commons.configuration2.CompositeConfiguration;
@@ -26,8 +27,8 @@ public abstract class AbstractConfig implements IConfig {
 	  
 	  private final CompositeConfiguration compositeConfiguration;
 	  private       IJettyManagerConfig    jettyManagerConfig;
-	  private       JettyManager           jettyManager;
-	    
+	  private       IPrometheusConfig      prometheusConfig;
+	  
 	  protected AbstractConfig() {
 	    
 	    enteringMethodHeaderLogger.debug(null);
@@ -122,19 +123,19 @@ public abstract class AbstractConfig implements IConfig {
 	      setJettyManagerConfig(jettyManagerConfig);
 	    }
 	    return this.jettyManagerConfig;
-	  }  
-
-	  private void setJettyManager(final JettyManager jettyManager) {
-	    this.jettyManager = jettyManager;
+	  }
+	  
+	  private void setPrometheusConfig(final IPrometheusConfig prometheusConfig) {
+	    this.prometheusConfig = prometheusConfig;
 	  }
 
 	  @Override
-	  public JettyManager getJettyManager() {
-	    if (this.jettyManager == null) {
-	      final JettyManager jettyManager =
-	          JettyManager.getSingletonInstance(this);
-	      setJettyManager(jettyManager);
+	  public IPrometheusConfig getPrometheusConfig() {
+	    if (this.prometheusConfig == null) {
+	      // TODO: Should call the getter, not the creator:
+	      final IPrometheusConfig prometheusConfig = PrometheusConfig.getSingletonInstance(this);
+	      setPrometheusConfig(prometheusConfig);
 	    }
-	    return this.jettyManager;
+	    return this.prometheusConfig;
 	  }
 }

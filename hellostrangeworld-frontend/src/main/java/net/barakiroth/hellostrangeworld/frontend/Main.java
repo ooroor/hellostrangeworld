@@ -7,15 +7,15 @@ import org.slf4j.LoggerFactory;
 
 public class Main {
 
-	private static final Logger logger = LoggerFactory.getLogger(Main.class);
+  private static final Logger logger = LoggerFactory.getLogger(Main.class);
 	private static final Logger enteringMethodHeaderLogger = LoggerFactory.getLogger("EnteringMethodHeader");
 	private static final Logger leavingMethodHeaderLogger = LoggerFactory.getLogger("LeavingMethodHeader");
 
 	private static final Main main = new Main();
 
-	IFrontendConfig     config;
-	GreeteePrompter     greeteePrompter;
-	InitialPartConsumer initialPartConsumer;
+	private IFrontendConfig     frontendConfig;
+	private GreeteePrompter     greeteePrompter;
+	private InitialPartConsumer initialPartConsumer;
 
 	private Main() {
 	}
@@ -35,59 +35,71 @@ public class Main {
 	static Main getSingletonInstance() {
 		return Main.main;
 	}
+    
+    private static IFrontendConfig createFrontendConfig() {
+      return FrontendConfig.getSingletonInstance();
+    }
+    
+    private static GreeteePrompter createGreeteePrompter(final IFrontendConfig frontendConfig) {
+      final GreeteePrompter greeteePrompter = frontendConfig.getGreeteePrompter();
+      return greeteePrompter;
+    }
 
-	private void run() {
+    private static InitialPartConsumer createInitialPartConsumer(final IFrontendConfig config) {
+      return config.getInitialPartConsumer();
+    }
 
-		enteringMethodHeaderLogger.debug(null);
+    void setGreeteePrompter(final GreeteePrompter greeteePrompter) {
+        this.greeteePrompter = greeteePrompter;
+    }
 
-		final IFrontendConfig config = getConfig();
+    GreeteePrompter getGreeteePrompter(final IFrontendConfig frontendConfig) {
+        if (this.greeteePrompter == null) {
+            final GreeteePrompter greeteePrompter = Main.createGreeteePrompter(frontendConfig);
+            setGreeteePrompter(greeteePrompter);
+        }
+        return this.greeteePrompter;
+    }
 
-		final GreeteePrompter greeteePrompter = getGreeteePrompter(config);
-		final String greetee = greeteePrompter.getGreetee();
+    IFrontendConfig getFrontendConfig() {
+        if (this.frontendConfig == null) {
+            final IFrontendConfig frontendConfig = Main.createFrontendConfig();
+            setFrontendConfig(frontendConfig);
+        }
+        return this.frontendConfig;
+    }
 
-		final InitialPartConsumer initialPartConsumer = getInitialPartConsumer(config);
-		final String initialPart = initialPartConsumer.getInitialPartDo().getInitialPart();
-		final String greeting = MessageFormat.format(initialPart + " {0}!", greetee);
+    void setInitialPartConsumer(final InitialPartConsumer initialPartConsumer) {
+        this.initialPartConsumer = initialPartConsumer;
+    }
+    
+    InitialPartConsumer getInitialPartConsumer(final IFrontendConfig config) {
+        if (this.initialPartConsumer == null) {
+            final InitialPartConsumer initialPartConsumer = Main.createInitialPartConsumer(config);
+            setInitialPartConsumer(initialPartConsumer);
+        }
+        return this.initialPartConsumer;
+    }
 
-		System.err.println(greeting);
+    private void run() {
 
-		leavingMethodHeaderLogger.debug(null);
-	}
+        enteringMethodHeaderLogger.debug(null);
 
-	private void setConfig(final IFrontendConfig config) {
-		this.config = config;
-	}
+        final IFrontendConfig config = getFrontendConfig();
 
-	private IFrontendConfig getConfig() {
-		if (this.config == null) {
-			final IFrontendConfig config = FrontendConfig.getSingletonInstance();
-			setConfig(config);
-		}
-		return this.config;
-	}
+        final GreeteePrompter greeteePrompter = getGreeteePrompter(config);
+        final String greetee = greeteePrompter.getGreetee();
 
-	void setGreeteePrompter(final GreeteePrompter greeteePrompter) {
-		this.greeteePrompter = greeteePrompter;
-	}
+        final InitialPartConsumer initialPartConsumer = getInitialPartConsumer(config);
+        final String initialPart = initialPartConsumer.getInitialPartDo().getInitialPart();
+        final String greeting = MessageFormat.format(initialPart + " {0}!", greetee);
 
-	GreeteePrompter getGreeteePrompter(final IFrontendConfig config) {
-		if (this.greeteePrompter == null) {
-			final GreeteePrompter greeteePrompter = config.getGreeteePrompter();
-			setGreeteePrompter(greeteePrompter);
-		}
-		return this.greeteePrompter;
-	}
+        System.err.println(greeting);
 
-	void setInitialPartConsumer(final InitialPartConsumer initialPartConsumer) {
-		this.initialPartConsumer = initialPartConsumer;
-	}
+        leavingMethodHeaderLogger.debug(null);
+    }
 
-	InitialPartConsumer getInitialPartConsumer(final IFrontendConfig config) {
-		if (this.initialPartConsumer == null) {
-			final InitialPartConsumer initialPartConsumer = config.getInitialPartConsumer();
-			setInitialPartConsumer(initialPartConsumer);
-		}
-		return this.initialPartConsumer;
-	}
-
+    private void setFrontendConfig(final IFrontendConfig frontendConfig) {
+        this.frontendConfig = frontendConfig;
+    }
 }

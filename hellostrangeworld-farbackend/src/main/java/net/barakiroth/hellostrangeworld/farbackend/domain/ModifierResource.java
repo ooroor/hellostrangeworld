@@ -17,9 +17,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import net.barakiroth.hellostrangeworld.common.infrastructure.prometheus.IPrometheusConfig;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.prometheus.PrometheusConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,14 +45,28 @@ public class ModifierResource {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
   
-  private final IFarBackendConfig config;
+  private IFarBackendConfig farBackendConfig;
+  private ObjectMapper      objectMapper;
+  private Repository        repository; 
   
   public ModifierResource() {
-    this(FarBackendConfig.getSingletonInstance());
+    this(ModifierResource.createFarBackendConfig());
   }
   
-  public ModifierResource(final IFarBackendConfig config) {
-    this.config = config;
+  public ModifierResource(final IFarBackendConfig farBackendConfig) {
+    this.setFarBackendConfig(farBackendConfig);
+  }
+  
+  private static IFarBackendConfig createFarBackendConfig() {
+    return FarBackendConfig.getSingletonInstance();
+  }
+
+  private static ObjectMapper createObjectMapper() {
+    return new ObjectMapper();
+  }
+  
+  private static Repository createRepository(final IFarBackendConfig farBackendConfig) {
+    return farBackendConfig.getRepository();
   }
 
   /**
@@ -86,24 +100,24 @@ public class ModifierResource {
     
     enteringMethodHeaderLogger.debug(null);
     
-    final PrometheusConfig prometheusConfig = this.config.getPrometheusConfig();
+    final IPrometheusConfig prometheusConfig =
+        getFarBackendConfig().getPrometheusConfig();
     final Gauge.Timer getGreetingDescriptionDurationGaugeTimer =
-            prometheusConfig.getGetGreetingDescriptionDurationGauge().startTimer();
+        prometheusConfig.getGetResourceDurationGauge().startTimer();
 
-    final Optional<ModifierDo> optionalGreetingDescription =
-        this.config.getRepository().getModifierDo();
-    
-    final ObjectMapper objectMapper = new ObjectMapper();
+    final Repository repository = getRepository();
+    final Optional<ModifierDo> optionalModifierDo = repository.getModifierDo();
+    final ObjectMapper objectMapper = getObjectMapper();
 
     String modifierAsJson = null;
     try {
       modifierAsJson =
           objectMapper
             .writeValueAsString(
-                optionalGreetingDescription
+                optionalModifierDo
                   .orElse(new ModifierDo(-1, ""))
             );
-      prometheusConfig.getLastGetGreetingDescriptionSuccessGauge().setToCurrentTime();
+      prometheusConfig.getLastGetResourceSuccessGauge().setToCurrentTime();
     } catch (JsonProcessingException e) {
       // TODO Auto-generated catch block, return a outcome code instead.
       e.printStackTrace();
@@ -113,8 +127,63 @@ public class ModifierResource {
     
     log.debug("About to respond:\n\n{}", modifierAsJson);
     
-    leavingMethodHeaderLogger.debug(null);;
+    leavingMethodHeaderLogger.debug(null);
     
     return modifierAsJson;
   }
+  
+  void setObjectMapper(final ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
+  
+  ObjectMapper getObjectMapper() {
+    
+    enteringMethodHeaderLogger.debug(null);
+    
+    if (this.objectMapper == null) {
+      final ObjectMapper objectMapper = ModifierResource.createObjectMapper();
+      setObjectMapper(objectMapper);
+    }
+    
+    leavingMethodHeaderLogger.debug(null);;
+    
+    return this.objectMapper;
+  }
+  
+  void setFarBackendConfig(final IFarBackendConfig farBackendConfig) {
+    this.farBackendConfig = farBackendConfig;
+  }
+  
+  IFarBackendConfig getFarBackendConfig() {
+    
+    enteringMethodHeaderLogger.debug(null);
+    
+    if (this.farBackendConfig == null) {
+      final IFarBackendConfig farBackendConfig = ModifierResource.createFarBackendConfig();
+      setFarBackendConfig(farBackendConfig);
+    }
+    
+    leavingMethodHeaderLogger.debug(null);;
+    
+    return this.farBackendConfig;
+  }
+
+  void setRepository(final Repository repository) {
+    this.repository = repository;
+  }
+  
+  Repository getRepository() {
+    
+    enteringMethodHeaderLogger.debug(null);
+    
+    if (this.repository == null) {
+      final Repository repository =
+          ModifierResource.createRepository(getFarBackendConfig());
+      setRepository(repository);
+    }
+    
+    leavingMethodHeaderLogger.debug(null);;
+    
+    return this.repository;
+  } 
 }

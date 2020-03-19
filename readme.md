@@ -25,18 +25,26 @@
 
 ### Inspirations
 - Simplicity
-- Testability
+- Write highly testable classes
 - High coverage
 - Not using overkill technologies and frameworks
 - Decoupling
 - No superfluous, silly or evident commenting
 - Self explanatory code, using descriptive and precise words for method names, variables etc..
 - Kill checked exceptions as fast as they are caught, don't rethrow them.
-- Use return codes instead of exceptions to communicate flow variations, including errors
+- When relevant and possible, prefer return codes to exceptions to communicate exceptional flow between classes
+
+### How to use
+- This is NOT a library
+- This is NOT a framework
+- This is NOT a utility repo
+- This does not solve any business problems for you
+- It is meant as an offer from which you can pick the most appropriate module(s) and code from a working full-fled three layer microservice-based app with a business logic as simple as you can imagine
+- It covers many of the technologies often called upon in such an environment, like e.g. REST, json, resilience, swagger, database, ...
 
 ### Tools and technologies used so far
 - Maven/surefire/site reporting
-- Three layers: Frontend, immediate backend and downstream far backend
+- Three layers: Frontend, backend and downstream far backend
 
 #### Summary over technologies/designs so far
 
@@ -46,6 +54,7 @@
 | Checkstyle       |    X     |        X |           X |                                     Code layout tool |
 | Conf2            |   X   |  X |           X |                  Easy configuration, properties etc. |
 | doInTransaction |   N/A    |      N/A |     X |                   Database transaction pattern |
+| Docker | NOT YET | NOT YET | NOT YET | Self contained (os + app + ...) virtualized application container |
 | Elm | ? | N/A | N/A | Functional programming GUI programming tool. Alternative to Web Components. Could probably also exist side-by-side with Web Components. |
 | FlyWay  |   N/A    |  N/A   |      X       |                         Database creation and migration |
 | H2               |   N/A    |      N/A |           X |                                   In-memory database |
@@ -76,9 +85,8 @@
 | Web components   | NOT YET  |      N/A |         N/A | Frontend browser technology. Alternative to Elm. Could probably also exist side-by-side with Elm. |
 
 #### Detail TODO-s:
+- Tidy up the poms!
 - Increase coverage in far backend
-- Increase coverage in backend
-- Increase coverage in frontend
 - Remove overlapping classes when building fat jars
 - Liveness and readiness
 - Compile all reports to the site directory
@@ -89,11 +97,12 @@
 - Config injection
 - Consistent naming
 - Remove exception rethrows
-- Tidy up the poms
 - Move more common stuff to the common library
 - Error page upon HTTP errors
+- Docker
+
 ### Future plans and ambitions
-- ?
+- Make a Maven archetype of it
 
 ### Technologies that will NOT be used
 - Spring
@@ -120,12 +129,12 @@
 - Run a complete build
 
 ``` 
-CLS&mvn clean install org.pitest:pitest-maven:mutationCoverage
+mvn clean install org.pitest:pitest-maven:mutationCoverage
 ```
 - Run a complete build of the far backend when flyway clean has been run or it has never before been built
 
 ``` 
-CLS&cd hellostrangeworld-farbackend&mvn clean flyway:migrate install&cd..
+cd hellostrangeworld-farbackend&mvn clean flyway:migrate install&cd..
 ```
 - Run the pi tests:
 
@@ -150,7 +159,7 @@ CLS&mvn clean install -v -DskipTests=true
 - Run the far backend servlet container:
 
 ```
-CLS&java -ea -cp hellostrangeworld-farbackend/target/* net.barakiroth.hellostrangeworld.farbackend.Main
+java -ea -cp hellostrangeworld-farbackend/target/* net.barakiroth.hellostrangeworld.farbackend.Main
 ```
 - Access the metrics
 
@@ -174,17 +183,17 @@ taskkill /F /PID 8089
 - Run owasp analysis
 
 ```
-CLS&mvn -X org.owasp:dependency-check-maven:check -P owasp
+mvn -X org.owasp:dependency-check-maven:check -P owasp
 ```
 - Run checkstyle (Report in ./hellostrangeworld/target/site/checkstyle-aggregate.html)
 
 ```
-CLS&mvn clean install checkstyle:check site -P checkstyle -Dcheckstyle.config.location=google_checks.xml
+mvn clean install checkstyle:check site -P checkstyle -Dcheckstyle.config.location=google_checks.xml
 ```
 - If hung-up on some FlyWay migration (first change current directory to far backend):
 
 ```
-CLS&cd hellostrangeworld-farbackend&mvn flyway:clean&mvn flyway:migrate&cd..
+cd hellostrangeworld-farbackend&mvn flyway:clean&mvn flyway:migrate&cd..
 ```
 ### Useful refs: 
 #### Flyway

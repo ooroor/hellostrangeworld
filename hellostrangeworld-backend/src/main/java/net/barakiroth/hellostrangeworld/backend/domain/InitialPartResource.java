@@ -20,7 +20,7 @@ import net.barakiroth.hellostrangeworld.backend.BackendConfig;
 import net.barakiroth.hellostrangeworld.backend.IBackendConfig;
 import net.barakiroth.hellostrangeworld.backend.consumer.ModifierConsumer;
 import net.barakiroth.hellostrangeworld.backend.consumer.ModifierDo;
-import net.barakiroth.hellostrangeworld.backend.infrastructure.prometheus.PrometheusConfig;
+import net.barakiroth.hellostrangeworld.common.infrastructure.prometheus.IPrometheusConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,17 +45,31 @@ public class InitialPartResource {
       LoggerFactory.getLogger("EnteringMethodHeader");
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
-  
-  private final IBackendConfig config;
-  
+
+  private IBackendConfig   backendConfig;
+  private ModifierConsumer modifierConsumer;
+  private ObjectMapper objectMapper;
+
   public InitialPartResource() {
-    this(BackendConfig.getSingletonInstance());
-  }
-  
-  public InitialPartResource(final IBackendConfig config) {
-    this.config = config;
+    this(InitialPartResource.createBackendConfig());
   }
 
+  public InitialPartResource(final IBackendConfig backendConfig) {
+    setBackendConfig(backendConfig);
+  }
+
+  private static IBackendConfig createBackendConfig() {
+    return BackendConfig.getSingletonInstance();
+  }
+
+  private static ModifierConsumer createModifierConsumer() {
+    return new ModifierConsumer();
+  }
+
+  private static ObjectMapper createObjectMapper() {
+    return new ObjectMapper();
+  }
+  
   /**
    * REST API resource, getting the initial part of a greeting.
    * 
@@ -86,26 +100,27 @@ public class InitialPartResource {
   public String getInitialPart() {
     
     enteringMethodHeaderLogger.debug(null);
-    
-    final PrometheusConfig prometheusConfig = this.config.getPrometheusConfig();
+
+    final IPrometheusConfig prometheusConfig =
+        getBackendConfig().getPrometheusConfig();
     final Gauge.Timer getInitialPartDurationGaugeTimer =
-            prometheusConfig.getGetInitialPartDurationGauge().startTimer();
+            prometheusConfig.getGetResourceDurationGauge().startTimer();
     
-    final ModifierConsumer modifierConsumer = new ModifierConsumer();
+    final ModifierConsumer modifierConsumer = getModifierConsumer();
     final String interjection = "Hello";
     final ModifierDo modifierDo = modifierConsumer.getModifierDo();
     
     // TODO: Name object and string consistently across layers.
-    final InitialPartDo initialPart = new InitialPartDo(interjection + ", " + modifierDo.getModifier());
+    final InitialPartDo initialPartDo = new InitialPartDo(interjection + ", " + modifierDo.getModifier());
     
-    final ObjectMapper objectMapper = new ObjectMapper();
+    final ObjectMapper objectMapper = getObjectMapper();
 
     String initialPartAsJson = null;
     try {
-      initialPartAsJson = objectMapper.writeValueAsString(initialPart);
-      prometheusConfig.getLastGetInitialPartSuccessGauge().setToCurrentTime();
+      initialPartAsJson = objectMapper.writeValueAsString(initialPartDo);
+      prometheusConfig.getLastGetResourceSuccessGauge().setToCurrentTime();
     } catch (JsonProcessingException e) {
-      // TODO Auto-generated catch block, return a outcome code instead.
+      // TODO Auto-generated catch block, return a outcome code or rethrow instead.
       e.printStackTrace();
     } finally {
       getInitialPartDurationGaugeTimer.setDuration();
@@ -117,4 +132,62 @@ public class InitialPartResource {
     
     return initialPartAsJson;
   }
+  
+  void setModifierConsumer(final ModifierConsumer modifierConsumer) {
+    this.modifierConsumer = modifierConsumer;
+  }
+  
+  ModifierConsumer getModifierConsumer() {
+    
+    enteringMethodHeaderLogger.debug(null);
+    
+    if (this.modifierConsumer == null) {
+      final ModifierConsumer modifierConsumer =
+          InitialPartResource.createModifierConsumer();
+      setModifierConsumer(modifierConsumer);
+    }
+    
+    leavingMethodHeaderLogger.debug(null);;
+    
+    return this.modifierConsumer;
+  }
+  
+  void setBackendConfig(final IBackendConfig backendConfig) {
+    this.backendConfig = backendConfig;
+  }
+  
+  IBackendConfig getBackendConfig() {
+    
+    enteringMethodHeaderLogger.debug(null);
+    
+    if (this.backendConfig == null) {
+      final IBackendConfig backendConfig =
+          InitialPartResource.createBackendConfig();
+      setBackendConfig(backendConfig);
+    }
+    
+    leavingMethodHeaderLogger.debug(null);;
+    
+    return this.backendConfig;
+  }
+  
+  void setObjectMapper(final ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
+  
+  ObjectMapper getObjectMapper() {
+    
+    enteringMethodHeaderLogger.debug(null);
+    
+    if (this.objectMapper == null) {
+      final ObjectMapper objectMapper =
+          InitialPartResource.createObjectMapper();
+      setObjectMapper(objectMapper);
+    }
+    
+    leavingMethodHeaderLogger.debug(null);;
+    
+    return this.objectMapper;
+  }
+  
 }
