@@ -15,7 +15,7 @@
 |```Modifier``` | |"strange" or "immensely weird"|
 |```Greetee``` | |"world" or "human being"|
 |```Frontend``` |Prompts the user for the greetee, calls downstream to get the rest of the greeting and presents the result| |
-|```Backend``` |Calls downstream to the far backend to get the modifier and concatenates it to produce the initial part of the greeting| |
+|```Backend``` |Calls downstream to the far backend to get the modifier and concatenates it with an interjection to produce the initial part of the greeting| |
 |```Far backend``` |Queries an RDBMS to get a random modifier| |
 
 ### Environment
