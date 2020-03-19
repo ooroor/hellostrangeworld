@@ -2,9 +2,9 @@
 
 ### Business Logic
 1. The frontend asks the user whom too greet, and the user answers e.g. ```"world"```.
-0. The frontend does a HTTP call to the backend microservice asking for a verb and an adjective to be used in the greeting, e.g. ```"Hello strange"```.
-0. The backend does a downstream HTTP call to the far backend microservice asking for an adjective with which to colour the greeting, e.g. ```"strange"```.
-0. The frontend presents to the user the resulting greeting , e.g. ```"Hello strange world"```.
+0. The frontend does a HTTP call to the backend microservice asking for an interjection and an adjective (initial part) to be used in the greeting, e.g. ```"Hello strange"```.
+0. The backend does a downstream HTTP call to the far backend microservice asking for an adjective (modifier) with which to color the greeting, e.g. ```"strange"```.
+0. The frontend presents to the user the resulting greeting , e.g. ```"Hello, strange world"```.
 
 ### Terms
 | Term             |Description| Example |
