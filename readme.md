@@ -2,9 +2,9 @@
 
 ### Business Logic
 1. The frontend asks the user whom too greet, and the user answers e.g. ```"world"```.
-0. The frontend does a HTTP call to the backend microservice asking for a verb and an adjective to be used in the greeting, e.g. ```"Hello strange"```.
-0. The backend does a downstream HTTP call to the far backend microservice asking for an adjective with which to colour the greeting, e.g. ```"strange"```.
-0. The frontend presents to the user the resulting greeting , e.g. ```"Hello strange world"```.
+0. The frontend does a HTTP call to the backend microservice asking for an interjection and an adjective (initial part) to be used in the greeting, e.g. ```"Hello strange"```.
+0. The backend does a downstream HTTP call to the far backend microservice asking for an adjective (modifier) with which to color the greeting, e.g. ```"strange"```.
+0. The frontend presents to the user the resulting greeting , e.g. ```"Hello, strange world"```.
 
 ### Terms
 | Term             |Description| Example |
@@ -15,7 +15,7 @@
 |```Modifier``` | |"strange" or "immensely weird"|
 |```Greetee``` | |"world" or "human being"|
 |```Frontend``` |Prompts the user for the greetee, calls downstream to get the rest of the greeting and presents the result| |
-|```Backend``` |Calls downstream to the far backend to get the modifier and concatenates it to produce the initial part of the greeting| |
+|```Backend``` |Calls downstream to the far backend to get the modifier and concatenates it with an interjection to produce the initial part of the greeting| |
 |```Far backend``` |Queries an RDBMS to get a random modifier| |
 
 ### Environment
@@ -39,7 +39,7 @@
 - This is NOT a framework
 - This is NOT a utility repo
 - This does not solve any business problems for you
-- It is meant as an offer from which you can pick the most appropriate module(s) and code from a working full-fled three layer microservice-based app with a business logic as simple as you can imagine
+- It is meant as an offer from which you can pick the most appropriate module(s) and code from a working full-fledged three layer microservice-based app with a business logic as simple as you can imagine
 - It covers many of the technologies often called upon in such an environment, like e.g. REST, json, resilience, swagger, database, ...
 
 ### Tools and technologies used so far
