@@ -33,6 +33,10 @@ public class Repository {
   private IFarBackendConfig farBackendConfig;
   private Database          database;
   
+  public Repository() {
+    this(createFarBackendConfig());
+  }
+  
   public Repository(final IFarBackendConfig farBackendConfig) {
     this.farBackendConfig = farBackendConfig;
   }
@@ -46,60 +50,65 @@ public class Repository {
   }
   
   /**
-   * Return the adjective used in the greeting.
+   * Return the modifier used in the greeting.
    * TODO: Adding resilience confuscates the code considerably. Refactor.
    * 
-   * @return the adjective used in the greeting.
+   * @return the modifier used in the greeting.
    */
   public Optional<ModifierDo> getModifierDo() {
-
+    
     enteringMethodHeaderLogger.debug(null);
     
+    // Database.modifierTable.all();
+    
     final Database database = getDatabase();
+    if (!database.isStarted()) {
+      database.start();
+    }
     final int id = new Random(System.currentTimeMillis()).nextInt(3) + 1;
-    final Supplier<Optional<ModifierDo>> selectGreetingDescriptionSupplier =
+    final Supplier<Optional<ModifierDo>> selectModifierSupplier =
         new Supplier<>() {
           private final Database        databaseParm        = database;
-          private final SQLQueryFactory sqlQueryFactoryParm = databaseParm.getSqlQueryFactory();
+          private final SQLQueryFactory sqlQueryFactoryParm = databaseParm.getSQLQueryFactory();
           private final int             idParm              = id;
-
+          
           @Override
           public Optional<ModifierDo> get() {
 
-            final Tuple greetingDescriptionDatabaseRow =
+            final Tuple modifierDatabaseRow =
                 databaseParm
                   .doInTransaction(
                       () ->
                       sqlQueryFactoryParm
-                        .select(Database.greetingDescriptionTable.all())
-                        .from(Database.greetingDescriptionTable)
-                        .where(Database.greetingDescriptionTable.id.eq(idParm))
+                        .select(Database.modifierTable.all())
+                        .from(Database.modifierTable)
+                        .where(Database.modifierTable.id.eq(idParm))
                         .fetchOne());
             
-            final Optional<ModifierDo> optionalGreetingDescription =
+            final Optional<ModifierDo> optionalModifier =
                 Optional.ofNullable(
-                  (greetingDescriptionDatabaseRow == null)
+                  (modifierDatabaseRow == null)
                   ?
                   null
                   :
                   new ModifierDo(
-                      greetingDescriptionDatabaseRow
-                        .get(Database.greetingDescriptionTable.id),
-                      greetingDescriptionDatabaseRow
-                        .get(Database.greetingDescriptionTable.adjective)
+                      modifierDatabaseRow
+                        .get(Database.modifierTable.id),
+                      modifierDatabaseRow
+                        .get(Database.modifierTable.adjective)
                   )
                 );
             
-            return optionalGreetingDescription;
+            return optionalModifier;
           }
     };
     
     // Resilience: Add timeout:
     final TimeLimiter timeLimiter =
-        TimeLimiter.of("selectGreetingDescription", TimeLimiterConfig.ofDefaults());
+        TimeLimiter.of("selectModifier", TimeLimiterConfig.ofDefaults());
     final CompletableFuture<Optional<ModifierDo>> completableFuture =
-        CompletableFuture.supplyAsync(selectGreetingDescriptionSupplier);
-    final Callable<Optional<ModifierDo>> selectGreetingDescriptionWithTimeLimiterCallable =
+        CompletableFuture.supplyAsync(selectModifierSupplier);
+    final Callable<Optional<ModifierDo>> selectmodifierWithTimeLimiterCallable =
         TimeLimiter
           .decorateFutureSupplier(
               timeLimiter, 
@@ -108,31 +117,32 @@ public class Repository {
     
     // Resilience: Add circuit breaker:
     final CircuitBreaker circuitBreaker =
-        CircuitBreaker.ofDefaults("selectGreetingDescription");
+        CircuitBreaker.ofDefaults("selectModifier");
     final Callable<Optional<ModifierDo>>
-        selectGreetingDescriptionWithTimeLimiterAndCircuitBreakerCallable =
+        selectModifierWithTimeLimiterAndCircuitBreakerCallable =
             CircuitBreaker
               .decorateCallable(
                   circuitBreaker,
-                  selectGreetingDescriptionWithTimeLimiterCallable
+                  selectmodifierWithTimeLimiterCallable
               );
     
     // Resilience: Add retry:
     final Retry retry =
-        Retry.ofDefaults("selectGreetingDescription");
+        Retry.ofDefaults("selectModifier");
     final Callable<Optional<ModifierDo>> 
-        selectGreetingDescriptionWithTimeLimiterAndCircuitBreakerAndRetryCallable =
+        selectModifierWithTimeLimiterAndCircuitBreakerAndRetryCallable =
           Retry
             .decorateCallable(
                 retry,
-                selectGreetingDescriptionWithTimeLimiterAndCircuitBreakerCallable
+                selectModifierWithTimeLimiterAndCircuitBreakerCallable
             );
 
     // Resilience: Do the actual call to the database:
-    final Optional<ModifierDo> optionalGreetingDescription =
+    final Optional<ModifierDo> optionalModifier =
         Try
-          .ofCallable(selectGreetingDescriptionWithTimeLimiterAndCircuitBreakerAndRetryCallable)
+          .ofCallable(selectModifierWithTimeLimiterAndCircuitBreakerAndRetryCallable)
           .recover(
+              // TODO: Should an appropriate exception be thrown?
               throwable -> {
                 log.error("Exception received when accessing the database.", throwable);
                 return Optional.ofNullable(null);
@@ -140,35 +150,35 @@ public class Repository {
           )
           .get();
     
-    log.debug("Retrieved: {}", optionalGreetingDescription);
+    log.debug("Retrieved: {}", optionalModifier);
     
     leavingMethodHeaderLogger.debug(null);
     
-    return optionalGreetingDescription;
+    return optionalModifier;
+  }
+  
+  void setFarBackendConfig(final IFarBackendConfig farBackendConfig) {
+    this.farBackendConfig = farBackendConfig;
+  }
+  
+  IFarBackendConfig getFarBackendConfig() {
+    if (this.farBackendConfig == null) {
+      final IFarBackendConfig farBackendConfig = Repository.createFarBackendConfig();
+      setFarBackendConfig(farBackendConfig);
+    }
+    return this.farBackendConfig;
   }
   
   private void setDatabase(final Database database) {
     this.database = database;
   }
   
-  private Database getDatabase() {
+  Database getDatabase() {
     if (this.database == null) {
       final Database database = Repository.createDatabase(getFarBackendConfig());
       setDatabase(database);
     }
     return this.database;
-  }
-  
-  private void setFarBackendConfig(final IFarBackendConfig farBackendConfig) {
-    this.farBackendConfig = farBackendConfig;
-  }
-  
-  private IFarBackendConfig getFarBackendConfig() {
-    if (this.farBackendConfig == null) {
-      final IFarBackendConfig farBackendConfig = Repository.createFarBackendConfig();
-      setFarBackendConfig(farBackendConfig);
-    }
-    return this.farBackendConfig;
   }
   
 }

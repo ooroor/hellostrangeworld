@@ -137,7 +137,7 @@ public class ModifierConsumerTest {
   }
   
   @Test
-  void when_created_without_parms_thenno_exception_should_be_thrown()
+  void when_created_without_parms_then_no_exception_should_be_thrown()
       throws JsonProcessingException {
     
     enteringTestHeaderLogger.debug(null);

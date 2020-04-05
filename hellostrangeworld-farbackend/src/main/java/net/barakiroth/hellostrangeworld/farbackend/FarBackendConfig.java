@@ -1,7 +1,5 @@
 package net.barakiroth.hellostrangeworld.farbackend;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import net.barakiroth.hellostrangeworld.common.AbstractConfig;
 import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
@@ -9,15 +7,36 @@ import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Datab
 
 public class FarBackendConfig extends AbstractConfig implements IFarBackendConfig {
 
-  @Getter(AccessLevel.PUBLIC)
-  private static final IFarBackendConfig singletonInstance = new FarBackendConfig();
+  private static IFarBackendConfig singletonInstance; 
   
   private DatabaseConfig databaseConfig;
-  private Database database;
-  private Repository repository;
+  
+  public static IFarBackendConfig getSingletonInstance() {
+    if (FarBackendConfig.singletonInstance == null) {
+      setSingletonInstance(createSingletonInstance());
+    }
+    return FarBackendConfig.singletonInstance; 
+  }
+  
+  public static void setSingletonInstance(final IFarBackendConfig farBackendConfig) {
+    FarBackendConfig.singletonInstance = farBackendConfig; 
+  }
+  
+  private static FarBackendConfig createSingletonInstance() {
+    return new FarBackendConfig();
+  }
+  
+  private static DatabaseConfig createDatabaseConfig(final IFarBackendConfig farBackendConfig) {
+    return DatabaseConfig.getSingletonInstance(farBackendConfig);
+  }
 
   private FarBackendConfig() {
     super();
+  }
+  
+  private static Repository createRepository(final IFarBackendConfig farBackendConfig) {
+    
+    return new Repository(farBackendConfig);
   }
 
   private void setDatabaseConfig(final DatabaseConfig databaseConfig) {
@@ -27,39 +46,19 @@ public class FarBackendConfig extends AbstractConfig implements IFarBackendConfi
   @Override
   public DatabaseConfig getDatabaseConfig() {
     if (this.databaseConfig == null) {
-      // TODO: Should call the getter, not the constructor:
-      final DatabaseConfig databaseConfig = new DatabaseConfig(this);
+      final DatabaseConfig databaseConfig = FarBackendConfig.createDatabaseConfig(this);
       setDatabaseConfig(databaseConfig);
     }
     return this.databaseConfig;
   }
 
-  private void setDatabase(final Database database) {
-    this.database = database;
-  }
-
   @Override
   public Database getDatabase() {
-    if (this.database == null) {
-      // TODO: Should call the getter, not the constructor:
-      final Database database = new Database(this);
-      setDatabase(database);
-    }
-    return this.database;
-  }
-
-  private void setRepository(final Repository repository) {
-    this.repository = repository;
+    return getDatabaseConfig().getDatabase();
   }
 
   @Override
   public Repository getRepository() {
-    if (this.repository == null) {
-      // TODO: Should call the getter, not the constructor:
-      final Repository repository = new Repository(this);
-      setRepository(repository);
-    }
-    return this.repository;
+    return FarBackendConfig.createRepository(this);
   }
-
 }

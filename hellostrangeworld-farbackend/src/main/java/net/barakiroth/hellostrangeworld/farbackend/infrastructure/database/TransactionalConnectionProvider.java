@@ -19,6 +19,7 @@ public class TransactionalConnectionProvider implements Provider<Connection> {
   
   private static final ThreadLocal<Connection> threadLocalConnection =
       new ThreadLocal<>();
+  
   private final DataSource dataSource;
 
   public TransactionalConnectionProvider(final DataSource dataSource) {
@@ -42,7 +43,7 @@ public class TransactionalConnectionProvider implements Provider<Connection> {
     
     enteringMethodHeaderLogger.debug(null);
     
-    final Connection transactionalConnection = dataSource.getConnection();
+    final Connection transactionalConnection = getDataSource().getConnection();
     log.debug("Starter ny transaksjon for: {}", transactionalConnection);
     transactionalConnection.setAutoCommit(false);
     threadLocalConnection.set(transactionalConnection);
@@ -54,5 +55,9 @@ public class TransactionalConnectionProvider implements Provider<Connection> {
 
   void transactionCompleted() {
     threadLocalConnection.remove();
+  }
+  
+  private DataSource getDataSource() {
+    return this.dataSource;
   }
 }

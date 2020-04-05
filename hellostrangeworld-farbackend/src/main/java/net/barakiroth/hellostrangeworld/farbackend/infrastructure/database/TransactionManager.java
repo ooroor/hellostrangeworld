@@ -42,6 +42,8 @@ public class TransactionManager {
     enteringMethodHeaderLogger.debug(null);
     
     V theThing;
+    final TransactionalConnectionProvider transactionalConnectionProvider =
+        getTransactionalConnectionProvider();
     try (
         final Connection transactionalConnection =
             transactionalConnectionProvider.getTransactionalConnection()
@@ -81,5 +83,9 @@ public class TransactionManager {
     leavingMethodHeaderLogger.debug(null);
     
     return result;
+  }
+  
+  private TransactionalConnectionProvider getTransactionalConnectionProvider() {
+    return this.transactionalConnectionProvider;
   }
 }

@@ -12,6 +12,8 @@ public class FlywayMigrator {
       LoggerFactory.getLogger("EnteringMethodHeader");
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
+  
+  public static final String DEFAULT_LOCATION = "\"classpath:/db/migration\"";
 
   private final DataSource dataSource;
   private final String[]   locations;
@@ -19,13 +21,16 @@ public class FlywayMigrator {
   /**
    * Uses {@link Flyway} for database creator and maintainer.
    */
-  public FlywayMigrator(final DataSource dataSource, final String... locations) {
+  public FlywayMigrator(
+      final DataSource dataSource,
+      final String...  locations
+  ) {
     
     enteringMethodHeaderLogger.debug(null);
   
     this.dataSource = dataSource;
     if (locations.length == 0) {
-      this.locations = new String[]{"classpath:/db/migration"};
+      this.locations = new String[]{DEFAULT_LOCATION};
     } else {
       this.locations = locations;
     }
@@ -42,12 +47,20 @@ public class FlywayMigrator {
     
     final Flyway flyway = 
         new FluentConfiguration()
-          .locations(this.locations)
-          .dataSource(this.dataSource)
+          .locations(getLocations())
+          .dataSource(getDataSource())
           .load();
     
     flyway.migrate();
 
     leavingMethodHeaderLogger.debug(null);
+  }
+  
+  String[] getLocations() {
+    return this.locations;
+  }
+  
+  private DataSource getDataSource() {
+    return this.dataSource;
   }
 }

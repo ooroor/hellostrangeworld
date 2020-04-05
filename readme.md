@@ -50,6 +50,7 @@
 
 |                  | Frontend |  Backend | Far backend |                                                 Note |
 | :--------------- | :------: | :------: | :---------: | :--------------------------------------------------- |
+| ArchUnit   | NOT YET  |       NOT YET |          NOT YET | Architecture checker |
 | AssertJ | X | X | X | Fluent test layer above Jupiter |
 | Checkstyle       |    X     |        X |           X |                                     Code layout tool |
 | Conf2            |   X   |  X |           X |                  Easy configuration, properties etc. |

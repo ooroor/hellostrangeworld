@@ -8,14 +8,16 @@ import com.querydsl.sql.PostgreSQLTemplates;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.SQLTemplates;
 import com.zaxxer.hikari.HikariDataSource;
-import io.vavr.Tuple2;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import javax.sql.DataSource;
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
+import net.barakiroth.hellostrangeworld.common.IConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QGreetingDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +37,18 @@ public class Database {
       this.sqlTemplates = sqlTemplates;
     }
     
-    public static Optional<DbBrand> optionalOf(final String dbBrand) {
-      return Optional.ofNullable(DbBrand.valueOf(dbBrand));
+    public static Optional<DbBrand> optionalOf(final String dbBrandName) {
+      
+      final Optional<DbBrand> dbBrand =
+        Arrays
+          .stream(DbBrand.values())
+          .filter(
+              (actualDbBrand) ->
+              actualDbBrand.name().equals(dbBrandName)
+          )
+          .findFirst();
+      
+      return dbBrand;
     }
   }
 
@@ -46,31 +58,153 @@ public class Database {
       LoggerFactory.getLogger("EnteringMethodHeader");
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
-
-  public  static final QGreetingDescription greetingDescriptionTable =
+  
+  private static Database singletonInstance;
+  // TODO: Rename:
+  public static final QGreetingDescription modifierTable =
       QGreetingDescription.greetingDescription;
   
-  private final DatabaseConfig     databaseConfig;
-  private       TransactionManager transactionManager = null;
-  private       boolean            isStarted          = false;
-  @Getter(AccessLevel.PUBLIC)
-  private       SQLQueryFactory    sqlQueryFactory    = null;
+  private DatabaseConfig                  databaseConfig                  = null;
+  private DataSource                      dataSource                      = null;
+  private TransactionManager              transactionManager              = null;
+  private SQLQueryFactory                 sqlQueryFactory                 = null;
+  private TransactionalConnectionProvider transactionalConnectionProvider = null;
+  private boolean                         isStarted                       = false;
   
   /**
    * Create an instance and set its relevant configuration.
    * @param config Relevant configuration.
    */
-  public Database(final IFarBackendConfig config) {
+  private Database(final IConfig config) {
     
-    enteringMethodHeaderLogger.debug(null);
-    
-    // TODO: validateNotNull(config);
-    
-    this.databaseConfig = config.getDatabaseConfig();
+    this(Database.createDatabaseConfig(config));
     
     leavingMethodHeaderLogger.debug(null);
   }
   
+  private Database(final DatabaseConfig databaseConfig) {
+    
+    enteringMethodHeaderLogger.debug(null);
+    
+    setDatabaseConfig(databaseConfig);
+    
+    leavingMethodHeaderLogger.debug(null);
+  }
+  
+  static Database getSingletonInstance(final IConfig config) {
+    if (Database.singletonInstance == null) {
+      final Database database = createSingletonInstance(config);
+      Database.singletonInstance = database;
+    }
+    return Database.singletonInstance;
+  }
+  
+  private static Database createSingletonInstance(final IConfig config) {
+    return new Database(config);
+  }
+
+  private static void setSingletonInstance(final Database database) {
+    Database.singletonInstance = database;
+  }
+  
+  private static DatabaseConfig createDatabaseConfig(final IConfig config) {
+    return DatabaseConfig.getSingletonInstance(config);
+  }
+
+  private static DataSource createDataSource(final DatabaseConfig databaseConfig) {
+
+    enteringMethodHeaderLogger.debug(null);
+    
+    final HikariDataSource dataSource = new HikariDataSource();
+
+    dataSource.setUsername(databaseConfig.getUser());
+    dataSource.setPassword(databaseConfig.getPwd());
+    dataSource.setJdbcUrl(databaseConfig.getUrl());
+    dataSource.setConnectionTimeout(databaseConfig.getConnectionTimeout());
+    dataSource.setMaxLifetime(databaseConfig.getMaxLifetime()); 
+    dataSource.setLeakDetectionThreshold(databaseConfig.getLeakDetectionThreshold()); 
+    dataSource.setMaximumPoolSize(databaseConfig.getMaximumPoolSize()); 
+
+    log.info("Opprettet datasource for: {}", dataSource.getJdbcUrl());
+
+    leavingMethodHeaderLogger.debug(null);
+
+    return dataSource;
+  }
+
+  private static void createAndPopulateAndMigrate(final DataSource dataSource) {
+    
+    enteringMethodHeaderLogger.debug(null);
+    
+    new FlywayMigrator(dataSource, "classpath:/db/migration").migrate();
+    
+    leavingMethodHeaderLogger.debug(null);
+  }
+  
+  private static TransactionalConnectionProvider createTransactionalConnectionProvider(final DataSource dataSource) {
+    return new TransactionalConnectionProvider(dataSource);
+  }
+
+  private static TransactionManager createTransactionManager(final TransactionalConnectionProvider transactionalConnectionProvider) {
+    return new TransactionManager(transactionalConnectionProvider);
+  }
+  
+  private static String getDbBrandName(final DataSource dataSource) {
+    
+    final String dbBrandName;
+    {
+      String dbBrandFromConnection;
+      try {
+        dbBrandFromConnection =
+          dataSource
+            .getConnection()
+            .getMetaData()
+            .getDatabaseProductName();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }    
+      dbBrandName = dbBrandFromConnection;
+      log.debug("dbBrandName from connection is: \"{}\"", dbBrandName);
+    }
+    return dbBrandName;
+  }
+
+  private static SQLQueryFactory createSQLQueryFactory(
+      final DataSource                      dataSource,
+      final TransactionalConnectionProvider transactionalConnectionProvider
+  ) {
+    final String dbBrand = Database.getDbBrandName(dataSource);
+    final SQLQueryFactory sqlQueryFactory =
+      new SQLQueryFactory(
+        new Configuration(
+          DbBrand
+            .optionalOf(dbBrand)
+            .orElseThrow(
+              () -> new UnknownDatabaseBrandException(dbBrand)
+            )
+            .getSqlTemplates()
+        ), 
+        transactionalConnectionProvider
+      );
+    return sqlQueryFactory;
+  }
+  
+  private static void shutdown(final DataSource dataSource) {
+  
+    enteringMethodHeaderLogger.debug(null);
+
+    try {
+      final Connection connection = dataSource.getConnection();
+      final PreparedStatement preparedStatement = connection.prepareStatement("SHUTDOWN");
+      preparedStatement.execute();
+    } catch (SQLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    leavingMethodHeaderLogger.debug(null);
+  }
+
   /**
    * Must be run before the class instance may be used.
    * Establishes and configures connection(s) and datasource(s)
@@ -79,10 +213,7 @@ public class Database {
     
     enteringMethodHeaderLogger.debug(null);
     
-    final Tuple2<SQLQueryFactory, TransactionManager> configResult = configure();
-    
-    this.sqlQueryFactory = configResult._1();
-    this.transactionManager = configResult._2();
+    Database.createAndPopulateAndMigrate(getDataSource());
     this.isStarted = true;
     
     leavingMethodHeaderLogger.debug(null);
@@ -108,10 +239,14 @@ public class Database {
 
     enteringMethodHeaderLogger.debug(null);
       
-    if (isStarted()) {
-      this.transactionManager = null;
-      this.sqlQueryFactory    = null;
-      this.isStarted          = false;
+    if (isStarted()) {      
+      
+      Database.shutdown(getDataSource());
+      setDataSource(null);
+      setSQLQueryFactory(null);
+      setTransactionManager(null);
+      Database.setSingletonInstance(null);
+      this.isStarted = false;
     } else {
       log.warn("Asked to stop when not connected dataSource == null etc.");
     }
@@ -133,122 +268,78 @@ public class Database {
     
     enteringMethodHeaderLogger.debug(null);
     
-    if (!isStarted()) {
+     if (!isStarted()) {
       start();
     }
 
-    final V theThing = this.transactionManager.doInTransaction(callable);
+    final V theThing = getTransactionManager().doInTransaction(callable);
     
     leavingMethodHeaderLogger.debug(null);
     
     return theThing;
   }
   
-  private final Tuple2<SQLQueryFactory, TransactionManager> configure() {
-
-    enteringMethodHeaderLogger.debug(null);
-    
-    final DataSource dataSource = createDataSource();
-    createAndPopulateAndMigrate(dataSource);
-    
-    final String dbBrandFromConnection;
-    {
-      String dbBrandFromConnectionTemp;
-      try {
-        dbBrandFromConnectionTemp =
-          dataSource
-            .getConnection()
-            .getMetaData()
-            .getDatabaseProductName();
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      }    
-      dbBrandFromConnection = dbBrandFromConnectionTemp;
-      log.debug("DATABASE IS \"{}\"", dbBrandFromConnection);
+  public DataSource getDataSource() {
+    if (this.dataSource == null) {
+      final DataSource dataSource =
+          Database.createDataSource(getDatabaseConfig());
+      setDataSource(dataSource);
     }
-
-    final TransactionalConnectionProvider transactionalConnectionProvider =
-        new TransactionalConnectionProvider(dataSource);
-    final SQLQueryFactory sqlQueryFactory =
-        new SQLQueryFactory(
-          new Configuration(
-            DbBrand
-              .optionalOf(dbBrandFromConnection)
-              .orElseThrow(
-                () -> new UnknownDatabaseBrandException(dbBrandFromConnection)
-              )
-              .getSqlTemplates()
-          ), 
-          transactionalConnectionProvider
-        );
-    final TransactionManager transactionManager =
-        new TransactionManager(transactionalConnectionProvider);
-    
-    final Tuple2<SQLQueryFactory, TransactionManager> configResult =
-        new Tuple2<SQLQueryFactory, TransactionManager>(
-            sqlQueryFactory, transactionManager
-        );
-    
-    leavingMethodHeaderLogger.debug(null);
-    
-    return configResult;
+    return this.dataSource;
   }
 
-  private  DataSource createDataSource() {
+  public SQLQueryFactory getSQLQueryFactory() {
 
-    enteringMethodHeaderLogger.debug(null);
-    
-    final HikariDataSource dataSource = new HikariDataSource();
-
-    dataSource.setUsername(getUser());
-    dataSource.setPassword(getPwd());
-    dataSource.setJdbcUrl(getUrl());
-    dataSource.setConnectionTimeout(getConnectionTimeout()); 
-    dataSource.setMaxLifetime(getMaxLifetime()); 
-    dataSource.setLeakDetectionThreshold(getLeakDetectionThreshold()); 
-    dataSource.setMaximumPoolSize(getMaximumPoolSize()); 
-
-    log.info("Opprettet datasource for: {}", dataSource.getJdbcUrl());
-
-    leavingMethodHeaderLogger.debug(null);
-
-    return dataSource;
-  }
-
-  private void createAndPopulateAndMigrate(final DataSource dataSource) {
-    
-    enteringMethodHeaderLogger.debug(null);
-    
-    new FlywayMigrator(dataSource, "classpath:/db/migration").migrate();
-    
-    leavingMethodHeaderLogger.debug(null);
+    if (this.sqlQueryFactory == null) {
+      final SQLQueryFactory sqlQueryFactory =
+          Database.createSQLQueryFactory(
+              getDataSource(), 
+              getTransactionalConnectionProvider());
+      setSQLQueryFactory(sqlQueryFactory);
+    }
+    return this.sqlQueryFactory;
   }
   
-  private String getUser() {
-    return this.databaseConfig.getUser();
+  void setDataSource(final DataSource dataSource) {
+    this.dataSource = dataSource;
   }
   
-  private String getPwd() {
-    return this.databaseConfig.getPwd();
+  private void setSQLQueryFactory(final SQLQueryFactory sqlQueryFactory) {
+    this.sqlQueryFactory = sqlQueryFactory;
   }
   
-  private String getUrl() {
-    return this.databaseConfig.getUrl();
+  private void setTransactionManager(final TransactionManager transactionManager) {
+    this.transactionManager = transactionManager;
   }
   
-  private int getConnectionTimeout() {
-    return this.databaseConfig.getConnectionTimeout();
+  private TransactionManager getTransactionManager() {
+    
+    if (this.transactionManager == null) {
+      final TransactionManager transactionManager = 
+          Database.createTransactionManager(getTransactionalConnectionProvider());
+      setTransactionManager(transactionManager);
+    }
+    return this.transactionManager;
   }
   
-  private int getMaxLifetime() {
-    return this.databaseConfig.getMaxLifetime();
+  private void setTransactionalConnectionProvider(final TransactionalConnectionProvider transactionalConnectionProvider) {
+    this.transactionalConnectionProvider = transactionalConnectionProvider;
   }
   
-  private int getLeakDetectionThreshold() {
-    return this.databaseConfig.getLeakDetectionThreshold();
+  private TransactionalConnectionProvider getTransactionalConnectionProvider() {
+    if (this.transactionalConnectionProvider == null) {
+      final TransactionalConnectionProvider transactionalConnectionProvider =
+          Database.createTransactionalConnectionProvider(getDataSource());
+      setTransactionalConnectionProvider(transactionalConnectionProvider);
+    }
+    return this.transactionalConnectionProvider;
   }
   
-  private int getMaximumPoolSize() {
-    return this.databaseConfig.getMaximumPoolSize();
+  private void setDatabaseConfig(final DatabaseConfig databaseConfig) {
+    this.databaseConfig = databaseConfig;
+  }
+  
+  private DatabaseConfig getDatabaseConfig() {
+    return this.databaseConfig;
   }
 }

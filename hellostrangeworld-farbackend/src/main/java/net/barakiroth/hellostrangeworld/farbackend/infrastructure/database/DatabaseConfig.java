@@ -20,36 +20,77 @@ public class DatabaseConfig {
   private static final String DB_URL_DEFAULT                      = 
       "jdbc:h2:mem:hellostrangeworld;DB_CLOSE_DELAY=-1";
 
-  private final IConfig config;
+  private final  IConfig        config;
+  private static DatabaseConfig singletonInstance;
+  
+  private static DatabaseConfig createDatabaseConfig(final IConfig config) {
+    return new DatabaseConfig(config);
+  }
 
-  public DatabaseConfig(final IConfig config) {
+  private static void setSingletonInstance(final DatabaseConfig databaseConfig) {
+    DatabaseConfig.singletonInstance = databaseConfig;
+  }
+  
+  public static DatabaseConfig getSingletonInstance(final IConfig config) {
+    
+    if (DatabaseConfig.singletonInstance == null) {
+      final DatabaseConfig databaseConfig =
+          DatabaseConfig.createDatabaseConfig(config);
+      DatabaseConfig.setSingletonInstance(databaseConfig);
+    }
+    return DatabaseConfig.singletonInstance;
+  }
+  
+  private static Database createDatabase(final IConfig config) {
+    return Database.getSingletonInstance(config);
+  }
+
+  private DatabaseConfig(final IConfig config) {
     this.config = config;
+  }
+  
+  public Database getDatabase() {
+    return DatabaseConfig.createDatabase(getConfig());
+  }
+  
+  private IConfig getConfig() {
+    return this.config;
   }
   
   String getUrl() {
     
-    final String url = this.config.getString(DB_URL_KEY, DB_URL_DEFAULT);
+    final String url =
+        getConfig().getString(
+            DB_URL_KEY, 
+            DB_URL_DEFAULT);
 
     return url;
   }
   
   String getUser() {
     
-    final String user = this.config.getString(DB_USER_KEY, DB_USER_DEFAULT);
+    final String user =
+        getConfig().getString(
+            DB_USER_KEY,
+            DB_USER_DEFAULT);
     
     return user;
   }
   
   String getPwd() {
     
-    final String pwd = this.config.getString(DB_PWD_KEY, DB_PWD_DEFAULT);
+    final String pwd =
+        getConfig().getString(
+            DB_PWD_KEY,
+            DB_PWD_DEFAULT);
     
     return pwd;
   }
   
   int getConnectionTimeout() {
     
-    int connectionTimeout = this.config.getInt(
+    int connectionTimeout =
+        getConfig().getInt(
           DB_CONNECTION_TIMEOUT_KEY, 
           DB_CONNECTION_TIMEOUT_DEFAULT);
     
@@ -59,7 +100,7 @@ public class DatabaseConfig {
   int getMaxLifetime() {
     
     final int maxLifetime =
-        this.config.getInt(
+        getConfig().getInt(
           DB_MAX_LIFETIME_KEY, 
           DB_MAX_LIFETIME_DEFAULT);
     return maxLifetime;
@@ -68,7 +109,7 @@ public class DatabaseConfig {
   int getLeakDetectionThreshold() {
     
     final int leakDetectionThreshold =
-        this.config.getInt(
+        getConfig().getInt(
           DB_LEAK_DETECTION_THRESHOLD_KEY, 
           DB_LEAK_DETECTION_THRESHOLD_DEFAULT);
     return leakDetectionThreshold;
@@ -77,7 +118,7 @@ public class DatabaseConfig {
   int getMaximumPoolSize() {
     
     final int maximumPoolSize =
-        this.config.getInt(
+        getConfig().getInt(
           DB_MAXIMUM_POOLSIZE_KEY, 
           DB_MAXIMUM_POOLSIZE_DEFAULT);
     return maximumPoolSize;
