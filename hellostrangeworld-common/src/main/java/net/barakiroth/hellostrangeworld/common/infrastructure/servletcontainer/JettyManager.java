@@ -176,12 +176,12 @@ public class JettyManager {
    * 
    * enteringMethodHeaderLogger.debug(null);
    * 
-   * final String greetingsDescriptorResourcePathSpec =
-   * this.jettyManagerConfig.getGreetingsDescriptorResourcePathSpec(); final ServletHolder
+   * final String modifierResourcePathSpec =
+   * this.jettyManagerConfig.getModifierResourcePathSpec(); final ServletHolder
    * servletHolder = servletContextHandler.addServlet( ServletContainer.class,
    * greetingsDescriptorResourcePathSpec); servletHolder.setInitParameter(
    * "jersey.config.server.provider.classnames",
-   * GreetingDescriptionResource.class.getCanonicalName());
+   * ModifierResource.class.getCanonicalName());
    * 
    * leavingMethodHeaderLogger.debug(null); }
    */

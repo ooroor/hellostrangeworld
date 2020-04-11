@@ -95,7 +95,7 @@ public class Repository {
                       modifierDatabaseRow
                         .get(Database.modifierTable.id),
                       modifierDatabaseRow
-                        .get(Database.modifierTable.adjective)
+                        .get(Database.modifierTable.modifier)
                   )
                 );
             

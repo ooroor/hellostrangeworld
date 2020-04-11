@@ -191,10 +191,10 @@ mvn -X org.owasp:dependency-check-maven:check -P owasp
 ```
 mvn clean install checkstyle:check site -P checkstyle -Dcheckstyle.config.location=google_checks.xml
 ```
-- If hung-up on some FlyWay migration (first change current directory to far backend):
+- If hung-up on some FlyWay migration:
 
 ```
-cd hellostrangeworld-farbackend&mvn flyway:clean&mvn flyway:migrate&cd..
+CLS&mvn -pl :hellostrangeworld-farbackend flyway:clean&mvn -pl :hellostrangeworld-farbackend flyway:migrate
 ```
 ### Useful refs: 
 #### Flyway

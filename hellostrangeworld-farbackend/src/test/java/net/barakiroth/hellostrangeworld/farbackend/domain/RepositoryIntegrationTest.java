@@ -18,7 +18,7 @@ import net.barakiroth.hellostrangeworld.farbackend.domain.ModifierDo;
 import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.DatabaseException;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QGreetingDescription;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QModifier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -87,9 +87,9 @@ public class RepositoryIntegrationTest {
     final Database database = farBackendConfig.getDatabase();
     final Repository repository = farBackendConfig.getRepository();
     assertThat(database.isStarted()).isFalse();
-    final Optional<ModifierDo> greetingDescription =
+    final Optional<ModifierDo> optionalModifierDo =
         repository.getModifierDo();
-    assertThat(greetingDescription).isNotNull();
+    assertThat(optionalModifierDo).isNotNull();
   }
   
   @Test
@@ -102,8 +102,8 @@ public class RepositoryIntegrationTest {
     database.start();
     final SQLQueryFactory sqlQueryFactory = database.getSQLQueryFactory();
     // Empty the database for modifiers:
-    final QGreetingDescription qModifier =
-        QGreetingDescription.greetingDescription;
+    final QModifier qModifier =
+        QModifier.modifier1;
     database
       .doInTransaction(
           () ->
@@ -141,7 +141,7 @@ public class RepositoryIntegrationTest {
 
     final DataSource        dataSource        = database.getDataSource();
     final Connection        connection        = dataSource.getConnection();
-    final PreparedStatement preparedStatement = connection.prepareStatement("DROP TABLE greeting_description");
+    final PreparedStatement preparedStatement = connection.prepareStatement("DROP TABLE modifier");
     preparedStatement.execute();
   }
 }

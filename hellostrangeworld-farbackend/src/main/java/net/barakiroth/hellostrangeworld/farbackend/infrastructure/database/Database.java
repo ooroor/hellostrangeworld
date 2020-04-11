@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.barakiroth.hellostrangeworld.common.IConfig;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QGreetingDescription;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QModifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,8 +61,8 @@ public class Database {
   
   private static Database singletonInstance;
   // TODO: Rename:
-  public static final QGreetingDescription modifierTable =
-      QGreetingDescription.greetingDescription;
+  public static final QModifier modifierTable =
+      QModifier.modifier1;
   
   private DatabaseConfig                  databaseConfig                  = null;
   private DataSource                      dataSource                      = null;

@@ -102,7 +102,7 @@ public class ModifierResource {
     
     final IPrometheusConfig prometheusConfig =
         getFarBackendConfig().getPrometheusConfig();
-    final Gauge.Timer getGreetingDescriptionDurationGaugeTimer =
+    final Gauge.Timer getModifierDurationGaugeTimer =
         prometheusConfig.getGetResourceDurationGauge().startTimer();
 
     final Repository repository = getRepository();
@@ -122,7 +122,7 @@ public class ModifierResource {
       // TODO Auto-generated catch block, return a outcome code instead.
       e.printStackTrace();
     } finally {
-      getGreetingDescriptionDurationGaugeTimer.setDuration();
+      getModifierDurationGaugeTimer.setDuration();
     }
     
     log.debug("About to respond:\n\n{}", modifierAsJson);
