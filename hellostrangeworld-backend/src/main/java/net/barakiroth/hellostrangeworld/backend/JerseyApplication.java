@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("WeakerAccess") // Påkrevd public
 public class JerseyApplication extends ResourceConfig {
 
-  private static final Logger log =
-      LoggerFactory.getLogger(JerseyApplication.class);
   private static final Logger enteringMethodHeaderLogger =
       LoggerFactory.getLogger("EnteringMethodHeader");
   private static final Logger leavingMethodHeaderLogger =

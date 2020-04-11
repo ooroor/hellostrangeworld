@@ -70,16 +70,15 @@
 
 		<!-- Test stuff -->
 		<junit.jupiter.version>5.5.2</junit.jupiter.version>
-		<junit-jupiter.version>5.5.2</junit-jupiter.version>
 		<junit-platform-commons.version>1.5.2</junit-platform-commons.version>
 		<junit.pre.jupiter.version>4.12</junit.pre.jupiter.version>
 		<pitest-maven.version>1.4.7</pitest-maven.version>
 		<maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
 		<pitest-junit5-plugin.version>0.8</pitest-junit5-plugin.version>
 		<pitest-junit5-plugin.version>0.9</pitest-junit5-plugin.version>
-		<assertj.version>3.14.0</assertj.version>
+		<assertj.version>3.15.0</assertj.version>
 		<wiremock.version>2.25.1</wiremock.version>
-		<mockito.version>1.10.19</mockito.version>
+		<mockito.version>3.2.4</mockito.version>
 
 	</properties>
 
@@ -368,6 +367,13 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-junit-jupiter</artifactId>
+				<version>${mockito.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
 				<groupId>com.github.tomakehurst</groupId>
 				<artifactId>wiremock</artifactId>
 				<version>${wiremock.version}</version>
@@ -472,7 +478,6 @@
 		</pluginManagement>
 
 		<plugins>
-
 			<plugin>
 				<!-- Ref.: https://www.baeldung.com/maven-java-version -->
 				<groupId>org.apache.maven.plugins</groupId>
@@ -499,10 +504,8 @@
 			</plugin>
 
 			<plugin>
-				<!--
-					Ref.: https://blog.soebes.de/blog/2017/04/02/maven-pom-files-without-a-version-in-it/
-					Refers to the use of ${revision} 
-				-->
+				<!-- Ref.: https://blog.soebes.de/blog/2017/04/02/maven-pom-files-without-a-version-in-it/ 
+					Refers to the use of ${revision} -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>flatten-maven-plugin</artifactId>
 				<version>1.2.2</version>

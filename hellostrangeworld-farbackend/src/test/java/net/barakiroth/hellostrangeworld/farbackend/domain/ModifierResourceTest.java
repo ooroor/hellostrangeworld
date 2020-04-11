@@ -39,9 +39,6 @@ import org.slf4j.LoggerFactory;
 @ExtendWith(MockitoExtension.class)
 public class ModifierResourceTest {
 
-  private static final Logger log =
-      LoggerFactory.getLogger(ModifierResourceTest.class);
-
   private static final Logger enteringTestHeaderLogger =
       LoggerFactory.getLogger("EnteringTestHeader");
   

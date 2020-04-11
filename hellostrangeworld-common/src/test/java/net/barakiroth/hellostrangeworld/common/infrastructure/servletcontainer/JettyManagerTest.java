@@ -22,9 +22,6 @@ import org.slf4j.LoggerFactory;
 @ExtendWith(MockitoExtension.class)
 public class JettyManagerTest {
 
-  private static final Logger log =
-      LoggerFactory.getLogger(JettyManagerTest.class);
-
   private static final Logger enteringTestHeaderLogger =
       LoggerFactory.getLogger("EnteringTestHeader");
   

@@ -2,7 +2,6 @@ package net.barakiroth.hellostrangeworld.farbackend.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.SQLQuery;
@@ -17,7 +16,6 @@ import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.domain.ModifierDo;
 import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.DatabaseException;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QModifier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
