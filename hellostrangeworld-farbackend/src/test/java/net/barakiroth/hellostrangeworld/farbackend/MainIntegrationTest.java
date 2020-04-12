@@ -3,19 +3,39 @@ package net.barakiroth.hellostrangeworld.farbackend;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
+import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
-import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 
-public class MainTest {
-
+@Tag("Integration")
+public class MainIntegrationTest {
+  
   private static final Logger enteringTestHeaderLogger =
       LoggerFactory.getLogger("EnteringTestHeader");
   
+  @BeforeEach
+  void beforeEach() {
+    final Main main = Main.getSingletonInstance();
+    main.setFarBackendConfig(null);
+    main.setJettyManager(null);
+    main.setDatabase(null);
+  }
+  
+  @AfterEach
+  void afterEach() {
+    final Main main = Main.getSingletonInstance();
+    main.setFarBackendConfig(null);
+    main.setJettyManager(null);
+    main.setDatabase(null);
+  }
+  
   @Test
-  public void when_application_is_started_it_should_not_crash() throws InterruptedException {
+  public void when_application_is_started_and_self_configures_then_it_should_not_crash() throws InterruptedException {
     
     enteringTestHeaderLogger.debug(null);
     
@@ -35,20 +55,6 @@ public class MainTest {
     } finally {
       thread.stop();
     }
-  }
-
-  @Test
-  public void when_FarBackendConfig_is_asked_for_twice_then_the_same_instance_should_be_returned() {
-    
-    enteringTestHeaderLogger.debug(null);
-    
-    final Main main = Main.getSingletonInstance();
-    
-    final IFarBackendConfig farBackendConfig1 = main.getFarBackendConfig();
-    final IFarBackendConfig farBackendConfig2 = main.getFarBackendConfig();
-    
-    assertThat(farBackendConfig1).isEqualTo(farBackendConfig2);
-    assertThat(farBackendConfig1).isSameAs(farBackendConfig2);
   }
 
   @Test
@@ -82,4 +88,5 @@ public class MainTest {
     assertThat(database1).isEqualTo(database2);
     assertThat(database1).isSameAs(database2);
   }
+
 }

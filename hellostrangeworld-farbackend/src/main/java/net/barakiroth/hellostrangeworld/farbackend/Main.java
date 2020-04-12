@@ -17,8 +17,8 @@ public class Main {
   private static final Main main = new Main();
 
   private IFarBackendConfig farBackendConfig;
-  private JettyManager jettyManager;
-  private Database database;
+  private JettyManager      jettyManager;
+  private Database          database;
 
   private Main() {
   }
@@ -39,6 +39,18 @@ public class Main {
 
     leavingMethodHeaderLogger.debug(null);
   }
+  
+  private static JettyManager createJettyManager(final IFarBackendConfig farBackendConfig) {
+    
+    enteringMethodHeaderLogger.debug(null);
+
+    final IJettyManagerConfig jettyManagerConfig = farBackendConfig.getJettyManagerConfig();
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    
+    leavingMethodHeaderLogger.debug(null);
+    
+    return jettyManager;
+  }
 
   static Main getSingletonInstance() {
     return Main.main;
@@ -48,18 +60,18 @@ public class Main {
 
     enteringMethodHeaderLogger.debug(null);
 
-    final IFarBackendConfig config = getFarBackendConfig();
+    final IFarBackendConfig farBackendConfig = getFarBackendConfig();
 
-    final JettyManager jettyManager = getJettyManager(config);
+    final JettyManager jettyManager = getJettyManager(farBackendConfig);
     jettyManager.start();
 
-    final Database database = getDatabase(config);
+    final Database database = getDatabase(farBackendConfig);
     database.start();
 
     leavingMethodHeaderLogger.debug(null);
   }
 
-  private void setFarBackendConfig(final IFarBackendConfig farBackendConfig) {
+  void setFarBackendConfig(final IFarBackendConfig farBackendConfig) {
     this.farBackendConfig = farBackendConfig;
   }
 
@@ -71,26 +83,24 @@ public class Main {
     return this.farBackendConfig;
   }
 
-  private void setJettyManager(final JettyManager jettyManager) {
+  void setJettyManager(final JettyManager jettyManager) {
     this.jettyManager = jettyManager;
+  }
+
+  void setDatabase(final Database database) {
+    this.database = database;
   }
 
   JettyManager getJettyManager(final IFarBackendConfig farBackendConfig) {
     if (this.jettyManager == null) {
-      final IJettyManagerConfig jettyManagerConfig = farBackendConfig.getJettyManagerConfig();
-      final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
-      setJettyManager(jettyManager);
+      setJettyManager(Main.createJettyManager(farBackendConfig));
     }
     return this.jettyManager;
   }
 
-  private void setDatabase(final Database database) {
-    this.database = database;
-  }
-
-  Database getDatabase(final IFarBackendConfig config) {
+  Database getDatabase(final IFarBackendConfig farBackendConfig) {
     if (this.database == null) {
-      final Database database = config.getDatabase();
+      final Database database = farBackendConfig.getDatabase();
       setDatabase(database);
     }
     return this.database;

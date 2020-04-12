@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Tag("UnitTest")
+@Tag("Unit")
 @ExtendWith(MockitoExtension.class)
 public class TransactionalConnectionProviderUnitTest {
   
