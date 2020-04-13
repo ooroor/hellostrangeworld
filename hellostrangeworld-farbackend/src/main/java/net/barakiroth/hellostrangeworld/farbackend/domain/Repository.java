@@ -46,7 +46,7 @@ public class Repository {
   }
 
   private static IFarBackendConfig createFarBackendConfig() {
-    return FarBackendConfig.getSingletonInstance();
+    return FarBackendConfig.getSingleton();
   }
   
   /**

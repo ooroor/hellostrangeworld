@@ -39,7 +39,7 @@ public class ModifierConsumerTest {
 
   @BeforeAll
   static void beforeAll() {
-    final IBackendConfig config = BackendConfig.getSingletonInstance();
+    final IBackendConfig config = BackendConfig.getSingleton();
     ModifierConsumerTest.modifierConsumer = new ModifierConsumer(config);
     ModifierConsumerTest.wireMockServer =
         new WireMockServer(

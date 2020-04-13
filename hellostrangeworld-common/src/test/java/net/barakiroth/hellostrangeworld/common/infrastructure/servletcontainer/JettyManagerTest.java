@@ -8,8 +8,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 
-import net.barakiroth.hellostrangeworld.common.AbstractConfig;
-import net.barakiroth.hellostrangeworld.common.IConfig;
+import net.barakiroth.hellostrangeworld.common.CommonConfig;
+import net.barakiroth.hellostrangeworld.common.ICommonConfig;
+import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.junit.jupiter.api.Test;
@@ -34,9 +35,9 @@ public class JettyManagerTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = config.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = ((ICommonConfig)generalConfig).getJettyManagerConfig();
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(generalConfig);
     doNothing().when(mockedServer).setHandler(any(Handler.class));
     // The following method (start) is final, which calls on a
     // file named org.mockito.plugins.MockMaker in the
@@ -56,9 +57,9 @@ public class JettyManagerTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = config.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = ((ICommonConfig)generalConfig).getJettyManagerConfig();
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(generalConfig);
     doNothing().when(mockedServer).setHandler(any(Handler.class));
     // The following method (start) is final, which calls on a
     // file named org.mockito.plugins.MockMaker in the
@@ -77,9 +78,9 @@ public class JettyManagerTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = config.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = ((ICommonConfig)generalConfig).getJettyManagerConfig();
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(generalConfig);
     doNothing().when(mockedServer).setHandler(any(Handler.class));
     // The following method (start) is final, which calls on a
     // file named org.mockito.plugins.MockMaker in the
@@ -100,9 +101,9 @@ public class JettyManagerTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = config.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = ((ICommonConfig)generalConfig).getJettyManagerConfig();
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(generalConfig);
     jettyManager.setServer(mockedServer);
     System.setProperty(JettyManagerConfig.JERSEY_APPLICATION_CLASS_NAME_KEY, "someClassNamePlaceHolderForTest");
 
@@ -115,9 +116,9 @@ public class JettyManagerTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = config.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = ((ICommonConfig)generalConfig).getJettyManagerConfig();
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(generalConfig);
     doReturn(false).when(mockedServer).isStarted();
     jettyManager.setServer(mockedServer);
     System.setProperty(JettyManagerConfig.JERSEY_APPLICATION_CLASS_NAME_KEY, "someClassNamePlaceHolderForTest");
@@ -134,9 +135,9 @@ public class JettyManagerTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = config.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = ((ICommonConfig)generalConfig).getJettyManagerConfig();
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(generalConfig);
     
     doThrow(Exception.class).when(mockedServer).stop();
     jettyManager.setServer(mockedServer);
@@ -151,9 +152,9 @@ public class JettyManagerTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = config.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = ((ICommonConfig)generalConfig).getJettyManagerConfig();
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(generalConfig);
     final int expectedServerPort = 178;
     System.setProperty(JettyManagerConfig.JETTY_SERVER_PORT_KEY, String.valueOf(expectedServerPort));
 
@@ -166,10 +167,10 @@ public class JettyManagerTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
     
-    final IJettyManagerConfig jettyManagerConfig = config.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    final IJettyManagerConfig jettyManagerConfig = ((ICommonConfig)generalConfig).getJettyManagerConfig();
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(generalConfig);
     jettyManager.setServer(null);
 
     assertThatCode(() -> jettyManager.getServer()).doesNotThrowAnyException();
@@ -181,9 +182,11 @@ public class JettyManagerTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final JettyManager jettyManager1 = JettyManager.getSingletonInstance(config);
-    final JettyManager jettyManager2 = JettyManager.getSingletonInstance(config);
+    final ICommonConfig config = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = config.getJettyManagerConfig();
+    
+    final JettyManager jettyManager1 = JettyManager.getSingleton(jettyManagerConfig);
+    final JettyManager jettyManager2 = JettyManager.getSingleton(jettyManagerConfig);
 
     assertThat(jettyManager1).isSameAs(jettyManager2);
   }

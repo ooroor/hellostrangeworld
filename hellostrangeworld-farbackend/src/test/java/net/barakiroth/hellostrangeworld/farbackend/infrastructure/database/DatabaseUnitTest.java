@@ -30,7 +30,7 @@ public class DatabaseUnitTest {
   @BeforeEach
   void beforeEach() {
     final Database database =
-        FarBackendConfig.getSingletonInstance().getDatabase();
+        FarBackendConfig.getSingleton().getDatabase();
     //database.setDataSource(null);
     database.stop();
   }
@@ -49,7 +49,7 @@ public class DatabaseUnitTest {
 
     enteringTestHeaderLogger.debug(null);
     
-    assertThatCode(() -> Database.getSingletonInstance(FarBackendConfig.getSingletonInstance())).doesNotThrowAnyException();
+    assertThatCode(() -> Database.getSingleton(FarBackendConfig.getSingleton())).doesNotThrowAnyException();
   }
   
   @Test
@@ -58,7 +58,7 @@ public class DatabaseUnitTest {
     enteringTestHeaderLogger.debug(null);
     
     final Database expectedDatabase =
-        Database.getSingletonInstance(FarBackendConfig.getSingletonInstance());
+        Database.getSingleton(FarBackendConfig.getSingleton());
     doThrow(SQLException.class).when(mockedDataSource).getConnection();
     expectedDatabase.setDataSource(mockedDataSource);
         
@@ -75,7 +75,7 @@ public class DatabaseUnitTest {
     doReturn("RUBBISH_DB_BRAND_TO_PROVOKE_AN_EXCEPTION_WHEN_TESTING").when(mockedDatabaseMetaData).getDatabaseProductName();
     
     final Database expectedDatabase =
-        Database.getSingletonInstance(FarBackendConfig.getSingletonInstance());
+        Database.getSingleton(FarBackendConfig.getSingleton());
     expectedDatabase.setDataSource(mockedDataSource);
 
     assertThatThrownBy(

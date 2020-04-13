@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import net.barakiroth.hellostrangeworld.common.infrastructure.prometheus.IPrometheusConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
 
-public class AbstractConfigTest {
+public class CommonConfigTest {
 
   private static final Logger enteringTestHeaderLogger =
       LoggerFactory.getLogger("EnteringTestHeader");
@@ -23,11 +23,11 @@ public class AbstractConfigTest {
     final String defaultValue = "Some dummy test value";
     final String expectedValue = defaultValue;
     System.clearProperty(key);
-    final IConfig config = new AbstractConfig() {
+    final IGeneralConfig generalConfig = new CommonConfig() {
       {
       }
     };
-    assertThat(config.getString(key, defaultValue)).isEqualTo(expectedValue);
+    assertThat(generalConfig.getString(key, defaultValue)).isEqualTo(expectedValue);
   }
 
   @Test
@@ -39,11 +39,11 @@ public class AbstractConfigTest {
     final String defaultValue = "Some dummy test value";
     final String expectedValue = "Some dummy test value";
     System.setProperty(key, expectedValue);
-    final IConfig config = new AbstractConfig() {
+    final IGeneralConfig generalConfig = new CommonConfig() {
       {
       }
     };
-    assertThat(config.getString(key, defaultValue)).isEqualTo(expectedValue);
+    assertThat(generalConfig.getString(key, defaultValue)).isEqualTo(expectedValue);
   }
 
   @Test
@@ -54,11 +54,12 @@ public class AbstractConfigTest {
     final String key = "ThisReallyShouldNotExistAsASystemProperty";
     final String expectedValue = "Some dummy test value";
     System.setProperty(key, expectedValue);
-    final IConfig config = new AbstractConfig() {
+    
+    final IGeneralConfig generalConfig = new CommonConfig() {
       {
       }
     };
-    assertThat(config.getRequiredString(key)).isEqualTo(expectedValue);
+    assertThat(generalConfig.getRequiredString(key)).isEqualTo(expectedValue);
   }
 
   @Test
@@ -68,11 +69,11 @@ public class AbstractConfigTest {
 
     final String key = "ThisReallyShouldNotExistAsASystemProperty";
     System.clearProperty(key);
-    final IConfig config = new AbstractConfig() {
+    final IGeneralConfig generalConfig = new CommonConfig() {
       {
       }
     };
-    assertThatIllegalStateException().isThrownBy(() -> config.getRequiredString(key));
+    assertThatIllegalStateException().isThrownBy(() -> generalConfig.getRequiredString(key));
   }
 
   @Test
@@ -84,11 +85,11 @@ public class AbstractConfigTest {
     final int defaultValue = 17;
     final int expectedValue = defaultValue;
     System.clearProperty(key);
-    final IConfig config = new AbstractConfig() {
+    final IGeneralConfig generalConfig = new CommonConfig() {
       {
       }
     };
-    assertThat(config.getInt(key, defaultValue)).isEqualTo(expectedValue);
+    assertThat(generalConfig.getInt(key, defaultValue)).isEqualTo(expectedValue);
   }
 
   @Test
@@ -100,11 +101,11 @@ public class AbstractConfigTest {
     final int defaultValue = 19;
     final int expectedValue = 21;
     System.setProperty(key, String.valueOf(expectedValue));
-    final IConfig config = new AbstractConfig() {
+    final IGeneralConfig generalConfig = new CommonConfig() {
       {
       }
     };
-    assertThat(config.getInt(key, defaultValue)).isEqualTo(expectedValue);
+    assertThat(generalConfig.getInt(key, defaultValue)).isEqualTo(expectedValue);
   }
 
   @Test
@@ -115,11 +116,11 @@ public class AbstractConfigTest {
     final String key = "ThisReallyShouldNotExistAsASystemProperty";
     final int expectedValue = 23;
     System.setProperty(key, String.valueOf(expectedValue));
-    final IConfig config = new AbstractConfig() {
+    final IGeneralConfig generalConfig = new CommonConfig() {
       {
       }
     };
-    assertThat(config.getRequiredInt(key)).isEqualTo(expectedValue);
+    assertThat(generalConfig.getRequiredInt(key)).isEqualTo(expectedValue);
   }
 
   @Test
@@ -129,11 +130,11 @@ public class AbstractConfigTest {
 
     final String key = "ThisReallyShouldNotExistAsASystemProperty";
     System.clearProperty(key);
-    final IConfig config = new AbstractConfig() {
+    final IGeneralConfig generalConfig = new CommonConfig() {
       {
       }
     };
-    assertThatIllegalStateException().isThrownBy(() -> config.getRequiredInt(key));
+    assertThatIllegalStateException().isThrownBy(() -> generalConfig.getRequiredInt(key));
   }
 
   @Test
@@ -143,11 +144,11 @@ public class AbstractConfigTest {
     
     final String key = "ThisReallyShouldNotExistAsASystemProperty";
     System.clearProperty(key);
-    final IConfig config = new AbstractConfig() {
+    final IGeneralConfig generalConfig = new CommonConfig() {
       {
       }
     };
-    assertThat(config.getInt(key)).isEqualTo(0);
+    assertThat(generalConfig.getInt(key)).isEqualTo(0);
   }
 
   @Test
@@ -158,11 +159,11 @@ public class AbstractConfigTest {
     final String key = "ThisReallyShouldNotExistAsASystemProperty";
     final int expectedValue = 31;
     System.setProperty(key, String.valueOf(expectedValue));
-    final IConfig config = new AbstractConfig() {
+    final IGeneralConfig generalConfig = new CommonConfig() {
       {
       }
     };
-    assertThat(config.getInt(key)).isEqualTo(expectedValue);
+    assertThat(generalConfig.getInt(key)).isEqualTo(expectedValue);
   }
 
   @Test
@@ -171,7 +172,7 @@ public class AbstractConfigTest {
     enteringTestHeaderLogger.debug(null);
     
 
-    final IConfig config = new AbstractConfig() {
+    final ICommonConfig config = new CommonConfig() {
       {
       }
     };
@@ -183,7 +184,7 @@ public class AbstractConfigTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final IConfig config = new AbstractConfig() {
+    final ICommonConfig config = new CommonConfig() {
       {
       }
     };
@@ -197,7 +198,7 @@ public class AbstractConfigTest {
     enteringTestHeaderLogger.debug(null);
     
 
-    final IConfig config = new AbstractConfig() {
+    final ICommonConfig config = new CommonConfig() {
       {
       }
     };
@@ -209,7 +210,7 @@ public class AbstractConfigTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final IConfig config = new AbstractConfig() {
+    final ICommonConfig config = new CommonConfig() {
       {
       }
     };

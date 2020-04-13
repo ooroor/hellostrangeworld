@@ -17,9 +17,9 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractConfig implements IConfig {
+public class CommonConfig implements IGeneralConfig, ICommonConfig {
 
-	  private static final Logger log = LoggerFactory.getLogger(AbstractConfig.class);
+	  private static final Logger log = LoggerFactory.getLogger(CommonConfig.class);
 	  private static final Logger enteringMethodHeaderLogger =
 	      LoggerFactory.getLogger("EnteringMethodHeader");
 	  private static final Logger leavingMethodHeaderLogger  =
@@ -29,7 +29,7 @@ public abstract class AbstractConfig implements IConfig {
 	  private       IJettyManagerConfig    jettyManagerConfig;
 	  private       IPrometheusConfig      prometheusConfig;
 	  
-	  protected AbstractConfig() {
+	  protected CommonConfig() {
 	    
 	    enteringMethodHeaderLogger.debug(null);
 	    
@@ -119,7 +119,7 @@ public abstract class AbstractConfig implements IConfig {
 	  public IJettyManagerConfig getJettyManagerConfig() {
 	    if (this.jettyManagerConfig == null) {
 	      final IJettyManagerConfig jettyManagerConfig =
-	          JettyManagerConfig.getSingletonInstance(this);
+	          JettyManagerConfig.getSingleton(this);
 	      setJettyManagerConfig(jettyManagerConfig);
 	    }
 	    return this.jettyManagerConfig;
@@ -133,7 +133,7 @@ public abstract class AbstractConfig implements IConfig {
 	  public IPrometheusConfig getPrometheusConfig() {
 	    if (this.prometheusConfig == null) {
 	      // TODO: Should call the getter, not the creator:
-	      final IPrometheusConfig prometheusConfig = PrometheusConfig.getSingletonInstance(this);
+	      final IPrometheusConfig prometheusConfig = PrometheusConfig.getSingleton(this);
 	      setPrometheusConfig(prometheusConfig);
 	    }
 	    return this.prometheusConfig;

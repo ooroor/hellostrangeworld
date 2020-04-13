@@ -33,7 +33,7 @@ public class InitialPartConsumerTest {
 
 	@BeforeAll
 	static void beforeAll() {
-		final IFrontendConfig config = FrontendConfig.getSingletonInstance();
+		final IFrontendConfig config = FrontendConfig.getSingleton();
 		InitialPartConsumerTest.initialPartConsumer = new InitialPartConsumer(config);
 		InitialPartConsumerTest.wireMockServer = new WireMockServer(
 				config.getRequiredInt(IFrontendConfig.DOWNSTREAM_RESOURCE_ENDPOINT_PORT_KEY));

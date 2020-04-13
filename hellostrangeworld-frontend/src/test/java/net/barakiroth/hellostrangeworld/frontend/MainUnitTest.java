@@ -3,6 +3,7 @@ package net.barakiroth.hellostrangeworld.frontend;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.lenient;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,6 +14,7 @@ import net.barakiroth.hellostrangeworld.frontend.consumer.InitialPartConsumer;
 import net.barakiroth.hellostrangeworld.frontend.consumer.InitialPartDo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -20,8 +22,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Tag("Unit")
 @ExtendWith(MockitoExtension.class)
-public class MainTest {
+public class MainUnitTest {
 
   private static final Logger enteringTestHeaderLogger =
       LoggerFactory.getLogger("EnteringTestHeader");
@@ -31,6 +34,9 @@ public class MainTest {
   private final PrintStream originalOut = System.out;
   private final PrintStream originalErr = System.err;
   private final InputStream originalIn = System.in;
+  
+  @Mock
+  private IFrontendConfig mockedFrontendConfig; 
     
   @Mock
   private GreeteePrompter mockedGreeteePrompter;
@@ -42,9 +48,20 @@ public class MainTest {
   void setUpStreams() throws IllegalArgumentException, ReflectiveOperationException {
     System.setOut(new PrintStream(outContent));
     System.setErr(new PrintStream(errContent));
-    final Main main = Main.getSingletonInstance();
-    main.setGreeteePrompter(null);
-    main.setInitialPartConsumer(null);
+    
+    lenient().doReturn(this.mockedInitialPartConsumer).when(this.mockedFrontendConfig).getInitialPartConsumer();
+    lenient().doReturn(this.mockedGreeteePrompter).when(this.mockedFrontendConfig).getGreeteePrompter();
+    
+    final Main main = Main.getSingleton();
+    main.setFrontendConfig(this.mockedFrontendConfig);
+  }
+
+  @AfterEach
+  void afterEach() throws IllegalArgumentException, ReflectiveOperationException {
+    System.setOut(new PrintStream(outContent));
+    System.setErr(new PrintStream(errContent));
+    final Main main = Main.getSingleton();
+    main.setFrontendConfig(null);
   }
 
   /**
@@ -67,14 +84,8 @@ public class MainTest {
     final ByteArrayInputStream in = new ByteArrayInputStream(expectedGreetee.getBytes());
     System.setIn(in);
     
-    final Main main = Main.getSingletonInstance();
-    
-    doReturn(expectedInitialPartDo)
-      .when(mockedInitialPartConsumer).getInitialPartDo();
-    main.setInitialPartConsumer(mockedInitialPartConsumer);
-    
-    doReturn(expectedGreetee).when(mockedGreeteePrompter).getGreetee();
-    main.setGreeteePrompter(mockedGreeteePrompter);
+    doReturn(expectedInitialPartDo).when(this.mockedInitialPartConsumer).getInitialPartDo();
+    doReturn(expectedGreetee).when(this.mockedGreeteePrompter).getGreetee();
     
     Main.main(new String[0]);
     
@@ -95,7 +106,7 @@ public class MainTest {
     
     enteringTestHeaderLogger.debug(null);    
  
-    assertThatCode(() -> Main.getSingletonInstance()).doesNotThrowAnyException();
+    assertThatCode(() -> Main.getSingleton()).doesNotThrowAnyException();
   }
 
   @Test
@@ -103,12 +114,11 @@ public class MainTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final Main main = Main.getSingletonInstance();
-    final IFrontendConfig frontendConfig = main.getFrontendConfig();
-    final GreeteePrompter greeteePrompter = new GreeteePrompter() {{}};
-    main.setGreeteePrompter(greeteePrompter);
+    doReturn(this.mockedGreeteePrompter).when(this.mockedFrontendConfig).getGreeteePrompter();
+    
+    final Main main = Main.getSingleton();
  
-    assertThat(greeteePrompter).isEqualTo(main.getGreeteePrompter(frontendConfig));
+    assertThat(this.mockedGreeteePrompter).isEqualTo(main.getGreeteePrompter(this.mockedFrontendConfig));
   }
 
   @Test
@@ -116,10 +126,9 @@ public class MainTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    Main.getSingletonInstance().setGreeteePrompter(null);
-    final IFrontendConfig config = FrontendConfig.getSingletonInstance();
+    final IFrontendConfig frontendConfig = FrontendConfig.getSingleton();
  
-    assertThatCode(() -> Main.getSingletonInstance().getGreeteePrompter(config)).doesNotThrowAnyException();
+    assertThatCode(() -> Main.getSingleton().getGreeteePrompter(frontendConfig)).doesNotThrowAnyException();
   }
 
   @Test
@@ -127,10 +136,9 @@ public class MainTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    Main.getSingletonInstance().setGreeteePrompter(null);
-    final IFrontendConfig config = FrontendConfig.getSingletonInstance();
+    final IFrontendConfig frontendConfig = FrontendConfig.getSingleton();
     
-    assertThat(Main.getSingletonInstance().getGreeteePrompter(config)).isNotNull();
+    assertThat(Main.getSingleton().getGreeteePrompter(frontendConfig)).isNotNull();
   }
 
   @Test
@@ -138,12 +146,9 @@ public class MainTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final Main main = Main.getSingletonInstance();
-    final IFrontendConfig frontendConfig = main.getFrontendConfig();
-    final InitialPartConsumer initialPartConsumer = new InitialPartConsumer() {{}};
-    main.setInitialPartConsumer(initialPartConsumer);
+    final Main main = Main.getSingleton();
  
-    assertThat(initialPartConsumer).isEqualTo(main.getInitialPartConsumer(frontendConfig));
+    assertThat(main.getInitialPartConsumer(this.mockedFrontendConfig)).isEqualTo(this.mockedInitialPartConsumer);
   }
 
   @Test
@@ -152,11 +157,8 @@ public class MainTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    Main.getSingletonInstance().setInitialPartConsumer(null);
-    final IFrontendConfig config = FrontendConfig.getSingletonInstance();
-    
     assertThatCode(
-        () -> Main.getSingletonInstance().getInitialPartConsumer(config)
+        () -> Main.getSingleton().getInitialPartConsumer(this.mockedFrontendConfig)
     ).doesNotThrowAnyException();
   }
 
@@ -165,11 +167,8 @@ public class MainTest {
     
     enteringTestHeaderLogger.debug(null);
  
-    Main.getSingletonInstance().setInitialPartConsumer(null);
-    final IFrontendConfig config = FrontendConfig.getSingletonInstance();
-    
     assertThat(
-    		Main.getSingletonInstance().getInitialPartConsumer(config)
+    		Main.getSingleton().getInitialPartConsumer(this.mockedFrontendConfig)
     ).isNotNull();
   }
 
@@ -178,7 +177,7 @@ public class MainTest {
     
     enteringTestHeaderLogger.debug(null);
  
-    final Main main = Main.getSingletonInstance();
+    final Main main = Main.getSingleton();
     final IFrontendConfig frontendConfig1 = main.getFrontendConfig();
     final IFrontendConfig frontendConfig2 = main.getFrontendConfig();
     

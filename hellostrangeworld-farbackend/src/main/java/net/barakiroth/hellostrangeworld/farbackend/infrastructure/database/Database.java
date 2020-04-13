@@ -17,7 +17,7 @@ import java.util.concurrent.Callable;
 import javax.sql.DataSource;
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.barakiroth.hellostrangeworld.common.IConfig;
+import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QModifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public class Database {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
   
-  private static Database singletonInstance;
+  private static Database singleton;
   // TODO: Rename:
   public static final QModifier modifierTable =
       QModifier.modifier1;
@@ -75,9 +75,9 @@ public class Database {
    * Create an instance and set its relevant configuration.
    * @param config Relevant configuration.
    */
-  private Database(final IConfig config) {
+  private Database(final IGeneralConfig generalConfig) {
     
-    this(Database.createDatabaseConfig(config));
+    this(Database.createDatabaseConfig(generalConfig));
     
     leavingMethodHeaderLogger.debug(null);
   }
@@ -91,24 +91,24 @@ public class Database {
     leavingMethodHeaderLogger.debug(null);
   }
   
-  static Database getSingletonInstance(final IConfig config) {
-    if (Database.singletonInstance == null) {
-      final Database database = createSingletonInstance(config);
-      Database.singletonInstance = database;
+  static Database getSingleton(final IGeneralConfig generalConfig) {
+    if (Database.singleton == null) {
+      final Database database = createsingleton(generalConfig);
+      Database.singleton = database;
     }
-    return Database.singletonInstance;
+    return Database.singleton;
   }
   
-  private static Database createSingletonInstance(final IConfig config) {
-    return new Database(config);
+  private static Database createsingleton(final IGeneralConfig generalConfig) {
+    return new Database(generalConfig);
   }
 
-  private static void setSingletonInstance(final Database database) {
-    Database.singletonInstance = database;
+  private static void setsingleton(final Database database) {
+    Database.singleton = database;
   }
   
-  private static DatabaseConfig createDatabaseConfig(final IConfig config) {
-    return DatabaseConfig.getSingletonInstance(config);
+  private static DatabaseConfig createDatabaseConfig(final IGeneralConfig generalConfig) {
+    return DatabaseConfig.getSingleton(generalConfig);
   }
 
   private static DataSource createDataSource(final DatabaseConfig databaseConfig) {
@@ -245,7 +245,7 @@ public class Database {
       setDataSource(null);
       setSQLQueryFactory(null);
       setTransactionManager(null);
-      Database.setSingletonInstance(null);
+      Database.setsingleton(null);
       this.isStarted = false;
     } else {
       log.warn("Asked to stop when not connected dataSource == null etc.");

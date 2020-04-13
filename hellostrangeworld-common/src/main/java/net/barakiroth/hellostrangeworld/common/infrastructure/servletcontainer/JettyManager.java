@@ -2,7 +2,6 @@ package net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer;
 
 import io.prometheus.client.exporter.MetricsServlet;
 
-import net.barakiroth.hellostrangeworld.common.IConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -20,32 +19,36 @@ public class JettyManager {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
 
-  private static JettyManager singletonInstance = null;
+  private static JettyManager singleton = null;
 
   private final IJettyManagerConfig jettyManagerConfig;
   
   private Server jettyServer;
 
-  private JettyManager(final IConfig config) {
+  private JettyManager(final IJettyManagerConfig jettyManagerConfig) {
 
     enteringMethodHeaderLogger.debug(null);
 
-    this.jettyManagerConfig = config.getJettyManagerConfig();
+    this.jettyManagerConfig = jettyManagerConfig;
 
     leavingMethodHeaderLogger.debug(null);
   }
-
-  private static void setSingletonInstance(final JettyManager jettyManager) {
-    JettyManager.singletonInstance = jettyManager;
+  
+  private static JettyManager createJettyManager(final IJettyManagerConfig jettyManagerConfig) {
+    return new JettyManager(jettyManagerConfig);
   }
 
-  public static JettyManager getSingletonInstance(final IConfig config) {
+  private static void setSingleton(final JettyManager jettyManager) {
+    JettyManager.singleton = jettyManager;
+  }
 
-    if (JettyManager.singletonInstance == null) {
-      final JettyManager jettyManager = new JettyManager(config);
-      setSingletonInstance(jettyManager);
+  public static JettyManager getSingleton(final IJettyManagerConfig jettyManagerConfig) {
+
+    if (JettyManager.singleton == null) {
+      final JettyManager jettyManager = JettyManager.createJettyManager(jettyManagerConfig);
+      JettyManager.setSingleton(jettyManager);
     }
-    return JettyManager.singletonInstance;
+    return JettyManager.singleton;
   }
 
   /**

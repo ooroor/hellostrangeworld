@@ -1,5 +1,6 @@
 package net.barakiroth.hellostrangeworld.backend;
 
+import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,9 @@ public class Main {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
 
-  private static final Main main = new Main();
+  private static final Main singleton = new Main();
 
   private IBackendConfig backendConfig;
-  private JettyManager   jettyManager;
 
   private Main() {
   }
@@ -31,42 +31,33 @@ public class Main {
     
     logger.debug("Parameters received: {}", (Object[]) args);
 
-    final Main main = getSingletonInstance();
+    final Main main = getSingleton();
     main.run();
 
     leavingMethodHeaderLogger.debug(null);
   }
 
-  static Main getSingletonInstance() {
-    return Main.main;
+  static Main getSingleton() {
+    return Main.singleton;
   }
 
   private static IBackendConfig createBackendConfig() {
-    return BackendConfig.getSingletonInstance();
+    return BackendConfig.getSingleton();
   }
 
-  private static JettyManager createJettyManager(final IBackendConfig backendConfig) {
-    return backendConfig.getJettyManagerConfig().getJettyManager();
+  void setBackendConfig(final IBackendConfig backendConfig) {
+    this.backendConfig = backendConfig;
   }
 
   IBackendConfig getBackendConfig() {
     if (this.backendConfig == null) {
-      final IBackendConfig backendConfig = Main.createBackendConfig();
-      setBackendConfig(backendConfig);
+      setBackendConfig(Main.createBackendConfig());
     }
     return this.backendConfig;
   }
 
-  void setJettyManager(final JettyManager jettyManager) {
-    this.jettyManager = jettyManager;
-  }
-
-  JettyManager getJettyManager(final IBackendConfig backendConfig) {
-    if (this.jettyManager == null) {
-      final JettyManager jettyManager = Main.createJettyManager(backendConfig);
-      setJettyManager(jettyManager);
-    }
-    return this.jettyManager;
+  JettyManager getJettyManager(final IGeneralConfig generalConfig) {
+    return getBackendConfig().getJettyManagerConfig().getJettyManager(generalConfig);
   }
 
   private void run() {
@@ -79,9 +70,5 @@ public class Main {
     jettyManager.start();
 
     leavingMethodHeaderLogger.debug(null);
-  }
-
-  private void setBackendConfig(final IBackendConfig backendConfig) {
-    this.backendConfig = backendConfig;
   }
 }

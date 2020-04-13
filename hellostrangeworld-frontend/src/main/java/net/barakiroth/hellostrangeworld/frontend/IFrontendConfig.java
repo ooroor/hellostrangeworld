@@ -1,9 +1,10 @@
 package net.barakiroth.hellostrangeworld.frontend;
 
-import net.barakiroth.hellostrangeworld.common.IConfig;
+import net.barakiroth.hellostrangeworld.common.ICommonConfig;
+import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
 import net.barakiroth.hellostrangeworld.frontend.consumer.InitialPartConsumer;
 
-public interface IFrontendConfig extends IConfig {
+public interface IFrontendConfig extends IGeneralConfig, ICommonConfig {
 
 	final String DOWNSTREAM_RESOURCE_ENDPOINT_PROTOCOL_KEY = "downstream.resource.endpoint.protocol";
 	final String DOWNSTREAM_RESOURCE_ENDPOINT_HOSTNAME_KEY = "downstream.resource.endpoint.hostname";

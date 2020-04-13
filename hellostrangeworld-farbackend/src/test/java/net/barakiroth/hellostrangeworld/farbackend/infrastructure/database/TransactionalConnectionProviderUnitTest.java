@@ -17,5 +17,4 @@ public class TransactionalConnectionProviderUnitTest {
   
   private static final Logger enteringTestHeaderLogger =
       LoggerFactory.getLogger("EnteringTestHeader");
-
 }

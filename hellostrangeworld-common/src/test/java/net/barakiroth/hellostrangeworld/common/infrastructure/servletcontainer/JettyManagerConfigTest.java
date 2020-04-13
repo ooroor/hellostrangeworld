@@ -6,8 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.barakiroth.hellostrangeworld.common.AbstractConfig;
-import net.barakiroth.hellostrangeworld.common.IConfig;
+import net.barakiroth.hellostrangeworld.common.CommonConfig;
+import net.barakiroth.hellostrangeworld.common.ICommonConfig;
+import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
 
 public class JettyManagerConfigTest {
 
@@ -19,7 +20,7 @@ public class JettyManagerConfigTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    assertThat(JettyManagerConfig.getSingletonInstance(new AbstractConfig() {{}})).isNotNull();
+    assertThat(JettyManagerConfig.getSingleton(new CommonConfig() {{}})).isNotNull();
   }
 
   @Test
@@ -27,8 +28,8 @@ public class JettyManagerConfigTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingletonInstance(config);
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingleton(generalConfig);
     
     assertThat(jettyManagerConfig.getServerPort()).isEqualTo(JettyManagerConfig.JETTY_SERVER_PORT_DEFAULT);
   }
@@ -38,8 +39,8 @@ public class JettyManagerConfigTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingletonInstance(config);
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingleton(generalConfig);
     
     assertThat(jettyManagerConfig.getResourcePathSpec()).isEqualTo(JettyManagerConfig.JETTY_RESOURCE_PATH_SPEC_DEFAULT);
   }
@@ -49,8 +50,8 @@ public class JettyManagerConfigTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingletonInstance(config);
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingleton(generalConfig);
     
     assertThat(jettyManagerConfig.getRootContextPath()).isEqualTo(JettyManagerConfig.JETTY_ROOT_CONTEXT_PATH_DEFAULT);
   }
@@ -60,8 +61,8 @@ public class JettyManagerConfigTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingletonInstance(config);
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingleton(generalConfig);
     
     assertThat(jettyManagerConfig.getDefaultPathSpec()).isEqualTo(JettyManagerConfig.JETTY_DEFAULT_CONTEXT_PATH_DEFAULT);
   }
@@ -71,8 +72,8 @@ public class JettyManagerConfigTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingletonInstance(config);
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingleton(generalConfig);
     
     assertThat(jettyManagerConfig.getMetricsContextPath()).isEqualTo(JettyManagerConfig.JETTY_METRICS_CONTEXT_PATH_DEFAULT);
   }
@@ -82,8 +83,8 @@ public class JettyManagerConfigTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingletonInstance(config);
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingleton(generalConfig);
     final String expectedJerseyApplicationClassName = "someRubbishForTestingPurposes";
     System.setProperty(JettyManagerConfig.JERSEY_APPLICATION_CLASS_NAME_KEY, expectedJerseyApplicationClassName);
     
@@ -95,8 +96,8 @@ public class JettyManagerConfigTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final IConfig config = new AbstractConfig() {{}};
-    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingletonInstance(config);
+    final IGeneralConfig generalConfig = new CommonConfig() {{}};
+    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.getSingleton(generalConfig);
     System.clearProperty(JettyManagerConfig.JERSEY_APPLICATION_CLASS_NAME_KEY);
     
     assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> jettyManagerConfig.getJerseyApplicationClassName());
@@ -107,11 +108,11 @@ public class JettyManagerConfigTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final IConfig config = new AbstractConfig() {
+    final ICommonConfig config = new CommonConfig() {
       {
       }
     };
-    assertThat(config.getJettyManagerConfig().getJettyManager()).isNotNull();
+    assertThat(config.getJettyManagerConfig().getJettyManager((IGeneralConfig)config)).isNotNull();
   }
 
   @Test
@@ -119,14 +120,14 @@ public class JettyManagerConfigTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final IConfig config = new AbstractConfig() {
+    final ICommonConfig config = new CommonConfig() {
       {
       }
     };
     
     final IJettyManagerConfig jettyManagerConfig = config.getJettyManagerConfig();
     
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
-    assertThat(jettyManagerConfig.getJettyManager()).isSameAs(jettyManager);
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager((IGeneralConfig)config);
+    assertThat(jettyManagerConfig.getJettyManager((IGeneralConfig)config)).isSameAs(jettyManager);
   }
 }

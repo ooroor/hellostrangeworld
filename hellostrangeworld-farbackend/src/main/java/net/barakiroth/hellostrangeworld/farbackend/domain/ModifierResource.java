@@ -58,7 +58,7 @@ public class ModifierResource {
   }
   
   private static IFarBackendConfig createFarBackendConfig() {
-    return FarBackendConfig.getSingletonInstance();
+    return FarBackendConfig.getSingleton();
   }
 
   private static ObjectMapper createObjectMapper() {

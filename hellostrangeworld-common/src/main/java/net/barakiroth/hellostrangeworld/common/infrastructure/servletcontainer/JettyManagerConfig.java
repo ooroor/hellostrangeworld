@@ -1,6 +1,6 @@
 package net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer;
 
-import net.barakiroth.hellostrangeworld.common.IConfig;
+import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 
@@ -20,43 +20,44 @@ public class JettyManagerConfig implements IJettyManagerConfig {
   private static final String JETTY_METRICS_CONTEXT_PATH_KEY = "jetty.metrics.path.spec";
   private static final String JETTY_RESOURCE_PATH_SPEC_KEY = "jetty.path.spec";
   
-  private static IJettyManagerConfig singletonInstance = null;
-  private final IConfig config;
-  private JettyManager jettyManager;
+  private static       IJettyManagerConfig singleton = null;
+
+  private final IGeneralConfig generalConfig;
+  private       JettyManager   jettyManager;
   
-  private JettyManagerConfig(final IConfig config) {
-    this.config = config;
+  private JettyManagerConfig(final IGeneralConfig generalConfig) {
+    this.generalConfig = generalConfig;
   }
 
-  public static IJettyManagerConfig getSingletonInstance(final IConfig config) {
+  public static IJettyManagerConfig getSingleton(final IGeneralConfig generalConfig) {
     
-    if (JettyManagerConfig.singletonInstance == null) {
-      final IJettyManagerConfig singletonInstance = createSingletonInstance(config);
-      setSingletonInstance(singletonInstance);
+    if (JettyManagerConfig.singleton == null) {
+      final IJettyManagerConfig singleton = createsingleton(generalConfig);
+      setsingleton(singleton);
     }
-    return JettyManagerConfig.singletonInstance;
+    return JettyManagerConfig.singleton;
   }
 
-  private static void setSingletonInstance(final IJettyManagerConfig jettyManagerConfig) {
-    JettyManagerConfig.singletonInstance = jettyManagerConfig;
+  private static void setsingleton(final IJettyManagerConfig jettyManagerConfig) {
+    JettyManagerConfig.singleton = jettyManagerConfig;
   }
 
-  private static IJettyManagerConfig createSingletonInstance(final IConfig config) {
-    return new JettyManagerConfig(config);
+  private static IJettyManagerConfig createsingleton(final IGeneralConfig generalConfig) {
+    return new JettyManagerConfig(generalConfig);
   }
   
-  private static JettyManager createJettyManager(final IConfig config) {
-    return JettyManager.getSingletonInstance(config);
+  private static JettyManager createJettyManager(final IGeneralConfig generalConfig) {
+    return JettyManager.getSingleton(JettyManagerConfig.getSingleton(generalConfig));
   }
   
-  private IConfig getConfig() {
-    return this.config;
+  private IGeneralConfig getGeneralConfig() {
+    return this.generalConfig;
   }
 
   @Override
-  public JettyManager getJettyManager() {
+  public JettyManager getJettyManager(final IGeneralConfig generalConfig) {
     if (this.jettyManager == null) {
-      final JettyManager jettyManager = createJettyManager(getConfig());
+      final JettyManager jettyManager = createJettyManager(generalConfig);
       setJettyManager(jettyManager);
     }
     return this.jettyManager;
@@ -64,42 +65,42 @@ public class JettyManagerConfig implements IJettyManagerConfig {
 
   @Override
   public int getServerPort() {
-    final int port = getConfig().getInt(JETTY_SERVER_PORT_KEY, JETTY_SERVER_PORT_DEFAULT);
+    final int port = getGeneralConfig().getInt(JETTY_SERVER_PORT_KEY, JETTY_SERVER_PORT_DEFAULT);
     return port;
   }
 
   @Override
   public String getResourcePathSpec() {
     final String contextPath =
-        getConfig().getString(JETTY_RESOURCE_PATH_SPEC_KEY, JETTY_RESOURCE_PATH_SPEC_DEFAULT);
+        getGeneralConfig().getString(JETTY_RESOURCE_PATH_SPEC_KEY, JETTY_RESOURCE_PATH_SPEC_DEFAULT);
     return contextPath;
   }
 
   @Override
   public String getRootContextPath() {
     final String contextPath =
-        getConfig().getString(JETTY_ROOT_CONTEXT_PATH_KEY, JETTY_ROOT_CONTEXT_PATH_DEFAULT);
+        getGeneralConfig().getString(JETTY_ROOT_CONTEXT_PATH_KEY, JETTY_ROOT_CONTEXT_PATH_DEFAULT);
     return contextPath;
   }
 
   @Override
   public String getDefaultPathSpec() {
     final String contextPath =
-        getConfig().getString(JETTY_DEFAULT_CONTEXT_PATH_KEY, JETTY_DEFAULT_CONTEXT_PATH_DEFAULT);
+        getGeneralConfig().getString(JETTY_DEFAULT_CONTEXT_PATH_KEY, JETTY_DEFAULT_CONTEXT_PATH_DEFAULT);
     return contextPath;
   }
   
   @Override
   public String getMetricsContextPath() {
     final String contextPath =
-        getConfig().getString(JETTY_METRICS_CONTEXT_PATH_KEY, JETTY_METRICS_CONTEXT_PATH_DEFAULT);
+        getGeneralConfig().getString(JETTY_METRICS_CONTEXT_PATH_KEY, JETTY_METRICS_CONTEXT_PATH_DEFAULT);
     return contextPath;
   }
   
   @Override
   public String getJerseyApplicationClassName() {
     final String jerseyApplicationClassName =
-        getConfig().getRequiredString(JERSEY_APPLICATION_CLASS_NAME_KEY);
+        getGeneralConfig().getRequiredString(JERSEY_APPLICATION_CLASS_NAME_KEY);
     return jerseyApplicationClassName;
   }
   

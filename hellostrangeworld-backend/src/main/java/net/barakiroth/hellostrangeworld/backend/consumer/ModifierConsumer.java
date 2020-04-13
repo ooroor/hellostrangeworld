@@ -29,7 +29,7 @@ public class ModifierConsumer {
   private final IBackendConfig config;
   
   public ModifierConsumer() {
-    this(BackendConfig.getSingletonInstance());
+    this(BackendConfig.getSingleton());
   }
   
   ModifierConsumer(final IBackendConfig config) {

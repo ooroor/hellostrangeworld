@@ -3,7 +3,9 @@ package net.barakiroth.hellostrangeworld.farbackend;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.any;
 
+import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
@@ -26,18 +28,14 @@ public class MainUnitTest {
   
   @BeforeEach
   void beforeEach() {
-    final Main main = Main.getSingletonInstance();
+    final Main main = Main.getSingleton();
     main.setFarBackendConfig(null);
-    main.setJettyManager(null);
-    main.setDatabase(null);
   }
   
   @AfterEach
   void afterEach() {
-    final Main main = Main.getSingletonInstance();
+    final Main main = Main.getSingleton();
     main.setFarBackendConfig(null);
-    main.setJettyManager(null);
-    main.setDatabase(null);
   }
   
   @Mock
@@ -51,6 +49,9 @@ public class MainUnitTest {
   
   @Mock
   private Database mockedDatabase;
+  
+  @Mock
+  private IGeneralConfig mockedGeneralConfig;
 
   @Test
   public void when_main_is_started_and_JettyManager_and_Database_behave_well_then_no_exception_should_be_thrown() {
@@ -58,10 +59,10 @@ public class MainUnitTest {
     enteringTestHeaderLogger.debug(null);
     
     doReturn(mockedJettyManagerConfig).when(mockedFarBackendConfig).getJettyManagerConfig();
-    doReturn(mockedJettyManager).when(mockedJettyManagerConfig).getJettyManager();
+    doReturn(mockedJettyManager).when(mockedJettyManagerConfig).getJettyManager(any(IGeneralConfig.class));
     doReturn(mockedDatabase).when(mockedFarBackendConfig).getDatabase();
 
-    final Main main = Main.getSingletonInstance();
+    final Main main = Main.getSingleton();
     main.setFarBackendConfig(mockedFarBackendConfig);
     
     assertThatCode(() -> Main.main(null)).doesNotThrowAnyException();
@@ -72,7 +73,7 @@ public class MainUnitTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final Main main = Main.getSingletonInstance();
+    final Main main = Main.getSingleton();
     
     final IFarBackendConfig farBackendConfig1 = main.getFarBackendConfig();
     final IFarBackendConfig farBackendConfig2 = main.getFarBackendConfig();

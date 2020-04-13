@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import io.prometheus.client.Gauge;
-import net.barakiroth.hellostrangeworld.common.AbstractConfig;
+import net.barakiroth.hellostrangeworld.common.CommonConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -29,7 +29,7 @@ public class PrometheusConfigTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    assertThat(PrometheusConfig.getSingletonInstance(new AbstractConfig() {{}})).isNotNull();
+    assertThat(PrometheusConfig.getSingleton(new CommonConfig() {{}})).isNotNull();
   }
 
   @Test
@@ -38,7 +38,7 @@ public class PrometheusConfigTest {
     enteringTestHeaderLogger.debug(null);
     
     final IPrometheusConfig prometheusConfig =
-        PrometheusConfig.getSingletonInstance(new AbstractConfig() {{}});
+        PrometheusConfig.getSingleton(new CommonConfig() {{}});
     System.setProperty(IPrometheusConfig.METR_RESOURCE_DURATION_GAUGE_NAME_KEY, "someDummyPlaceHolderDurationGaugeName");
     System.setProperty(IPrometheusConfig.METR_RESOURCE_DURATION_GAUGE_HELP_KEY, "someDummyPlaceHolderDurationGaugeHelp");
     
@@ -51,7 +51,7 @@ public class PrometheusConfigTest {
     enteringTestHeaderLogger.debug(null);
     
     final IPrometheusConfig prometheusConfig =
-        PrometheusConfig.getSingletonInstance(new AbstractConfig() {{}});
+        PrometheusConfig.getSingleton(new CommonConfig() {{}});
     ((PrometheusConfig)prometheusConfig).setGetResourceDurationGauge(null);
     System.clearProperty(IPrometheusConfig.METR_RESOURCE_DURATION_GAUGE_NAME_KEY);
     System.clearProperty(IPrometheusConfig.METR_RESOURCE_DURATION_GAUGE_HELP_KEY);
@@ -65,7 +65,7 @@ public class PrometheusConfigTest {
     enteringTestHeaderLogger.debug(null);
     
     final PrometheusConfig prometheusConfig =
-        (PrometheusConfig)PrometheusConfig.getSingletonInstance(new AbstractConfig() {{}});
+        (PrometheusConfig)PrometheusConfig.getSingleton(new CommonConfig() {{}});
     
     prometheusConfig.setGetResourceDurationGauge(mockedGetResourceDurationGauge);
     final Gauge expectedResourceDurationGauge = mockedGetResourceDurationGauge;
@@ -80,7 +80,7 @@ public class PrometheusConfigTest {
     enteringTestHeaderLogger.debug(null);
     
     final IPrometheusConfig prometheusConfig =
-        PrometheusConfig.getSingletonInstance(new AbstractConfig() {{}});
+        PrometheusConfig.getSingleton(new CommonConfig() {{}});
     
     ((PrometheusConfig)prometheusConfig).setLastGetResourceSuccessGauge(null);
     System.setProperty(IPrometheusConfig.METR_RESOURCE_SUCCESS_GAUGE_NAME_KEY, "someDummyPlaceHolderSuccessGaugeName");
@@ -95,7 +95,7 @@ public class PrometheusConfigTest {
     enteringTestHeaderLogger.debug(null);
     
     final IPrometheusConfig prometheusConfig =
-        PrometheusConfig.getSingletonInstance(new AbstractConfig() {{}});
+        PrometheusConfig.getSingleton(new CommonConfig() {{}});
     ((PrometheusConfig)prometheusConfig).setLastGetResourceSuccessGauge(null);
     System.clearProperty(IPrometheusConfig.METR_RESOURCE_SUCCESS_GAUGE_NAME_KEY);
     System.clearProperty(IPrometheusConfig.METR_RESOURCE_SUCCESS_GAUGE_HELP_KEY);
@@ -109,7 +109,7 @@ public class PrometheusConfigTest {
     enteringTestHeaderLogger.debug(null);
     
     final PrometheusConfig prometheusConfig =
-        (PrometheusConfig)PrometheusConfig.getSingletonInstance(new AbstractConfig() {{}});
+        (PrometheusConfig)PrometheusConfig.getSingleton(new CommonConfig() {{}});
     
     prometheusConfig.setLastGetResourceSuccessGauge(mockedLastGetResourceSuccessGauge);
     final Gauge expectedLastGetResourceSuccessGauge = mockedLastGetResourceSuccessGauge;

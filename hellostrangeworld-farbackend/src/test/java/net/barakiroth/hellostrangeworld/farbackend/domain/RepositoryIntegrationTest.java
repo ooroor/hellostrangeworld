@@ -45,14 +45,14 @@ public class RepositoryIntegrationTest {
   
   @BeforeEach
   void beforeEach() {
-    FarBackendConfig.getSingletonInstance().getDatabase().stop();
-    FarBackendConfig.setSingletonInstance(null);
+    FarBackendConfig.getSingleton().getDatabase().stop();
+    FarBackendConfig.setsingleton(null);
   }
   
   @AfterEach
   void afterEach() {
-    FarBackendConfig.getSingletonInstance().getDatabase().stop();
-    FarBackendConfig.setSingletonInstance(null);
+    FarBackendConfig.getSingleton().getDatabase().stop();
+    FarBackendConfig.setsingleton(null);
   }
 
   @Test
@@ -60,7 +60,7 @@ public class RepositoryIntegrationTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final Repository repository = farBackendConfig.getRepository();
     assertThatCode(() -> repository.getModifierDo()).doesNotThrowAnyException();
   }
@@ -70,7 +70,7 @@ public class RepositoryIntegrationTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final Repository repository = farBackendConfig.getRepository();
     repository.getModifierDo();
     assertThat(farBackendConfig.getDatabase().isStarted()).isTrue();
@@ -81,7 +81,7 @@ public class RepositoryIntegrationTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final Database database = farBackendConfig.getDatabase();
     final Repository repository = farBackendConfig.getRepository();
     assertThat(database.isStarted()).isFalse();
@@ -95,7 +95,7 @@ public class RepositoryIntegrationTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final Database database = farBackendConfig.getDatabase();
     database.start();
     final SQLQueryFactory sqlQueryFactory = database.getSQLQueryFactory();
@@ -120,7 +120,7 @@ public class RepositoryIntegrationTest {
 
     enteringTestHeaderLogger.debug(null);
     
-    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final Database database = farBackendConfig.getDatabase();
     database.start();
     // Provoke an SQL error by deleting the modifier table:

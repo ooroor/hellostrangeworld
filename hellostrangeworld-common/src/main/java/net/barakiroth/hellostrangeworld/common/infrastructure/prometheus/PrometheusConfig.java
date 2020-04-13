@@ -1,7 +1,7 @@
 package net.barakiroth.hellostrangeworld.common.infrastructure.prometheus;
 
 import io.prometheus.client.Gauge;
-import net.barakiroth.hellostrangeworld.common.IConfig;
+import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.prometheus.IPrometheusConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,30 +13,30 @@ public class PrometheusConfig implements IPrometheusConfig {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
 
-  private final IConfig config;
-  private       Gauge   getResourceDurationGauge;
-  private       Gauge   lastGetResourceSuccessGauge;
+  private final IGeneralConfig generalConfig;
+  private       Gauge          getResourceDurationGauge;
+  private       Gauge          lastGetResourceSuccessGauge;
   
-  private static PrometheusConfig singletonInstance = null;
+  private static PrometheusConfig singleton = null;
   
-  private PrometheusConfig(final IConfig config) {
+  private PrometheusConfig(final IGeneralConfig generalConfig) {
 
     enteringMethodHeaderLogger.debug(null);
     
-    this.config = config;
+    this.generalConfig = generalConfig;
     
     leavingMethodHeaderLogger.debug(null);
   }
   
-  public static IPrometheusConfig getSingletonInstance(final IConfig config) {
-    if (PrometheusConfig.singletonInstance == null) {
-      PrometheusConfig.singletonInstance = createSingletonInstance(config);
+  public static IPrometheusConfig getSingleton(final IGeneralConfig generalConfig) {
+    if (PrometheusConfig.singleton == null) {
+      PrometheusConfig.singleton = createsingleton(generalConfig);
     }
-    return PrometheusConfig.singletonInstance;
+    return PrometheusConfig.singleton;
   }
   
-  private static PrometheusConfig createSingletonInstance(final IConfig config) {
-    return new PrometheusConfig(config);
+  private static PrometheusConfig createsingleton(final IGeneralConfig generalConfig) {
+    return new PrometheusConfig(generalConfig);
   }
 
   void setGetResourceDurationGauge(final Gauge getResourceDurationGauge) {
@@ -72,9 +72,9 @@ public class PrometheusConfig implements IPrometheusConfig {
     final Gauge getResourceDurationGauge =
         Gauge
             .build()
-            .name(this.config
+            .name(this.generalConfig
                 .getRequiredString(IPrometheusConfig.METR_RESOURCE_DURATION_GAUGE_NAME_KEY))
-            .help(this.config
+            .help(this.generalConfig
                 .getRequiredString(IPrometheusConfig.METR_RESOURCE_DURATION_GAUGE_HELP_KEY))
             .register();
 
@@ -90,9 +90,9 @@ public class PrometheusConfig implements IPrometheusConfig {
     final Gauge lastGetResourceSuccessGauge =
         Gauge
             .build()
-            .name(this.config
+            .name(this.generalConfig
                 .getRequiredString(IPrometheusConfig.METR_RESOURCE_SUCCESS_GAUGE_NAME_KEY))
-            .help(this.config
+            .help(this.generalConfig
                 .getRequiredString(IPrometheusConfig.METR_RESOURCE_SUCCESS_GAUGE_HELP_KEY))
             .register()
     ;

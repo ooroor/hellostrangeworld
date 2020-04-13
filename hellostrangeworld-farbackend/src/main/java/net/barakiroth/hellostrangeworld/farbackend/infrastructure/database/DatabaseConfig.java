@@ -1,6 +1,6 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.database;
 
-import net.barakiroth.hellostrangeworld.common.IConfig;
+import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
 
 public class DatabaseConfig {
   
@@ -20,47 +20,48 @@ public class DatabaseConfig {
   private static final String DB_URL_DEFAULT                      = 
       "jdbc:h2:mem:hellostrangeworld;DB_CLOSE_DELAY=-1";
 
-  private final  IConfig        config;
-  private static DatabaseConfig singletonInstance;
+  private static DatabaseConfig singleton;
   
-  private static DatabaseConfig createDatabaseConfig(final IConfig config) {
-    return new DatabaseConfig(config);
+  private final IGeneralConfig generalConfig;
+  
+  private static DatabaseConfig createDatabaseConfig(final IGeneralConfig generalConfig) {
+    return new DatabaseConfig(generalConfig);
   }
 
-  private static void setSingletonInstance(final DatabaseConfig databaseConfig) {
-    DatabaseConfig.singletonInstance = databaseConfig;
+  private static void setsingleton(final DatabaseConfig databaseConfig) {
+    DatabaseConfig.singleton = databaseConfig;
   }
   
-  public static DatabaseConfig getSingletonInstance(final IConfig config) {
+  public static DatabaseConfig getSingleton(final IGeneralConfig generalConfig) {
     
-    if (DatabaseConfig.singletonInstance == null) {
+    if (DatabaseConfig.singleton == null) {
       final DatabaseConfig databaseConfig =
-          DatabaseConfig.createDatabaseConfig(config);
-      DatabaseConfig.setSingletonInstance(databaseConfig);
+          DatabaseConfig.createDatabaseConfig(generalConfig);
+      DatabaseConfig.setsingleton(databaseConfig);
     }
-    return DatabaseConfig.singletonInstance;
+    return DatabaseConfig.singleton;
   }
   
-  private static Database createDatabase(final IConfig config) {
-    return Database.getSingletonInstance(config);
+  private static Database createDatabase(final IGeneralConfig generalConfig) {
+    return Database.getSingleton(generalConfig);
   }
 
-  private DatabaseConfig(final IConfig config) {
-    this.config = config;
+  private DatabaseConfig(final IGeneralConfig generalConfig) {
+    this.generalConfig = generalConfig;
   }
   
   public Database getDatabase() {
-    return DatabaseConfig.createDatabase(getConfig());
+    return DatabaseConfig.createDatabase(getGeneralConfig());
   }
   
-  private IConfig getConfig() {
-    return this.config;
+  private IGeneralConfig getGeneralConfig() {
+    return this.generalConfig;
   }
   
   String getUrl() {
     
     final String url =
-        getConfig().getString(
+        getGeneralConfig().getString(
             DB_URL_KEY, 
             DB_URL_DEFAULT);
 
@@ -70,7 +71,7 @@ public class DatabaseConfig {
   String getUser() {
     
     final String user =
-        getConfig().getString(
+        getGeneralConfig().getString(
             DB_USER_KEY,
             DB_USER_DEFAULT);
     
@@ -80,7 +81,7 @@ public class DatabaseConfig {
   String getPwd() {
     
     final String pwd =
-        getConfig().getString(
+        getGeneralConfig().getString(
             DB_PWD_KEY,
             DB_PWD_DEFAULT);
     
@@ -90,7 +91,7 @@ public class DatabaseConfig {
   int getConnectionTimeout() {
     
     int connectionTimeout =
-        getConfig().getInt(
+        getGeneralConfig().getInt(
           DB_CONNECTION_TIMEOUT_KEY, 
           DB_CONNECTION_TIMEOUT_DEFAULT);
     
@@ -100,7 +101,7 @@ public class DatabaseConfig {
   int getMaxLifetime() {
     
     final int maxLifetime =
-        getConfig().getInt(
+        getGeneralConfig().getInt(
           DB_MAX_LIFETIME_KEY, 
           DB_MAX_LIFETIME_DEFAULT);
     return maxLifetime;
@@ -109,7 +110,7 @@ public class DatabaseConfig {
   int getLeakDetectionThreshold() {
     
     final int leakDetectionThreshold =
-        getConfig().getInt(
+        getGeneralConfig().getInt(
           DB_LEAK_DETECTION_THRESHOLD_KEY, 
           DB_LEAK_DETECTION_THRESHOLD_DEFAULT);
     return leakDetectionThreshold;
@@ -118,7 +119,7 @@ public class DatabaseConfig {
   int getMaximumPoolSize() {
     
     final int maximumPoolSize =
-        getConfig().getInt(
+        getGeneralConfig().getInt(
           DB_MAXIMUM_POOLSIZE_KEY, 
           DB_MAXIMUM_POOLSIZE_DEFAULT);
     return maximumPoolSize;

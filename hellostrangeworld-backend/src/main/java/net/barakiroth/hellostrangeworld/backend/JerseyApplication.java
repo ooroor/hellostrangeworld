@@ -21,7 +21,7 @@ public class JerseyApplication extends ResourceConfig {
 
     enteringMethodHeaderLogger.debug(null);
 
-    final IBackendConfig config = BackendConfig.getSingletonInstance();
+    final IBackendConfig config = BackendConfig.getSingleton();
     registerApiResources(config);
 
     leavingMethodHeaderLogger.debug(null);

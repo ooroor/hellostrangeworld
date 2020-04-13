@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.barakiroth.hellostrangeworld.common.AbstractConfig;
+import net.barakiroth.hellostrangeworld.common.CommonConfig;
 import net.barakiroth.hellostrangeworld.frontend.consumer.InitialPartConsumer;
 
-public class FrontendConfig extends AbstractConfig implements IFrontendConfig {
+public class FrontendConfig extends CommonConfig implements IFrontendConfig {
 
   private static final Logger enteringMethodHeaderLogger =
       LoggerFactory.getLogger("EnteringMethodHeader");
@@ -16,7 +16,7 @@ public class FrontendConfig extends AbstractConfig implements IFrontendConfig {
       LoggerFactory.getLogger("LeavingMethodHeader");
 
   @Getter(AccessLevel.PUBLIC)
-  private static final FrontendConfig singletonInstance = new FrontendConfig();
+  private static final FrontendConfig singleton = new FrontendConfig();
 
   FrontendConfig() {
     super();

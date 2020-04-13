@@ -12,7 +12,7 @@ public class JerseyApplication extends ResourceConfig {
    */
   public JerseyApplication() {
     
-    final IFarBackendConfig config = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig config = FarBackendConfig.getSingleton();
     registerApiResources(config);
   }
   

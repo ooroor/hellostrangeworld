@@ -31,12 +31,12 @@ public class DatabaseIntegrationTest {
   
   @BeforeEach
   void beforeEach() {
-    FarBackendConfig.getSingletonInstance().getDatabase().stop();
+    FarBackendConfig.getSingleton().getDatabase().stop();
   }
   
   @AfterEach
   void afterEach() {
-    FarBackendConfig.getSingletonInstance().getDatabase().stop();
+    FarBackendConfig.getSingleton().getDatabase().stop();
   }
   
   @Mock
@@ -61,7 +61,7 @@ public class DatabaseIntegrationTest {
     
 
     final Database database =
-        Database.getSingletonInstance(FarBackendConfig.getSingletonInstance());
+        Database.getSingleton(FarBackendConfig.getSingleton());
     DataSource savedDataSource = null;
     try {
       database.start();
@@ -84,7 +84,7 @@ public class DatabaseIntegrationTest {
     enteringTestHeaderLogger.debug(null);
     
     final Database database =
-        Database.getSingletonInstance(FarBackendConfig.getSingletonInstance());
+        Database.getSingleton(FarBackendConfig.getSingleton());
     
     final Callable<String> callable = new Callable<String>() {
       @Override
@@ -103,7 +103,7 @@ public class DatabaseIntegrationTest {
     enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
-        Database.getSingletonInstance(FarBackendConfig.getSingletonInstance());
+        Database.getSingleton(FarBackendConfig.getSingleton());
     try {
       assertThatCode(() -> expectedDatabase.start()).doesNotThrowAnyException();
     } finally {
@@ -117,7 +117,7 @@ public class DatabaseIntegrationTest {
     enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
-        Database.getSingletonInstance(FarBackendConfig.getSingletonInstance());
+        Database.getSingleton(FarBackendConfig.getSingleton());
     
     try {
       final Database actualDatabase = expectedDatabase.start();
@@ -135,7 +135,7 @@ public class DatabaseIntegrationTest {
     enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
-        Database.getSingletonInstance(FarBackendConfig.getSingletonInstance());
+        Database.getSingleton(FarBackendConfig.getSingleton());
     
     try {
       expectedDatabase.start();
@@ -151,7 +151,7 @@ public class DatabaseIntegrationTest {
 
     enteringTestHeaderLogger.debug(null);
     final Database expectedDatabase =
-        Database.getSingletonInstance(FarBackendConfig.getSingletonInstance());
+        Database.getSingleton(FarBackendConfig.getSingleton());
     expectedDatabase.start();
     assertThatCode(() -> expectedDatabase.stop()).doesNotThrowAnyException();
     assertThat(expectedDatabase.isStarted()).isFalse();
@@ -163,7 +163,7 @@ public class DatabaseIntegrationTest {
     enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
-        Database.getSingletonInstance(FarBackendConfig.getSingletonInstance());
+        Database.getSingleton(FarBackendConfig.getSingleton());
     assertThat(expectedDatabase.isStarted()).isFalse();
     assertThatCode(() -> expectedDatabase.stop()).doesNotThrowAnyException();
     assertThat(expectedDatabase.isStarted()).isFalse(); 
@@ -175,7 +175,7 @@ public class DatabaseIntegrationTest {
     enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
-        Database.getSingletonInstance(FarBackendConfig.getSingletonInstance());
+        Database.getSingleton(FarBackendConfig.getSingleton());
     expectedDatabase.start();
     final Database actualDatabase = expectedDatabase.stop();
     assertThat(actualDatabase).isEqualTo(expectedDatabase);
@@ -188,7 +188,7 @@ public class DatabaseIntegrationTest {
     enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
-        Database.getSingletonInstance(FarBackendConfig.getSingletonInstance());
+        Database.getSingleton(FarBackendConfig.getSingleton());
     expectedDatabase.start();
     expectedDatabase.stop();
     assertThatCode(() -> expectedDatabase.stop()).doesNotThrowAnyException();

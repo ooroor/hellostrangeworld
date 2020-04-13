@@ -65,9 +65,9 @@ public class ModifierResourceTest {
 
   private static void startServletContainer() {
 
-    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final IJettyManagerConfig jettyManagerConfig = farBackendConfig.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(farBackendConfig);
     if (!jettyManager.isStarted()) {
       jettyManager.start();
     }
@@ -75,23 +75,23 @@ public class ModifierResourceTest {
 
   private static void stopServletContainer() {
     
-    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final IJettyManagerConfig jettyManagerConfig = farBackendConfig.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(farBackendConfig);
     if (jettyManager.isStarted()) {
       jettyManager.stop();
     }
   }
 
   private static void startDatabase() {
-    final Database database = FarBackendConfig.getSingletonInstance().getDatabase();
+    final Database database = FarBackendConfig.getSingleton().getDatabase();
     if (!database.isStarted()) {
       database.start();
     }
   }
 
   private static void stopDatabase() {
-    final Database database = FarBackendConfig.getSingletonInstance().getDatabase();
+    final Database database = FarBackendConfig.getSingleton().getDatabase();
     if (database.isStarted()) {
       database.stop();
     }
@@ -144,7 +144,7 @@ public class ModifierResourceTest {
     
     final ModifierResource modifierResource = new ModifierResource();
     
-    modifierResource.setFarBackendConfig(FarBackendConfig.getSingletonInstance());
+    modifierResource.setFarBackendConfig(FarBackendConfig.getSingleton());
 
     final String expectedModifier = "fairly good";
     final ModifierDo expectedModifierDo = new ModifierDo(19, expectedModifier);
@@ -178,7 +178,7 @@ public class ModifierResourceTest {
 
     final ModifierResource modifierResource = new ModifierResource();
 
-    modifierResource.setFarBackendConfig(FarBackendConfig.getSingletonInstance());
+    modifierResource.setFarBackendConfig(FarBackendConfig.getSingleton());
 
     final String expectedModifier = "fairly good";
     final ModifierDo expectedModifierDo = new ModifierDo(19, expectedModifier);
@@ -205,7 +205,7 @@ public class ModifierResourceTest {
 
     final ModifierResource modifierResource = new ModifierResource();
     
-    modifierResource.setFarBackendConfig(FarBackendConfig.getSingletonInstance());
+    modifierResource.setFarBackendConfig(FarBackendConfig.getSingleton());
 
     final String expectedModifier = "fairly good";
     final ModifierDo expectedModifierDo = new ModifierDo(19, expectedModifier);

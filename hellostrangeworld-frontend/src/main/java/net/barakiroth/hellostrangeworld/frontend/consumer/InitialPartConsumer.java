@@ -27,7 +27,7 @@ public class InitialPartConsumer {
 	private final IFrontendConfig config;
 
 	public InitialPartConsumer() {
-		this(FrontendConfig.getSingletonInstance());
+		this(FrontendConfig.getSingleton());
 	}
 
 	public InitialPartConsumer(final IFrontendConfig config) {

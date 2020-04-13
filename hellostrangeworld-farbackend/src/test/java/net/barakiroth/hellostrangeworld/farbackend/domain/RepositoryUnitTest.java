@@ -55,14 +55,14 @@ public class RepositoryUnitTest {
 
     enteringTestHeaderLogger.debug(null);
 
-    final IFarBackendConfig config = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig config = FarBackendConfig.getSingleton();
     assertThatCode(() -> config.getRepository()).doesNotThrowAnyException();
   }
   
   @Test
   void when_getting_the_database_twice_then_they_should_be_of_same_instance() {
     
-    final IFarBackendConfig config = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig config = FarBackendConfig.getSingleton();
     final Repository repository = config.getRepository();
     final Database actualDatabase1 = repository.getDatabase();
     final Database actualDatabase2 = repository.getDatabase();

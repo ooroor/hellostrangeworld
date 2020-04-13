@@ -20,18 +20,14 @@ public class MainIntegrationTest {
   
   @BeforeEach
   void beforeEach() {
-    final Main main = Main.getSingletonInstance();
+    final Main main = Main.getSingleton();
     main.setFarBackendConfig(null);
-    main.setJettyManager(null);
-    main.setDatabase(null);
   }
   
   @AfterEach
   void afterEach() {
-    final Main main = Main.getSingletonInstance();
+    final Main main = Main.getSingleton();
     main.setFarBackendConfig(null);
-    main.setJettyManager(null);
-    main.setDatabase(null);
   }
   
   @Test
@@ -62,9 +58,9 @@ public class MainIntegrationTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final Main main = Main.getSingletonInstance();
+    final Main main = Main.getSingleton();
     
-    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     
     final JettyManager  jettyManager1  = main.getJettyManager(farBackendConfig);
     final JettyManager  jettyManager2  = main.getJettyManager(farBackendConfig);
@@ -78,9 +74,9 @@ public class MainIntegrationTest {
     
     enteringTestHeaderLogger.debug(null);
     
-    final Main main = Main.getSingletonInstance();
+    final Main main = Main.getSingleton();
     
-    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingletonInstance();
+    final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     
     final Database database1  = main.getDatabase(farBackendConfig);
     final Database database2  = main.getDatabase(farBackendConfig);

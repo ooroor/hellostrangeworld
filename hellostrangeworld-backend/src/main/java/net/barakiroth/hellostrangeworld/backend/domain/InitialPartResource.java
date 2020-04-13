@@ -59,7 +59,7 @@ public class InitialPartResource {
   }
 
   private static IBackendConfig createBackendConfig() {
-    return BackendConfig.getSingletonInstance();
+    return BackendConfig.getSingleton();
   }
 
   private static ModifierConsumer createModifierConsumer() {
