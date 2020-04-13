@@ -56,6 +56,10 @@ public class CommonConfig implements IGeneralConfig, ICommonConfig {
 	    
 	    leavingMethodHeaderLogger.debug(null);
 	  }
+      
+      private static IPrometheusConfig createPrometheusConfig(final IGeneralConfig generalConfig) {
+        return PrometheusConfig.getSingleton(generalConfig);
+      }
 
 	  @Override
 	  public String getString(final String key, final String defaultValue) {
@@ -132,9 +136,7 @@ public class CommonConfig implements IGeneralConfig, ICommonConfig {
 	  @Override
 	  public IPrometheusConfig getPrometheusConfig() {
 	    if (this.prometheusConfig == null) {
-	      // TODO: Should call the getter, not the creator:
-	      final IPrometheusConfig prometheusConfig = PrometheusConfig.getSingleton(this);
-	      setPrometheusConfig(prometheusConfig);
+	      setPrometheusConfig(CommonConfig.createPrometheusConfig(this));
 	    }
 	    return this.prometheusConfig;
 	  }

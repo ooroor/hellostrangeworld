@@ -59,10 +59,8 @@ public class Database {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
   
-  private static Database singleton;
-  // TODO: Rename:
-  public static final QModifier modifierTable =
-      QModifier.modifier1;
+  public  static final QModifier modifierTable = QModifier.modifier1;
+  private static       Database  singleton;
   
   private DatabaseConfig                  databaseConfig                  = null;
   private DataSource                      dataSource                      = null;

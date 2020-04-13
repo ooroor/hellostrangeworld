@@ -110,7 +110,6 @@ public class InitialPartResource {
     final String interjection = "Hello";
     final ModifierDo modifierDo = modifierConsumer.getModifierDo();
     
-    // TODO: Name object and string consistently across layers.
     final InitialPartDo initialPartDo = new InitialPartDo(interjection + ", " + modifierDo.getModifier());
     
     final ObjectMapper objectMapper = getObjectMapper();

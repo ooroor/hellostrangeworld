@@ -16,7 +16,7 @@ public class FrontendConfig extends CommonConfig implements IFrontendConfig {
       LoggerFactory.getLogger("LeavingMethodHeader");
 
   @Getter(AccessLevel.PUBLIC)
-  private static final FrontendConfig singleton = new FrontendConfig();
+  private static final IFrontendConfig singleton = new FrontendConfig();
 
   FrontendConfig() {
     super();
