@@ -61,7 +61,7 @@
 | H2               |   N/A    |      N/A |           X |                                   In-memory database |
 | JaCoCo           |    X     |        X |           X |                                        Code coverage |
 | Java 9+ modules  |   N/A?   |  NOT YET |     NOT YET |                                                      |
-| JDBC             |   N/A    |      N/A |     No      |                                                      |
+| JDBC             |   N/A    |      N/A |     No      | In test |
 | Jersey           |   N/A    |  X |           X |                                                      |
 | Jetty            |   N/A    |  X |           X |                                    Servlet container |
 | Json deserialize | X |        X |  In test |                       Rest communication data format |
@@ -77,7 +77,7 @@
 | QueryDSL         |   N/A    |      N/A |           X |                        Thin fluency layer above JDBC |
 | Resilience4J     |   N/A    |  NOT YET |         X |               Resilience guard of downstream calls |
 | RestAssured | N/A | NOT YET | NOT YET | For testing an application's REST endpoint(s) |
-| Rest client      | NOT YET  |        X | In test |                           |
+| Rest client      | X  |        X | In test |                           |
 | Rest server      |   N/A    |  X |           X |                          Resource API, REST endpoint |
 | Independent project | X  |  X |     X | Split parent and children modules for independencies |
 | Swagger          |   N/A    |  NOT YET |   X |                               Rest API documentation |
@@ -87,15 +87,13 @@
 
 #### Detail TODO-s:
 - Tidy up the poms!
-- Increase coverage in far backend
 - Remove overlapping classes when building fat jars
 - Liveness and readiness
 - Compile all reports to the site directory
 - Tidy up all that report/site mess
 - Remember to add Prometheus to the data source as well
-- Remember  to add Prometheus to the logback configuration as well
+- Remember  to add Prometheus to the logback configurations as well
 - Skip plugin/dependency management in favour of letting mama become a properties bom (bill of materials). Only use management when required to solve transitive dependencies problems.
-- Config injection
 - Consistent naming
 - Remove exception rethrows
 - Move more common stuff to the common library
@@ -199,6 +197,7 @@ CLS&mvn -pl :hellostrangeworld-farbackend flyway:clean&mvn -pl :hellostrangeworl
 ### Useful refs: 
 #### Flyway
 [Documentation](https://flywaydb.org/documentation/)
+
 #### Git
 [Ecipse/Git: EGit/User Guide](https://wiki.eclipse.org/EGit/User_Guide#The_Preferences_Dialog)</BR>
 #### Java 11
