@@ -229,6 +229,13 @@
 				<version>${jersey.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+				<exclusions>
+					<!-- Trying to force it to use a newer Jackson implementation -->
+					<exclusion>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-databind</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<!-- More glassfish stuff -->
