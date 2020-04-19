@@ -1,12 +1,11 @@
 package net.barakiroth.hellostrangeworld.frontend;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.barakiroth.hellostrangeworld.common.CommonConfig;
 import net.barakiroth.hellostrangeworld.frontend.consumer.InitialPartConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FrontendConfig extends CommonConfig implements IFrontendConfig {
 
