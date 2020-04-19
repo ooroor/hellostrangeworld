@@ -61,6 +61,7 @@
 		<maven-project-info-reports-plugin.version>2.7</maven-project-info-reports-plugin.version>
 		<maven-jxr-plugin.version>3.0.0</maven-jxr-plugin.version>
 		<maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
 		<jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
 		<pitest-maven.version>1.4.10</pitest-maven.version>
 		<owasp.dependency-check-maven.plugin.version>5.2.2</owasp.dependency-check-maven.plugin.version>
@@ -78,7 +79,7 @@
 		<pitest-junit5-plugin.version>0.9</pitest-junit5-plugin.version>
 		<assertj.version>3.15.0</assertj.version>
 		<wiremock.version>2.25.1</wiremock.version>
-		<mockito.version>3.2.4</mockito.version>
+		<mockito.version>3.3.3</mockito.version>
 
 	</properties>
 
@@ -459,6 +460,12 @@
 						</dependency>
 					</dependencies>
 
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven-resources-plugin.version}</version>
 				</plugin>
 
 				<plugin>
