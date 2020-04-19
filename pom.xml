@@ -39,6 +39,7 @@
 		<jackson.version>2.10.3</jackson.version>
 		<jersey.version>2.30.1</jersey.version>
 		<hibernate-validator.version>6.1.4.Final</hibernate-validator.version>
+		<guava.version>29.0-jre</guava.version>
 		<jaxb-runtime.version>2.3.2</jaxb-runtime.version>
 		<jakarta.inject.version>2.6.1</jakarta.inject.version>
 		<jetty.version>9.4.28.v20200408</jetty.version>
@@ -265,10 +266,18 @@
 				<version>${jaxb-runtime.version}</version>
 			</dependency>
 
+			<!-- To remove transitive dependecy vulnerabilities through 3.party libraries -->
 			<dependency>
 				<groupId>org.hibernate.validator</groupId>
 				<artifactId>hibernate-validator</artifactId>
 				<version>${hibernate-validator.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
 			</dependency>
 
 			<dependency>
