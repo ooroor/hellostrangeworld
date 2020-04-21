@@ -65,24 +65,24 @@
 		<maven-jxr-plugin.version>3.0.0</maven-jxr-plugin.version>
 		<maven-site-plugin.version>3.7.1</maven-site-plugin.version>
 		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
-		<jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
-		<pitest-maven.version>1.4.10</pitest-maven.version>
-		<owasp.dependency-check-maven.plugin.version>5.2.2</owasp.dependency-check-maven.plugin.version>
 		<maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
+		<jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+		<pitest-maven.version>1.5.1</pitest-maven.version>
+		<owasp.dependency-check-maven.plugin.version>5.2.2</owasp.dependency-check-maven.plugin.version>
 		<javancss-maven-plugin.version>2.1</javancss-maven-plugin.version>
 		<flyway-maven-plugin.version>6.0.8</flyway-maven-plugin.version>
+		<pitest-junit5-plugin.version>0.9</pitest-junit5-plugin.version>
 
 		<!-- Test stuff -->
+		<maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
 		<junit.jupiter.version>5.6.2</junit.jupiter.version>
 		<junit-platform-commons.version>1.6.2</junit-platform-commons.version>
 		<junit.pre.jupiter.version>4.13</junit.pre.jupiter.version>
-		<pitest-maven.version>1.4.7</pitest-maven.version>
-		<maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
-		<pitest-junit5-plugin.version>0.8</pitest-junit5-plugin.version>
-		<pitest-junit5-plugin.version>0.9</pitest-junit5-plugin.version>
 		<assertj.version>3.15.0</assertj.version>
 		<wiremock.version>2.26.3</wiremock.version>
 		<mockito.version>3.3.3</mockito.version>
+		<rest-assured.version>4.3.0</rest-assured.version>
+		<pitest-maven.version>1.5.1</pitest-maven.version>
 
 	</properties>
 
@@ -425,6 +425,13 @@
 						<artifactId>jsr305</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>io.rest-assured</groupId>
+				<artifactId>rest-assured</artifactId>
+				<version>${rest-assured.version}</version>
+				<scope>test</scope>
 			</dependency>
 
 		</dependencies>
