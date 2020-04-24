@@ -10,10 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
 
-@Tag("Unit")
+@Tag(ITestConstants.UNIT_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class TransactionManagerUnitTest {
   
@@ -23,14 +22,11 @@ public class TransactionManagerUnitTest {
   @Mock
   private Connection mockedConnection;
   
-  private static final Logger enteringTestHeaderLogger =
-      LoggerFactory.getLogger("EnteringTestHeader");
-  
   @Test
   void when_the_provided_callable_throws_a_LockException_then_the_same_exception_should_be_rethrown()
         throws SQLException {
     
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
     
     final TransactionManager transactionManager =
         new TransactionManager(mockedTransactionalConnectionProvider);
@@ -55,7 +51,7 @@ public class TransactionManagerUnitTest {
   void when_the_provided_callable_throws_an_Exception_then_a_DatabaseException_should_be_thrown()
         throws SQLException {
     
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
     
     final TransactionManager transactionManager =
         new TransactionManager(mockedTransactionalConnectionProvider);

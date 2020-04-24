@@ -13,6 +13,7 @@ import java.util.Optional;
 import javax.sql.DataSource;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
+import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
 import net.barakiroth.hellostrangeworld.farbackend.domain.ModifierDo;
 import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
@@ -24,15 +25,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-@Tag("IntegrationTest")
+@Tag(ITestConstants.INTEGRATION_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class RepositoryIntegrationTest {
-
-  private static final Logger enteringTestHeaderLogger =
-      LoggerFactory.getLogger("EnteringTestHeader");
   
   @Mock
   private Database mockedDatabase;
@@ -58,7 +54,7 @@ public class RepositoryIntegrationTest {
   @Test
   void when_asking_for_data_and_the_database_is_not_started_then_it_should_not_throw_an_exception() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
 
     final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final Repository repository = farBackendConfig.getRepository();
@@ -68,7 +64,7 @@ public class RepositoryIntegrationTest {
   @Test
   void when_asking_for_data_and_the_database_is_not_started_then_it_should_be_implicitly_started() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
 
     final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final Repository repository = farBackendConfig.getRepository();
@@ -79,7 +75,7 @@ public class RepositoryIntegrationTest {
   @Test
   void when_asking_for_data_and_the_database_is_not_started_then_it_should_be_implicitly_started_and_return_a_value() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
 
     final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final Database database = farBackendConfig.getDatabase();
@@ -93,7 +89,7 @@ public class RepositoryIntegrationTest {
   @Test
   void when_the_database_is_empty_then_a_no_content_optional_should_be_returned() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
 
     final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final Database database = farBackendConfig.getDatabase();
@@ -118,7 +114,7 @@ public class RepositoryIntegrationTest {
   @Test
   void when_an_sql_error_occurs_then_an_appropriate_exception_should_be_thrown() throws SQLException {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
     
     final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final Database database = farBackendConfig.getDatabase();

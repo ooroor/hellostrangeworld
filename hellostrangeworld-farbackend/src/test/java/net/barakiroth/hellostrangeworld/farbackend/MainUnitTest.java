@@ -16,15 +16,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-@Tag("Unit")
+@Tag(ITestConstants.UNIT_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class MainUnitTest {
-
-  private static final Logger enteringTestHeaderLogger =
-      LoggerFactory.getLogger("EnteringTestHeader");
   
   @BeforeEach
   void beforeEach() {
@@ -56,7 +51,7 @@ public class MainUnitTest {
   @Test
   public void when_main_is_started_and_JettyManager_and_Database_behave_well_then_no_exception_should_be_thrown() {
     
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
     
     doReturn(mockedJettyManagerConfig).when(mockedFarBackendConfig).getJettyManagerConfig();
     doReturn(mockedJettyManager).when(mockedJettyManagerConfig).getJettyManager(any(IGeneralConfig.class));
@@ -71,7 +66,7 @@ public class MainUnitTest {
   @Test
   public void when_FarBackendConfig_is_asked_for_twice_then_the_same_instance_should_be_returned() {
     
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
     
     final Main main = Main.getSingleton();
     

@@ -10,6 +10,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
+import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -17,15 +18,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-@Tag("Unit")
+@Tag(ITestConstants.UNIT_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class DatabaseUnitTest {
-
-  private static final Logger enteringTestHeaderLogger =
-      LoggerFactory.getLogger("EnteringTestHeader");
   
   @BeforeEach
   void beforeEach() {
@@ -47,7 +43,7 @@ public class DatabaseUnitTest {
   @Test
   void when_instantiating_then_no_exception_should_be_thrown() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
     
     assertThatCode(() -> Database.getSingleton(FarBackendConfig.getSingleton())).doesNotThrowAnyException();
   }
@@ -55,7 +51,7 @@ public class DatabaseUnitTest {
   @Test
   void when_getting_an_SQLQueryFactory_and_the_connect_throws_then_a_RuntimeException_should_be_rethrown() throws SQLException {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
     
     final Database expectedDatabase =
         Database.getSingleton(FarBackendConfig.getSingleton());
@@ -68,7 +64,7 @@ public class DatabaseUnitTest {
   @Test
   void when_the_connection_reports_an_unsupported_database_brand_then_an_appropriate_exception_should_be_thrown() throws SQLException {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
     
     doReturn(mockedConnection).when(mockedDataSource).getConnection();
     doReturn(mockedDatabaseMetaData).when(mockedConnection).getMetaData();

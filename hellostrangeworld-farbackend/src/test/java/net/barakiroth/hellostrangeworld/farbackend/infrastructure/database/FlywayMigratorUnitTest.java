@@ -8,15 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
 
-@Tag("Unit")
+@Tag(ITestConstants.UNIT_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class FlywayMigratorUnitTest {
-
-  private static final Logger enteringTestHeaderLogger =
-      LoggerFactory.getLogger("EnteringTestHeader");
   
   @Mock
   private DataSource mockedDataSource;
@@ -24,7 +20,7 @@ public class FlywayMigratorUnitTest {
   @Test
   void when_instantiated_without_locations_then_it_should_have_one_default_location() {
     
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
     
     final FlywayMigrator flywayMigrator = new FlywayMigrator(mockedDataSource);
     final String[] locations = flywayMigrator.getLocations();

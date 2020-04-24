@@ -76,7 +76,7 @@
 | Prometheus       |   N/A    | X |     X |                            Runtime metrics reporting |
 | QueryDSL         |   N/A    |      N/A |           X |                        Thin fluency layer above JDBC |
 | Resilience4J     |   N/A    |  NOT YET |         X |               Resilience guard of downstream calls |
-| RestAssured | N/A | NOT YET | NOT YET | For testing an application's REST endpoint(s) |
+| RestAssured | N/A | NOT YET | X | For testing an application's REST endpoint(s) |
 | Rest client      | X  |        X | In test |                           |
 | Rest server      |   N/A    |  X |           X |                          Resource API, REST endpoint |
 | Independent project | X  |  X |     X | Split parent and children modules for independencies |

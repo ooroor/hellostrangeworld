@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.concurrent.Callable;
 import javax.sql.DataSource;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
+import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -19,15 +20,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-@Tag("IntegrationTest")
+@Tag(ITestConstants.INTEGRATION_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class DatabaseIntegrationTest {
-
-  private static final Logger enteringTestHeaderLogger =
-      LoggerFactory.getLogger("EnteringTestHeader");
   
   @BeforeEach
   void beforeEach() {
@@ -57,8 +53,7 @@ public class DatabaseIntegrationTest {
   @Test
   void when_shutting_down_the_database_and_an_sql_exception_is_thrown_then_no_exception_should_be_rethrown() throws SQLException {
 
-    enteringTestHeaderLogger.debug(null);
-    
+    ITestConstants.enteringTestHeaderLogger.debug(null);
 
     final Database database =
         Database.getSingleton(FarBackendConfig.getSingleton());
@@ -81,7 +76,7 @@ public class DatabaseIntegrationTest {
   @Test
   void when_doing_sql_and_the_database_is_not_started_then_the_database_should_be_implicitly_started() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
     
     final Database database =
         Database.getSingleton(FarBackendConfig.getSingleton());
@@ -100,7 +95,7 @@ public class DatabaseIntegrationTest {
   @Test
   void when_starting_then_no_exception_should_be_thrown() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
         Database.getSingleton(FarBackendConfig.getSingleton());
@@ -114,7 +109,7 @@ public class DatabaseIntegrationTest {
   @Test
   void when_started_then_the_returned_database_should_equal_the_one_started() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
         Database.getSingleton(FarBackendConfig.getSingleton());
@@ -132,7 +127,7 @@ public class DatabaseIntegrationTest {
   @Test
   void when_starting_a_database_twice_then_no_exception_should_be_thrown() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
         Database.getSingleton(FarBackendConfig.getSingleton());
@@ -149,7 +144,7 @@ public class DatabaseIntegrationTest {
   @Test
   void when_stopping_a_started_database_then_no_exception_should_be_thrown() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
     final Database expectedDatabase =
         Database.getSingleton(FarBackendConfig.getSingleton());
     expectedDatabase.start();
@@ -160,7 +155,7 @@ public class DatabaseIntegrationTest {
   @Test
   void when_stopping_a_non_started_database_then_no_exception_should_be_thrown() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
         Database.getSingleton(FarBackendConfig.getSingleton());
@@ -172,7 +167,7 @@ public class DatabaseIntegrationTest {
   @Test
   void when_stopping_a_started_database_then_the_returned_database_should_equal_the_one_stopped() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
         Database.getSingleton(FarBackendConfig.getSingleton());
@@ -185,7 +180,7 @@ public class DatabaseIntegrationTest {
   @Test
   void when_stopping_a_database_twice_then_no_exception_should_be_thrown() {
 
-    enteringTestHeaderLogger.debug(null);
+    ITestConstants.enteringTestHeaderLogger.debug(null);
 
     final Database expectedDatabase =
         Database.getSingleton(FarBackendConfig.getSingleton());
