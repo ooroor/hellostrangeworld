@@ -83,6 +83,7 @@
 		<mockito.version>3.3.3</mockito.version>
 		<rest-assured.version>4.3.0</rest-assured.version>
 		<pitest-maven.version>1.5.1</pitest-maven.version>
+		<equalsverifier.version>3.1.13</equalsverifier.version>
 
 	</properties>
 
@@ -371,6 +372,13 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-params</artifactId>
+				<version>${junit.jupiter.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>${junit.pre.jupiter.version}</version>
@@ -431,6 +439,13 @@
 				<groupId>io.rest-assured</groupId>
 				<artifactId>rest-assured</artifactId>
 				<version>${rest-assured.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>nl.jqno.equalsverifier</groupId>
+				<artifactId>equalsverifier</artifactId>
+				<version>${equalsverifier.version}</version>
 				<scope>test</scope>
 			</dependency>
 

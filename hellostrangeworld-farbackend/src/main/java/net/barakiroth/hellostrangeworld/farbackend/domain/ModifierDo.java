@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class ModifierDo {
+public final class ModifierDo {
   @Getter(AccessLevel.PUBLIC)
   public int    id;
   @Getter(AccessLevel.PUBLIC)

@@ -99,6 +99,7 @@
 - Move more common stuff to the common library
 - Error page upon HTTP errors
 - Docker
+- Make DO-s immutable
 
 ### Future plans and ambitions
 - Make a Maven archetype of it
