@@ -53,7 +53,7 @@
 		<prometheus.version>0.8.1</prometheus.version>
 		<swagger.version>1.6.1</swagger.version>
 		<swagger-ui.version>3.25.0</swagger-ui.version>
-		<resilience4j.version>1.3.1</resilience4j.version>
+		<resilience4j.version>1.4.0</resilience4j.version>
 		<apache.httpclient.version>4.5.12</apache.httpclient.version>
 
 		<!-- Plugin stuff -->
