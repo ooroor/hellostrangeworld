@@ -32,7 +32,7 @@
 		<!-- BEGIN Database stuff -->
 		<h2.version>1.4.200</h2.version>
 		<querydsl-sql.version>4.3.1</querydsl-sql.version>
-		<hikaricp.version>3.4.2</hikaricp.version>
+		<hikaricp.version>3.4.3</hikaricp.version>
 		<flyway.version>6.0.8</flyway.version>
 		<!-- END Database stuff -->
 
