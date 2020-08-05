@@ -42,7 +42,7 @@
 		<guava.version>29.0-jre</guava.version>
 		<jaxb-runtime.version>2.3.2</jaxb-runtime.version>
 		<jakarta.inject.version>2.6.1</jakarta.inject.version>
-		<jetty.version>9.4.28.v20200408</jetty.version>
+		<jetty.version>9.4.31.v20200723</jetty.version>
 		<lombok.version>1.18.12</lombok.version>
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
 		<jansi.version>1.18</jansi.version>
