@@ -17,13 +17,32 @@
 		<version>${revision}</version>
 	</parent>
 
+	<properties>
+		<DB_FLYWAY_MIGR_PATH_COMMON>classpath:/database/flyway/migrations/common</DB_FLYWAY_MIGR_PATH_COMMON>
+		<DB_FLYWAY_MIGR_PATH_RUNTIME_ENV_SPECIFIC>classpath:/database/flyway/migrations/h2</DB_FLYWAY_MIGR_PATH_RUNTIME_ENV_SPECIFIC>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-core</artifactId>
+				<version>${flyway.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>nl.jqno.equalsverifier</groupId>
+				<artifactId>equalsverifier</artifactId>
+				<version>${equalsverifier.version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
 
-		<!-- Internal modules -->
 		<dependency>
 			<groupId>net.barakiroth.hellostrangeworld</groupId>
 			<artifactId>hellostrangeworld-common</artifactId>
-			<version>${revision}</version>
 		</dependency>
 
 		<dependency>
@@ -195,7 +214,6 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
-			<version>${flyway.version}</version>
 		</dependency>
 
 		<dependency>
@@ -280,13 +298,26 @@
 		<dependency>
 			<groupId>nl.jqno.equalsverifier</groupId>
 			<artifactId>equalsverifier</artifactId>
-			<version>3.1.13</version>
-			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
 
 	<build>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.flywaydb</groupId>
+					<artifactId>flyway-maven-plugin</artifactId>
+					<version>${flyway-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>com.querydsl</groupId>
+					<artifactId>querydsl-maven-plugin</artifactId>
+					<version>${querydsl.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 
 		<plugins>
 			<plugin>
@@ -378,7 +409,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<id>process-resources</id>
@@ -396,14 +426,25 @@
 			<plugin>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
-				<version>${flyway-maven-plugin.version}</version>
 				<configuration>
 					<driver>org.h2.Driver</driver>
 					<url>jdbc:h2:~/hellostrangeworld</url>
 					<user>sa</user>
 					<password>sa</password>
 					<baselineOnMigrate>false</baselineOnMigrate>
+					<locations>
+						<location>${DB_FLYWAY_MIGR_PATH_COMMON}</location>
+						<location>${DB_FLYWAY_MIGR_PATH_RUNTIME_ENV_SPECIFIC}</location>
+					</locations>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>migrate</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
 				<dependencies>
 					<dependency>
 						<groupId>com.h2database</groupId>
@@ -416,7 +457,6 @@
 			<plugin>
 				<groupId>com.querydsl</groupId>
 				<artifactId>querydsl-maven-plugin</artifactId>
-				<version>4.2.2</version>
 				<executions>
 					<execution>
 						<goals>

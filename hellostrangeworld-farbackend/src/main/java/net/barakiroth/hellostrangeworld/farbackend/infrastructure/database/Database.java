@@ -33,7 +33,7 @@ public class Database {
     @Getter(AccessLevel.PUBLIC)
     private final SQLTemplates sqlTemplates;
     
-    private DbBrand(final SQLTemplates sqlTemplates) {
+    DbBrand(final SQLTemplates sqlTemplates) {
       this.sqlTemplates = sqlTemplates;
     }
     
@@ -71,7 +71,7 @@ public class Database {
   
   /**
    * Create an instance and set its relevant configuration.
-   * @param config Relevant configuration.
+   * @param generalConfig Relevant configuration.
    */
   private Database(final IGeneralConfig generalConfig) {
     
@@ -91,17 +91,17 @@ public class Database {
   
   static Database getSingleton(final IGeneralConfig generalConfig) {
     if (Database.singleton == null) {
-      final Database database = createsingleton(generalConfig);
+      final Database database = createSingleton(generalConfig);
       Database.singleton = database;
     }
     return Database.singleton;
   }
   
-  private static Database createsingleton(final IGeneralConfig generalConfig) {
+  private static Database createSingleton(final IGeneralConfig generalConfig) {
     return new Database(generalConfig);
   }
 
-  private static void setsingleton(final Database database) {
+  private static void setSingleton(final Database database) {
     Database.singleton = database;
   }
   
@@ -134,7 +134,7 @@ public class Database {
     
     enteringMethodHeaderLogger.debug(null);
     
-    new FlywayMigrator(dataSource, "classpath:/db/migration").migrate();
+    new FlywayMigrator(dataSource).migrate();
     
     leavingMethodHeaderLogger.debug(null);
   }
@@ -243,7 +243,7 @@ public class Database {
       setDataSource(null);
       setSQLQueryFactory(null);
       setTransactionManager(null);
-      Database.setsingleton(null);
+      Database.setSingleton(null);
       this.isStarted = false;
     } else {
       log.warn("Asked to stop when not connected dataSource == null etc.");

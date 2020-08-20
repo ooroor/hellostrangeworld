@@ -19,11 +19,9 @@
 
 	<dependencies>
 
-		<!-- Internal modules -->
 		<dependency>
 			<groupId>net.barakiroth.hellostrangeworld</groupId>
 			<artifactId>hellostrangeworld-common</artifactId>
-			<version>${revision}</version>
 		</dependency>
 
 		<!-- Logging stuff -->

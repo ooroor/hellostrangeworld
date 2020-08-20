@@ -1,6 +1,8 @@
 package net.barakiroth.hellostrangeworld.farbackend.infrastructure.database;
 
 import javax.sql.DataSource;
+
+import net.barakiroth.hellostrangeworld.farbackend.util.ProdConstants;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.slf4j.Logger;
@@ -13,8 +15,6 @@ public class FlywayMigrator {
   private static final Logger leavingMethodHeaderLogger =
       LoggerFactory.getLogger("LeavingMethodHeader");
   
-  public static final String DEFAULT_LOCATION = "\"classpath:/db/migration\"";
-
   private final DataSource dataSource;
   private final String[]   locations;
 
@@ -23,17 +23,24 @@ public class FlywayMigrator {
    */
   public FlywayMigrator(
       final DataSource dataSource,
-      final String...  locations
+      final String  runtimeEnvironmentSpecificLocation
   ) {
     
     enteringMethodHeaderLogger.debug(null);
   
     this.dataSource = dataSource;
-    if (locations.length == 0) {
-      this.locations = new String[]{DEFAULT_LOCATION};
+    if (runtimeEnvironmentSpecificLocation == null) {
+      this.locations = new String[]{ProdConstants.DB_FLYWAY_MIGR_PATH_COMMON};
     } else {
-      this.locations = locations;
+      this.locations = new String[]{ProdConstants.DB_FLYWAY_MIGR_PATH_COMMON, runtimeEnvironmentSpecificLocation};
     }
+
+    leavingMethodHeaderLogger.debug(null);
+  }
+  public FlywayMigrator(
+          final DataSource dataSource
+  ) {
+    this(dataSource, null);
 
     leavingMethodHeaderLogger.debug(null);
   }
