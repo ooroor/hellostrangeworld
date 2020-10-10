@@ -20,7 +20,7 @@
 	</modules>
 
 	<properties>
-		<apache.httpclient.version>4.5.12</apache.httpclient.version>
+		<apache.httpclient.version>4.5.13</apache.httpclient.version>
 		<assertj.version>3.16.1</assertj.version>
 		<bcel.version>6.3.1</bcel.version>
 		<checkstyle.version>8.29</checkstyle.version>
