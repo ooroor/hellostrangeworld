@@ -43,7 +43,7 @@
 		<javancss-maven-plugin.version>2.1</javancss-maven-plugin.version>
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
 		<jaxb-runtime.version>2.3.2</jaxb-runtime.version>
-		<jersey.version>2.31</jersey.version>
+		<jersey.version>2.32</jersey.version>
 		<jetty.version>9.4.35.v20201120</jetty.version>
 		<junit-platform-commons.version>1.6.2</junit-platform-commons.version>
 		<junit.jupiter.version>5.6.2</junit.jupiter.version>
