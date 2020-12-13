@@ -36,7 +36,7 @@
 		<guava.version>29.0-jre</guava.version>
 		<h2.version>1.4.200</h2.version>
 		<hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
-		<hikaricp.version>3.4.2</hikaricp.version>
+		<hikaricp.version>3.4</hikaricp.version>
 		<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
 		<jakarta.inject.version>2.6.1</jakarta.inject.version>
 		<jansi.version>1.18</jansi.version>
