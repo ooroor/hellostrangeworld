@@ -33,7 +33,7 @@
 		<flatten-maven-plugin.version>1.2.2</flatten-maven-plugin.version>
 		<flyway-maven-plugin.version>7.3.1</flyway-maven-plugin.version>
 		<flyway.version>7.3.1</flyway.version>
-		<guava.version>29.0-jre</guava.version>
+		<guava.version>30.0-jre</guava.version>
 		<h2.version>1.4.200</h2.version>
 		<hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
 		<hikaricp.version>3.4.5</hikaricp.version>

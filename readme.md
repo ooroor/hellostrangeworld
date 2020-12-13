@@ -193,7 +193,11 @@ mvn clean install checkstyle:check site -P checkstyle -Dcheckstyle.config.locati
 - If hung-up on some FlyWay migration:
 
 ```
-CLS&mvn -pl :hellostrangeworld-farbackend flyway:clean&mvn -pl :hellostrangeworld-farbackend flyway:migrate
+mvn -pl :hellostrangeworld-farbackend flyway:clean&mvn -pl :hellostrangeworld-farbackend flyway:migrate
+```
+- Check dependenies updatability
+```
+mvn versions:display-dependency-updates
 ```
 ### Useful refs: 
 #### Flyway
