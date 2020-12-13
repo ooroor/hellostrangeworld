@@ -79,7 +79,9 @@ public class JettyManager {
       log.error("Exception received when trying to start the servlet container", e);
       throw new RuntimeException(e);
     }
-    jettyServer.dumpStdErr();
+    if (getJettyManagerConfig().shouldReportDetailedStartup()) {
+      jettyServer.dumpStdErr();
+    }
 
     leavingMethodHeaderLogger.debug(null);
   }

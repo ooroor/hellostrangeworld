@@ -205,9 +205,6 @@ mvn versions:display-dependency-updates
 
 #### Git
 [Ecipse/Git: EGit/User Guide](https://wiki.eclipse.org/EGit/User_Guide#The_Preferences_Dialog)</BR>
-#### Java 11
-[Migrating to Java 11 ](https://blog.codefx.org/java/java-11-migration-guide/)</BR>
-[Migrate Maven Projects to Java 11](https://winterbe.com/posts/2018/08/29/migrate-maven-projects-to-java-11-jigsaw/)</BR>
 #### Jersey-Jackson
 [Producing and consuming JSON or XML in Java REST Services with Jersey and Jackson](https://www.nabisoft.com/tutorials/java-ee/producing-and-consuming-json-or-xml-in-java-rest-services-with-jersey-and-jackson)</BR>
 #### Markdown
@@ -218,6 +215,7 @@ mvn versions:display-dependency-updates
 [My PITEST won't run. Coverage generation minion exited abnormally. I need help to configure my pom.xml properly](https://stackoverflow.com/questions/55680025/my-pitest-wont-run-coverage-generation-minion-exited-abnormally-i-need-help-t/55680225#55680225)</BR>
 #### RDBMS
 [Most fundamental use of H2](https://github.com/h2database/h2database/blob/master/h2/src/test/org/h2/samples/HelloWorld.java)</BR>
+[Hikari leakage](https://stackoverflow.com/questions/54883940/apparent-connection-leak-detected-with-hikari-cp)</BR>
 #### Resilience4J
 [Guide to Resilience4j](https://www.baeldung.com/resilience4j)</BR>
 [Fault tolerance library designed for functional programming](https://github.com/resilience4j/resilience4j#introduction)</BR>

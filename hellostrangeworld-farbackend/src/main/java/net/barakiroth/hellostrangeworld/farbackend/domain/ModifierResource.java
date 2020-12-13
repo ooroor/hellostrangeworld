@@ -125,7 +125,7 @@ public class ModifierResource {
       getModifierDurationGaugeTimer.setDuration();
     }
     
-    log.debug("About to respond:\n\n{}", modifierAsJson);
+    log.info("About to respond:\n\n{}", modifierAsJson);
     
     leavingMethodHeaderLogger.debug(null);
     

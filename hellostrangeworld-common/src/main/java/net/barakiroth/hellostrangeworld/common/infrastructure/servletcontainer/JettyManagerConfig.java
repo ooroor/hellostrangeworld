@@ -79,6 +79,16 @@ public class JettyManagerConfig implements IJettyManagerConfig {
     return jerseyApplicationClassName;
   }
 
+  @Override
+  public boolean shouldReportDetailedStartup() {
+
+    final boolean shouldReportDetailedStartup =
+          getGeneralConfig().getBoolean(
+                IJettyManagerConfig.JETTY_SHOULD_REPORT_DETAILED_STARTUP_KEY,
+                IJettyManagerConfig.JETTY_SHOULD_REPORT_DETAILED_STARTUP_DEFAULT);
+    return shouldReportDetailedStartup;
+  }
+
   private void createJettyManager() {
     JettyManager.createAndSetSingleton(this);
   }

@@ -125,7 +125,7 @@ public class InitialPartResource {
       getInitialPartDurationGaugeTimer.setDuration();
     }
     
-    log.debug("About to respond:\n\n{}", initialPartAsJson);
+    log.info("About to respond:\n\n{}", initialPartAsJson);
     
     leavingMethodHeaderLogger.debug(null);;
     

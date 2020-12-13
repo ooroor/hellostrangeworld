@@ -61,6 +61,11 @@ public class CommonConfig implements IGeneralConfig, ICommonConfig {
         return PrometheusConfig.getSingleton(generalConfig);
       }
 
+	@Override
+	public boolean getBoolean(final String key, final boolean defaultValue) {
+		return this.compositeConfiguration.getBoolean(key, defaultValue);
+	}
+
 	  @Override
 	  public String getString(final String key, final String defaultValue) {
 	    return this.compositeConfiguration.getString(key, defaultValue);

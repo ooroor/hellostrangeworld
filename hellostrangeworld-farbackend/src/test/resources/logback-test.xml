@@ -46,12 +46,12 @@
   </appender>
 
   <logger name="org.eclipse.jetty" additivity="false">
-    <level value="INFO" />
+    <level value="WARN" />
     <appender-ref ref="STDOUT_APPENDER" />
     <appender-ref ref="METRICS_APPENDER"/>
   </logger>
   
-  <logger name="com.zaxxer.hikari.pool.HikariPool" additivity="false">
+  <logger name="com.zaxxer.hikari" additivity="false">
     <level value="INFO" />
     <appender-ref ref="STDOUT_APPENDER" />
     <appender-ref ref="METRICS_APPENDER"/>

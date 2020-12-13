@@ -9,11 +9,11 @@ public class DatabaseConfig {
   private static final String DB_PWD_KEY                          = "db.pwd";
   private static final String DB_PWD_DEFAULT                      = "sa";
   private static final String DB_CONNECTION_TIMEOUT_KEY           = "db.connection.timeout";
-  private static final int    DB_CONNECTION_TIMEOUT_DEFAULT       = 15001;
+  private static final int    DB_CONNECTION_TIMEOUT_DEFAULT       = 120 * 1000;
   private static final String DB_MAX_LIFETIME_KEY                 = "db.max.lifetime";
-  private static final int    DB_MAX_LIFETIME_DEFAULT             = 1800001;
+  private static final int    DB_MAX_LIFETIME_DEFAULT             = 300000;
   private static final String DB_LEAK_DETECTION_THRESHOLD_KEY     = "db.leak.detection.threshold";
-  private static final int    DB_LEAK_DETECTION_THRESHOLD_DEFAULT = 20001;
+  private static final int    DB_LEAK_DETECTION_THRESHOLD_DEFAULT = 60 * 5000;
   private static final String DB_MAXIMUM_POOLSIZE_KEY             = "db.maximum.pool.size";
   private static final int    DB_MAXIMUM_POOLSIZE_DEFAULT         = 11;
   private static final String DB_URL_KEY                          = "db.url";
