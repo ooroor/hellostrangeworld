@@ -48,7 +48,7 @@
 		<hikaricp.version>3.4.5</hikaricp.version>
 		<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
 		<jakarta.inject.version>2.6.1</jakarta.inject.version>
-		<jansi.version>1.18</jansi.version>
+		<jansi.version>2.1.0</jansi.version>
 		<java.compilation.version>13</java.compilation.version>
 		<javancss-maven-plugin.version>2.1</javancss-maven-plugin.version>
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
