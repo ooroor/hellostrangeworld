@@ -76,7 +76,7 @@
 		<swagger-jersey2-jaxrs.version>1.6.2</swagger-jersey2-jaxrs.version>
 		<swagger-ui.version>3.38.0</swagger-ui.version>
 		<vavr.version>0.10.3</vavr.version>
-		<wiremock.version>2.27.1</wiremock.version>
+		<wiremock.version>2.27.2</wiremock.version>
 	</properties>
 
 	<dependencyManagement>
