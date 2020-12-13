@@ -74,7 +74,7 @@
 		<revision>000.003.009</revision>
 		<slf4j-api.version>1.7.30</slf4j-api.version>
 		<swagger-jersey2-jaxrs.version>1.6.2</swagger-jersey2-jaxrs.version>
-		<swagger-ui.version>3.31.1</swagger-ui.version>
+		<swagger-ui.version>3.38.0</swagger-ui.version>
 		<vavr.version>0.10.3</vavr.version>
 		<wiremock.version>2.27.1</wiremock.version>
 	</properties>
