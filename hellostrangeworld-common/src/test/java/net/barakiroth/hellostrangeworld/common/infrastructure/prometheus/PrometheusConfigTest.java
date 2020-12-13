@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import io.prometheus.client.Gauge;
 import net.barakiroth.hellostrangeworld.common.CommonConfig;
+import net.barakiroth.hellostrangeworld.common.ITestConst;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -12,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Tag(ITestConst.UNIT_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class PrometheusConfigTest {
 

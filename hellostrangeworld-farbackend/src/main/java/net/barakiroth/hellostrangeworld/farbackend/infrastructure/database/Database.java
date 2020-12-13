@@ -17,7 +17,6 @@ import java.util.concurrent.Callable;
 import javax.sql.DataSource;
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.tables.QModifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,52 +60,41 @@ public class Database {
   
   public  static final QModifier modifierTable = QModifier.modifier1;
   private static       Database  singleton;
-  
-  private DatabaseConfig                  databaseConfig                  = null;
+
+  private final DatabaseConfig            databaseConfig;
   private DataSource                      dataSource                      = null;
   private TransactionManager              transactionManager              = null;
   private SQLQueryFactory                 sqlQueryFactory                 = null;
   private TransactionalConnectionProvider transactionalConnectionProvider = null;
   private boolean                         isStarted                       = false;
-  
-  /**
-   * Create an instance and set its relevant configuration.
-   * @param generalConfig Relevant configuration.
-   */
-  private Database(final IGeneralConfig generalConfig) {
-    
-    this(Database.createDatabaseConfig(generalConfig));
-    
-    leavingMethodHeaderLogger.debug(null);
-  }
-  
+
   private Database(final DatabaseConfig databaseConfig) {
     
-    enteringMethodHeaderLogger.debug(null);
-    
-    setDatabaseConfig(databaseConfig);
+    this.databaseConfig = databaseConfig;
     
     leavingMethodHeaderLogger.debug(null);
   }
   
-  static Database getSingleton(final IGeneralConfig generalConfig) {
-    if (Database.singleton == null) {
-      final Database database = createSingleton(generalConfig);
-      Database.singleton = database;
-    }
-    return Database.singleton;
+  static void createAndSetSingleton(final DatabaseConfig databaseConfig) {
+    final Database database = createSingleton(databaseConfig);
+    Database.setSingleton(database);
   }
-  
-  private static Database createSingleton(final IGeneralConfig generalConfig) {
-    return new Database(generalConfig);
+
+  static Database getSingleton() {
+    return Database.singleton;
   }
 
   private static void setSingleton(final Database database) {
+    if (Database.singleton != null) {
+      if (Database.singleton.isStarted()) {
+        Database.singleton.stop();
+      }
+    }
     Database.singleton = database;
   }
   
-  private static DatabaseConfig createDatabaseConfig(final IGeneralConfig generalConfig) {
-    return DatabaseConfig.getSingleton(generalConfig);
+  private static Database createSingleton(final DatabaseConfig databaseConfig) {
+    return new Database(databaseConfig);
   }
 
   private static DataSource createDataSource(final DatabaseConfig databaseConfig) {
@@ -243,7 +231,6 @@ public class Database {
       setDataSource(null);
       setSQLQueryFactory(null);
       setTransactionManager(null);
-      Database.setSingleton(null);
       this.isStarted = false;
     } else {
       log.warn("Asked to stop when not connected dataSource == null etc.");
@@ -333,11 +320,7 @@ public class Database {
     return this.transactionalConnectionProvider;
   }
   
-  private void setDatabaseConfig(final DatabaseConfig databaseConfig) {
-    this.databaseConfig = databaseConfig;
-  }
-  
   private DatabaseConfig getDatabaseConfig() {
-    return this.databaseConfig;
+    return DatabaseConfig.getSingleton();
   }
 }

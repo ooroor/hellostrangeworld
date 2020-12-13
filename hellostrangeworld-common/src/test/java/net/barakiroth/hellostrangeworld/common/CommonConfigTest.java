@@ -3,12 +3,14 @@ package net.barakiroth.hellostrangeworld.common;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.barakiroth.hellostrangeworld.common.infrastructure.prometheus.IPrometheusConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
 
+@Tag(ITestConst.UNIT_TEST_ANNOTATION)
 public class CommonConfigTest {
 
   private static final Logger enteringTestHeaderLogger =

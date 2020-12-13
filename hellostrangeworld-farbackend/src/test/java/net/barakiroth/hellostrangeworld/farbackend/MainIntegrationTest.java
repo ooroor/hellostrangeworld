@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-@Tag(ITestConstants.INTEGRATION_TEST_ANNOTATION)
+@Tag(ITestConst.INTEGRATION_TEST_ANNOTATION)
 public class MainIntegrationTest {
   
   @BeforeEach
@@ -27,8 +27,8 @@ public class MainIntegrationTest {
   
   @Test
   public void when_application_is_started_and_self_configures_then_it_should_not_crash() throws InterruptedException {
-    
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     Thread thread = null;
     try {
@@ -50,8 +50,8 @@ public class MainIntegrationTest {
 
   @Test
   public void when_JettyManager_is_asked_for_twice_then_the_same_instance_should_be_returned() {
-    
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     final Main main = Main.getSingleton();
     
@@ -66,8 +66,8 @@ public class MainIntegrationTest {
 
   @Test
   public void when_Database_is_asked_for_twice_then_the_same_instance_should_be_returned() {
-    
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     final Main main = Main.getSingleton();
     

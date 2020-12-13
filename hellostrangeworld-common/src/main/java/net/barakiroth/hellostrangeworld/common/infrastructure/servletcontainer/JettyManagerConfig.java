@@ -1,52 +1,41 @@
 package net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer;
 
 import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
-import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
-import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 
 public class JettyManagerConfig implements IJettyManagerConfig {
   
-  private static       IJettyManagerConfig singleton = null;
+  private static IJettyManagerConfig singleton = null;
 
   private final IGeneralConfig generalConfig;
-  private       JettyManager   jettyManager;
   
   private JettyManagerConfig(final IGeneralConfig generalConfig) {
     this.generalConfig = generalConfig;
   }
 
-  public static IJettyManagerConfig getSingleton(final IGeneralConfig generalConfig) {
-    
-    if (JettyManagerConfig.singleton == null) {
-      final IJettyManagerConfig singleton = createsingleton(generalConfig);
-      setsingleton(singleton);
-    }
+  public static void createAndSetSingleton(final IGeneralConfig generalConfig) {
+    final IJettyManagerConfig jettyManagerConfig = JettyManagerConfig.createSingleton(generalConfig);
+    JettyManagerConfig.setSingleton(jettyManagerConfig);
+  }
+
+  public static IJettyManagerConfig getSingleton() {
     return JettyManagerConfig.singleton;
   }
 
-  private static void setsingleton(final IJettyManagerConfig jettyManagerConfig) {
+  private static void setSingleton(final IJettyManagerConfig jettyManagerConfig) {
     JettyManagerConfig.singleton = jettyManagerConfig;
   }
 
-  private static IJettyManagerConfig createsingleton(final IGeneralConfig generalConfig) {
+  private static IJettyManagerConfig createSingleton(final IGeneralConfig generalConfig) {
     return new JettyManagerConfig(generalConfig);
-  }
-  
-  private static JettyManager createJettyManager(final IGeneralConfig generalConfig) {
-    return JettyManager.getSingleton(JettyManagerConfig.getSingleton(generalConfig));
-  }
-  
-  private IGeneralConfig getGeneralConfig() {
-    return this.generalConfig;
   }
 
   @Override
-  public JettyManager getJettyManager(final IGeneralConfig generalConfig) {
-    if (this.jettyManager == null) {
-      final JettyManager jettyManager = createJettyManager(generalConfig);
-      setJettyManager(jettyManager);
-    }
-    return this.jettyManager;
+  public JettyManager getJettyManager() {
+
+    if (JettyManager.getSingleton() == null) {
+      createJettyManager();
+    };
+    return JettyManager.getSingleton();
   }
 
   @Override
@@ -89,11 +78,12 @@ public class JettyManagerConfig implements IJettyManagerConfig {
         getGeneralConfig().getRequiredString(IJettyManagerConfig.JERSEY_APPLICATION_CLASS_NAME_KEY);
     return jerseyApplicationClassName;
   }
-  
-  private void setJettyManager(final JettyManager jettyManager) {
-    this.jettyManager = jettyManager;
+
+  private void createJettyManager() {
+    JettyManager.createAndSetSingleton(this);
+  }
+
+  private IGeneralConfig getGeneralConfig() {
+    return this.generalConfig;
   }
 }
-
-
-

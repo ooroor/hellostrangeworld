@@ -24,15 +24,15 @@ public class InitialPartConsumer {
 	private static final Logger enteringMethodHeaderLogger = LoggerFactory.getLogger("EnteringMethodHeader");
 	private static final Logger leavingMethodHeaderLogger = LoggerFactory.getLogger("LeavingMethodHeader");
 
-	private final IFrontendConfig config;
+	private final IFrontendConfig frontendConfig;
 
 	public InitialPartConsumer() {
 		this(FrontendConfig.getSingleton());
 	}
 
-	public InitialPartConsumer(final IFrontendConfig config) {
+	public InitialPartConsumer(final IFrontendConfig frontendConfig) {
 		super();
-		this.config = config;
+		this.frontendConfig = frontendConfig;
 	}
 
 	public InitialPartDo getInitialPartDo() {
@@ -42,7 +42,7 @@ public class InitialPartConsumer {
 		final InitialPartDo initialPartDo;
 		try {
 			final CloseableHttpClient httpClient = HttpClients.createDefault();
-			final String urlString = this.config.getDownstreamResourceEndpointUriString();
+			final String urlString = this.frontendConfig.getDownstreamResourceEndpointUriString();
 			final URI endpointUri = new URIBuilder(urlString).build();
 			final HttpUriRequest request = new HttpGet(endpointUri);
 			request.addHeader(ACCEPT, APPLICATION_JSON.getMimeType());

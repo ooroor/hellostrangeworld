@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.sql.DataSource;
 
+import net.barakiroth.hellostrangeworld.farbackend.ITestConst;
 import net.barakiroth.hellostrangeworld.farbackend.util.ProdConstants;
 import net.barakiroth.hellostrangeworld.farbackend.util.TestConstants;
 import org.junit.jupiter.api.Tag;
@@ -11,9 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
 
-@Tag(ITestConstants.UNIT_TEST_ANNOTATION)
+@Tag(ITestConst.UNIT_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class FlywayMigratorUnitTest {
   
@@ -23,7 +23,7 @@ public class FlywayMigratorUnitTest {
   @Test
   void when_instantiated_with_1_location_then_it_should_have_two_locations() {
     
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     final FlywayMigrator flywayMigrator = new FlywayMigrator(mockedDataSource, TestConstants.DB_FLYWAY_MIGR_PATH_RUNTIME_ENV_SPECIFIC);
     final String[] locations = flywayMigrator.getLocations();

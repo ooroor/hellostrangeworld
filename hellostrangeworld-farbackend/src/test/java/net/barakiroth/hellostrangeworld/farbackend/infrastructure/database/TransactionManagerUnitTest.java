@@ -5,14 +5,15 @@ import static org.mockito.Mockito.doReturn;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import net.barakiroth.hellostrangeworld.farbackend.ITestConst;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
 
-@Tag(ITestConstants.UNIT_TEST_ANNOTATION)
+@Tag(ITestConst.UNIT_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class TransactionManagerUnitTest {
   
@@ -26,7 +27,7 @@ public class TransactionManagerUnitTest {
   void when_the_provided_callable_throws_a_LockException_then_the_same_exception_should_be_rethrown()
         throws SQLException {
     
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     final TransactionManager transactionManager =
         new TransactionManager(mockedTransactionalConnectionProvider);
@@ -51,7 +52,7 @@ public class TransactionManagerUnitTest {
   void when_the_provided_callable_throws_an_Exception_then_a_DatabaseException_should_be_thrown()
         throws SQLException {
     
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     final TransactionManager transactionManager =
         new TransactionManager(mockedTransactionalConnectionProvider);

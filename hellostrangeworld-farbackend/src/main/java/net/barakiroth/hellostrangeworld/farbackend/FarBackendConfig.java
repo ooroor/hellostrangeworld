@@ -7,31 +7,33 @@ import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Datab
 
 public class FarBackendConfig extends CommonConfig implements IFarBackendConfig {
 
-  private static IFarBackendConfig singleton; 
-  
-  private DatabaseConfig databaseConfig;
-  
-  public static IFarBackendConfig getSingleton() {
-    if (FarBackendConfig.singleton == null) {
-      setsingleton(createsingleton());
-    }
-    return FarBackendConfig.singleton; 
-  }
-  
-  public static void setsingleton(final IFarBackendConfig farBackendConfig) {
-    FarBackendConfig.singleton = farBackendConfig; 
-  }
-  
-  private static FarBackendConfig createsingleton() {
-    return new FarBackendConfig();
-  }
-  
-  private static DatabaseConfig createDatabaseConfig(final IFarBackendConfig farBackendConfig) {
-    return DatabaseConfig.getSingleton(farBackendConfig);
-  }
+  private static IFarBackendConfig singleton;
 
   private FarBackendConfig() {
     super();
+  }
+  
+  public static void createAndSetSingleton() {
+    FarBackendConfig.setSingleton(createSingleton());
+  }
+
+  public static IFarBackendConfig getSingleton() {
+    if (FarBackendConfig.singleton == null) {
+      createAndSetSingleton();
+    }
+    return FarBackendConfig.singleton;
+  }
+  
+  public static void setSingleton(final IFarBackendConfig farBackendConfig) {
+    FarBackendConfig.singleton = farBackendConfig; 
+  }
+  
+  private static FarBackendConfig createSingleton() {
+    return new FarBackendConfig();
+  }
+  
+  private static void createAndSetDatabaseConfig(final IFarBackendConfig farBackendConfig) {
+    DatabaseConfig.createAndSetSingleton(farBackendConfig);
   }
   
   private static Repository createRepository(final IFarBackendConfig farBackendConfig) {
@@ -39,17 +41,12 @@ public class FarBackendConfig extends CommonConfig implements IFarBackendConfig 
     return new Repository(farBackendConfig);
   }
 
-  private void setDatabaseConfig(final DatabaseConfig databaseConfig) {
-    this.databaseConfig = databaseConfig;
-  }
-
   @Override
   public DatabaseConfig getDatabaseConfig() {
-    if (this.databaseConfig == null) {
-      final DatabaseConfig databaseConfig = FarBackendConfig.createDatabaseConfig(this);
-      setDatabaseConfig(databaseConfig);
+    if (DatabaseConfig.getSingleton() == null) {
+      FarBackendConfig.createAndSetDatabaseConfig(this);
     }
-    return this.databaseConfig;
+    return DatabaseConfig.getSingleton();
   }
 
   @Override

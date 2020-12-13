@@ -10,7 +10,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
-import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
+import net.barakiroth.hellostrangeworld.farbackend.ITestConst;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import org.mockito.Mock;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 
-@Tag(ITestConstants.UNIT_TEST_ANNOTATION)
+@Tag(ITestConst.UNIT_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class DatabaseUnitTest {
   
@@ -43,18 +43,20 @@ public class DatabaseUnitTest {
   @Test
   void when_instantiating_then_no_exception_should_be_thrown() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
-    assertThatCode(() -> Database.getSingleton(FarBackendConfig.getSingleton())).doesNotThrowAnyException();
+    assertThatCode(
+            () -> Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig()))
+            .doesNotThrowAnyException();
   }
   
   @Test
   void when_getting_an_SQLQueryFactory_and_the_connect_throws_then_a_RuntimeException_should_be_rethrown() throws SQLException {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
-    
-    final Database expectedDatabase =
-        Database.getSingleton(FarBackendConfig.getSingleton());
+    ITestConst.enteringTestHeaderLogger.debug(null);
+
+    Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig());
+    final Database expectedDatabase = Database.getSingleton();
     doThrow(SQLException.class).when(mockedDataSource).getConnection();
     expectedDatabase.setDataSource(mockedDataSource);
         
@@ -64,14 +66,14 @@ public class DatabaseUnitTest {
   @Test
   void when_the_connection_reports_an_unsupported_database_brand_then_an_appropriate_exception_should_be_thrown() throws SQLException {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     doReturn(mockedConnection).when(mockedDataSource).getConnection();
     doReturn(mockedDatabaseMetaData).when(mockedConnection).getMetaData();
     doReturn("RUBBISH_DB_BRAND_TO_PROVOKE_AN_EXCEPTION_WHEN_TESTING").when(mockedDatabaseMetaData).getDatabaseProductName();
-    
-    final Database expectedDatabase =
-        Database.getSingleton(FarBackendConfig.getSingleton());
+
+    Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig());
+    final Database expectedDatabase = Database.getSingleton();
     expectedDatabase.setDataSource(mockedDataSource);
 
     assertThatThrownBy(

@@ -27,7 +27,7 @@ public class MainUnitTest {
   void beforeEach() throws IllegalArgumentException, ReflectiveOperationException {
     
     lenient().doReturn(this.mockedJettyManagerConfig).when(this.mockedBackendConfig).getJettyManagerConfig();
-    lenient().doReturn(this.mockedJettyManager).when(this.mockedJettyManagerConfig).getJettyManager(mockedBackendConfig);
+    lenient().doReturn(this.mockedJettyManager).when(this.mockedJettyManagerConfig).getJettyManager();
     
     Main.getSingleton().setBackendConfig(this.mockedBackendConfig);
   }
@@ -68,9 +68,8 @@ public class MainUnitTest {
     enteringTestHeaderLogger.debug(null);
     
     final Main main = Main.getSingleton();
-    final IBackendConfig backendConfig = main.getBackendConfig();
  
-    assertThat(this.mockedJettyManager).isEqualTo(main.getJettyManager(backendConfig));
+    assertThat(this.mockedJettyManager).isEqualTo(main.getJettyManager());
   }
 
   @Test
@@ -81,7 +80,7 @@ public class MainUnitTest {
     final Main main = Main.getSingleton();
     final IBackendConfig backendConfig = main.getBackendConfig();
  
-    assertThatCode(() -> main.getJettyManager(backendConfig)).doesNotThrowAnyException();
+    assertThatCode(() -> main.getJettyManager()).doesNotThrowAnyException();
   }
 
   @Test
@@ -90,9 +89,8 @@ public class MainUnitTest {
     enteringTestHeaderLogger.debug(null);
     
     final Main main = Main.getSingleton();
-    final IBackendConfig backendConfig = main.getBackendConfig();
     
-    assertThat(main.getJettyManager(backendConfig)).isNotNull();
+    assertThat(main.getJettyManager()).isNotNull();
   }
 
   @Test

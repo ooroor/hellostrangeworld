@@ -1,6 +1,5 @@
 package net.barakiroth.hellostrangeworld.backend;
 
-import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,17 +55,16 @@ public class Main {
     return this.backendConfig;
   }
 
-  JettyManager getJettyManager(final IGeneralConfig generalConfig) {
-    return getBackendConfig().getJettyManagerConfig().getJettyManager(generalConfig);
+  JettyManager getJettyManager() {
+
+    return getBackendConfig().getJettyManagerConfig().getJettyManager();
   }
 
   private void run() {
 
     enteringMethodHeaderLogger.debug(null);
 
-    final IBackendConfig config = getBackendConfig();
-
-    final JettyManager jettyManager = getJettyManager(config);
+    final JettyManager jettyManager = getJettyManager();
     jettyManager.start();
 
     leavingMethodHeaderLogger.debug(null);

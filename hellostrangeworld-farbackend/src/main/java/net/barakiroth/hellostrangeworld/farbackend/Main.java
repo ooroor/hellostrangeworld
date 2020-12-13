@@ -59,7 +59,7 @@ public class Main {
   JettyManager getJettyManager(final IFarBackendConfig farBackendConfig) {
 
     final JettyManager jettyManager =
-        farBackendConfig.getJettyManagerConfig().getJettyManager(farBackendConfig);
+        farBackendConfig.getJettyManagerConfig().getJettyManager();
     return jettyManager;
   }
 

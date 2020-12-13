@@ -122,8 +122,9 @@ public class CommonConfig implements IGeneralConfig, ICommonConfig {
 	  @Override
 	  public IJettyManagerConfig getJettyManagerConfig() {
 	    if (this.jettyManagerConfig == null) {
+			JettyManagerConfig.createAndSetSingleton(this);
 	      final IJettyManagerConfig jettyManagerConfig =
-	          JettyManagerConfig.getSingleton(this);
+	          JettyManagerConfig.getSingleton();
 	      setJettyManagerConfig(jettyManagerConfig);
 	    }
 	    return this.jettyManagerConfig;

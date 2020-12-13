@@ -22,7 +22,7 @@ import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.I
 import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.JettyManager;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
-import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
+import net.barakiroth.hellostrangeworld.farbackend.ITestConst;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -45,7 +45,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * Ref.:
  * https://phauer.com/2016/testing-restful-services-java-best-practices/#use-assertj-to-check-the-returned-pojos
  */
-@Tag(ITestConstants.INTEGRATION_TEST_ANNOTATION)
+@Tag(ITestConst.INTEGRATION_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class ModifierResourceIntegrationTest {
 
@@ -83,7 +83,7 @@ public class ModifierResourceIntegrationTest {
   @Test
   void when_getting_the_modifier_resource_then_it_must_be_in_the_expected_ones() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     final Set<ModifierDo> expectedModifierDos = createExpectedModifierDos();
     final ModifierDo actualModifierDo = createResource2("/api/Modifier", ModifierDo.class);
@@ -94,7 +94,7 @@ public class ModifierResourceIntegrationTest {
   @Test
   void when_instantiating_without_parms_then_the_config_file_should_be_implicitly_created_without_an_exception() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
     assertThatCode(() -> new ModifierResource()).doesNotThrowAnyException();
   }
@@ -103,9 +103,9 @@ public class ModifierResourceIntegrationTest {
   void when_asking_for_a_modifier_then_one_such_with_expected_values_should_be_received()
       throws UnsupportedOperationException, IOException {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
     final CloseableHttpClient httpClient =
         Assertions.assertDoesNotThrow(() -> HttpClients.createDefault());
@@ -134,7 +134,7 @@ public class ModifierResourceIntegrationTest {
   public void when_getModifier_and_the_ObjectMapper_throws_an_unexpected_exception_then_the_exception_should_be_propagated()
       throws JsonProcessingException {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
     final ModifierResource modifierResource = new ModifierResource();
 
@@ -167,7 +167,7 @@ public class ModifierResourceIntegrationTest {
   public void when_getModifier_and_the_ObjectMapper_throws_a_JsonProcessingException_then_no_exception_should_be_propagated()
       throws JsonProcessingException {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
     final ModifierResource modifierResource = new ModifierResource();
 
@@ -196,7 +196,7 @@ public class ModifierResourceIntegrationTest {
   public void when_getModifier_and_the_ObjectMapper_throws_a_JsonProcessingException_then_a_null_modifier_should_be_returned()
       throws JsonProcessingException {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
     final ModifierResource modifierResource = new ModifierResource();
 
@@ -220,7 +220,7 @@ public class ModifierResourceIntegrationTest {
   @Test
   public void when_getFarBackendConfig_and_the_config_is_not_set_then_an_instance_should_implicitly_be_created() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
     final ModifierResource modifierResource = new ModifierResource();
 
@@ -233,7 +233,7 @@ public class ModifierResourceIntegrationTest {
   @Test
   public void when_getFarBackendConfig_and_and_the_config_is_not_set_then_an_instance_should_implicitly_be_created_without_an_exception() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
     final ModifierResource modifierResource = new ModifierResource();
     modifierResource.setFarBackendConfig(null);
@@ -245,7 +245,7 @@ public class ModifierResourceIntegrationTest {
 
     final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final IJettyManagerConfig jettyManagerConfig = farBackendConfig.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(farBackendConfig);
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
     if (!jettyManager.isStarted()) {
       jettyManager.start();
     }
@@ -255,7 +255,7 @@ public class ModifierResourceIntegrationTest {
 
     final IFarBackendConfig farBackendConfig = FarBackendConfig.getSingleton();
     final IJettyManagerConfig jettyManagerConfig = farBackendConfig.getJettyManagerConfig();
-    final JettyManager jettyManager = jettyManagerConfig.getJettyManager(farBackendConfig);
+    final JettyManager jettyManager = jettyManagerConfig.getJettyManager();
     if (jettyManager.isStarted()) {
       jettyManager.stop();
     }

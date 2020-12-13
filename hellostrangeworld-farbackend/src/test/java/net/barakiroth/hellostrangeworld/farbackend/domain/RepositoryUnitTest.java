@@ -5,22 +5,21 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
 import net.barakiroth.hellostrangeworld.farbackend.IFarBackendConfig;
-import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
-import net.barakiroth.hellostrangeworld.farbackend.domain.Repository;
+import net.barakiroth.hellostrangeworld.farbackend.ITestConst;
 import net.barakiroth.hellostrangeworld.farbackend.infrastructure.database.Database;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-@Tag(ITestConstants.UNIT_TEST_ANNOTATION)
+@Tag(ITestConst.UNIT_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class RepositoryUnitTest {
   
   @Test
   void when_instantiated_without_configuration_then_no_exception_should_be_thrown() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
     assertThatCode(() -> new Repository()).doesNotThrowAnyException();
   }
@@ -28,7 +27,7 @@ public class RepositoryUnitTest {
   @Test
   void when_instantiated_without_configuration_then_an_implicitly_created_config_should_be_returned() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     final Repository repository = new Repository();
     
@@ -38,7 +37,7 @@ public class RepositoryUnitTest {
   @Test
   void when_nulling_the_configuration_then_a_new_one_should_be_implicitly_created() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     final Repository repository = new Repository();
     repository.setFarBackendConfig(null);
@@ -49,7 +48,7 @@ public class RepositoryUnitTest {
   @Test
   void when_instantiated_then_no_exception_should_be_thrown() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
     final IFarBackendConfig config = FarBackendConfig.getSingleton();
     assertThatCode(() -> config.getRepository()).doesNotThrowAnyException();

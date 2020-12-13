@@ -28,22 +28,22 @@ public class DatabaseConfig {
     return new DatabaseConfig(generalConfig);
   }
 
-  private static void setsingleton(final DatabaseConfig databaseConfig) {
+  private static void setSingleton(final DatabaseConfig databaseConfig) {
     DatabaseConfig.singleton = databaseConfig;
   }
   
-  public static DatabaseConfig getSingleton(final IGeneralConfig generalConfig) {
-    
-    if (DatabaseConfig.singleton == null) {
-      final DatabaseConfig databaseConfig =
-          DatabaseConfig.createDatabaseConfig(generalConfig);
-      DatabaseConfig.setsingleton(databaseConfig);
-    }
+  public static void createAndSetSingleton(final IGeneralConfig generalConfig) {
+    final DatabaseConfig databaseConfig =
+            DatabaseConfig.createDatabaseConfig(generalConfig);
+    DatabaseConfig.setSingleton(databaseConfig);
+  }
+
+  public static DatabaseConfig getSingleton() {
     return DatabaseConfig.singleton;
   }
   
-  private static Database createDatabase(final IGeneralConfig generalConfig) {
-    return Database.getSingleton(generalConfig);
+  private static void createAndSetDatabase(final DatabaseConfig databaseConfig) {
+    Database.createAndSetSingleton(databaseConfig);
   }
 
   private DatabaseConfig(final IGeneralConfig generalConfig) {
@@ -51,7 +51,10 @@ public class DatabaseConfig {
   }
   
   public Database getDatabase() {
-    return DatabaseConfig.createDatabase(getGeneralConfig());
+    if (Database.getSingleton() == null) {
+      DatabaseConfig.createAndSetDatabase(this);
+    }
+    return Database.getSingleton();
   }
   
   private IGeneralConfig getGeneralConfig() {

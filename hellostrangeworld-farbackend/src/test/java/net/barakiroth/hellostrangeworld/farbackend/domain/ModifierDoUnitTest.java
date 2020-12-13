@@ -2,6 +2,8 @@ package net.barakiroth.hellostrangeworld.farbackend.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.stream.Stream;
+
+import net.barakiroth.hellostrangeworld.farbackend.ITestConst;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +11,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
-import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
@@ -37,7 +38,7 @@ public void equalsContract() {
  * @author oor
  *
  */
-@Tag(ITestConstants.UNIT_TEST_ANNOTATION)
+@Tag(ITestConst.UNIT_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class ModifierDoUnitTest {
   
@@ -100,7 +101,7 @@ public class ModifierDoUnitTest {
   @Test
   void when_instantiated_with_values_then_the_field_values_should_be_returned_by_their_getters() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     final int expectedId = 7;
     final String expectedModifier = "jjjj";
@@ -119,7 +120,7 @@ public class ModifierDoUnitTest {
       final String modifier2, 
       final boolean expectedEquality) {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     final ModifierDo modifierDo1 = new ModifierDo(id1, modifier1);
     final ModifierDo modifierDo2 = new ModifierDo(id2, modifier2);
@@ -134,7 +135,7 @@ public class ModifierDoUnitTest {
       final Object object, 
       final boolean expectedEquality) {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
     
     assertThat(modifier.equals(object)).isEqualTo(expectedEquality);
   }

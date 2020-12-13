@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.concurrent.Callable;
 import javax.sql.DataSource;
 import net.barakiroth.hellostrangeworld.farbackend.FarBackendConfig;
-import net.barakiroth.hellostrangeworld.farbackend.ITestConstants;
+import net.barakiroth.hellostrangeworld.farbackend.ITestConst;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -21,7 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-@Tag(ITestConstants.INTEGRATION_TEST_ANNOTATION)
+@Tag(ITestConst.INTEGRATION_TEST_ANNOTATION)
 @ExtendWith(MockitoExtension.class)
 public class DatabaseIntegrationTest {
   
@@ -53,10 +53,10 @@ public class DatabaseIntegrationTest {
   @Test
   void when_shutting_down_the_database_and_an_sql_exception_is_thrown_then_no_exception_should_be_rethrown() throws SQLException {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
-    final Database database =
-        Database.getSingleton(FarBackendConfig.getSingleton());
+    Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig());
+    final Database database = Database.getSingleton();
     DataSource savedDataSource = null;
     try {
       database.start();
@@ -76,17 +76,11 @@ public class DatabaseIntegrationTest {
   @Test
   void when_doing_sql_and_the_database_is_not_started_then_the_database_should_be_implicitly_started() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
-    
-    final Database database =
-        Database.getSingleton(FarBackendConfig.getSingleton());
-    
-    final Callable<String> callable = new Callable<String>() {
-      @Override
-      public String call() throws Exception {
-        return "DUMMY";
-      }
-    };
+    ITestConst.enteringTestHeaderLogger.debug(null);
+
+    Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig());
+    final Database database = Database.getSingleton();
+    final Callable<String> callable = () -> "DUMMY";
     database.doInTransaction(callable);
     
     assertThat(database.isStarted()).isTrue();
@@ -95,10 +89,10 @@ public class DatabaseIntegrationTest {
   @Test
   void when_starting_then_no_exception_should_be_thrown() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
-    final Database expectedDatabase =
-        Database.getSingleton(FarBackendConfig.getSingleton());
+    Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig());
+    final Database expectedDatabase = Database.getSingleton();
     try {
       assertThatCode(() -> expectedDatabase.start()).doesNotThrowAnyException();
     } finally {
@@ -109,10 +103,10 @@ public class DatabaseIntegrationTest {
   @Test
   void when_started_then_the_returned_database_should_equal_the_one_started() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
-    final Database expectedDatabase =
-        Database.getSingleton(FarBackendConfig.getSingleton());
+    Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig());
+    final Database expectedDatabase = Database.getSingleton();
     
     try {
       final Database actualDatabase = expectedDatabase.start();
@@ -127,10 +121,10 @@ public class DatabaseIntegrationTest {
   @Test
   void when_starting_a_database_twice_then_no_exception_should_be_thrown() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
-    final Database expectedDatabase =
-        Database.getSingleton(FarBackendConfig.getSingleton());
+    Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig());
+    final Database expectedDatabase = Database.getSingleton();
     
     try {
       expectedDatabase.start();
@@ -144,9 +138,9 @@ public class DatabaseIntegrationTest {
   @Test
   void when_stopping_a_started_database_then_no_exception_should_be_thrown() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
-    final Database expectedDatabase =
-        Database.getSingleton(FarBackendConfig.getSingleton());
+    ITestConst.enteringTestHeaderLogger.debug(null);
+    Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig());
+    final Database expectedDatabase = Database.getSingleton();
     expectedDatabase.start();
     assertThatCode(() -> expectedDatabase.stop()).doesNotThrowAnyException();
     assertThat(expectedDatabase.isStarted()).isFalse();
@@ -155,10 +149,10 @@ public class DatabaseIntegrationTest {
   @Test
   void when_stopping_a_non_started_database_then_no_exception_should_be_thrown() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
-    final Database expectedDatabase =
-        Database.getSingleton(FarBackendConfig.getSingleton());
+    Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig());
+    final Database expectedDatabase = Database.getSingleton();
     assertThat(expectedDatabase.isStarted()).isFalse();
     assertThatCode(() -> expectedDatabase.stop()).doesNotThrowAnyException();
     assertThat(expectedDatabase.isStarted()).isFalse(); 
@@ -167,10 +161,10 @@ public class DatabaseIntegrationTest {
   @Test
   void when_stopping_a_started_database_then_the_returned_database_should_equal_the_one_stopped() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
-    final Database expectedDatabase =
-        Database.getSingleton(FarBackendConfig.getSingleton());
+    Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig());
+    final Database expectedDatabase = Database.getSingleton();
     expectedDatabase.start();
     final Database actualDatabase = expectedDatabase.stop();
     assertThat(actualDatabase).isEqualTo(expectedDatabase);
@@ -180,10 +174,10 @@ public class DatabaseIntegrationTest {
   @Test
   void when_stopping_a_database_twice_then_no_exception_should_be_thrown() {
 
-    ITestConstants.enteringTestHeaderLogger.debug(null);
+    ITestConst.enteringTestHeaderLogger.debug(null);
 
-    final Database expectedDatabase =
-        Database.getSingleton(FarBackendConfig.getSingleton());
+    Database.createAndSetSingleton(FarBackendConfig.getSingleton().getDatabaseConfig());
+    final Database expectedDatabase = Database.getSingleton();
     expectedDatabase.start();
     expectedDatabase.stop();
     assertThatCode(() -> expectedDatabase.stop()).doesNotThrowAnyException();

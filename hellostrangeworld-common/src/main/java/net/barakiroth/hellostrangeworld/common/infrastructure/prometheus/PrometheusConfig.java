@@ -2,7 +2,6 @@ package net.barakiroth.hellostrangeworld.common.infrastructure.prometheus;
 
 import io.prometheus.client.Gauge;
 import net.barakiroth.hellostrangeworld.common.IGeneralConfig;
-import net.barakiroth.hellostrangeworld.common.infrastructure.prometheus.IPrometheusConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,12 +29,12 @@ public class PrometheusConfig implements IPrometheusConfig {
   
   public static IPrometheusConfig getSingleton(final IGeneralConfig generalConfig) {
     if (PrometheusConfig.singleton == null) {
-      PrometheusConfig.singleton = createsingleton(generalConfig);
+      PrometheusConfig.singleton = createSingleton(generalConfig);
     }
     return PrometheusConfig.singleton;
   }
   
-  private static PrometheusConfig createsingleton(final IGeneralConfig generalConfig) {
+  private static PrometheusConfig createSingleton(final IGeneralConfig generalConfig) {
     return new PrometheusConfig(generalConfig);
   }
 

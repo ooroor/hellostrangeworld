@@ -29,6 +29,7 @@
 		<commons-logging.version>1.2</commons-logging.version>
 		<equalsverifier.version>3.1.13</equalsverifier.version>
 		<equalsverifier.version>3.1.13</equalsverifier.version>
+		<fasterxml.jackson.version>2.11.1</fasterxml.jackson.version>
 		<flatten-maven-plugin.version>1.2.2</flatten-maven-plugin.version>
 		<flyway-maven-plugin.version>6.5.5</flyway-maven-plugin.version>
 		<flyway.version>6.5.5</flyway.version>
@@ -36,10 +37,10 @@
 		<h2.version>1.4.200</h2.version>
 		<hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
 		<hikaricp.version>3.4.2</hikaricp.version>
-		<fasterxml.jackson.version>2.11.1</fasterxml.jackson.version>
-		<jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+		<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
 		<jakarta.inject.version>2.6.1</jakarta.inject.version>
 		<jansi.version>1.18</jansi.version>
+		<java.compilation.version>13</java.compilation.version>
 		<javancss-maven-plugin.version>2.1</javancss-maven-plugin.version>
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
 		<jaxb-runtime.version>2.3.2</jaxb-runtime.version>
@@ -49,7 +50,7 @@
 		<junit.jupiter.version>5.6.2</junit.jupiter.version>
 		<junit.pre.jupiter.version>4.13</junit.pre.jupiter.version>
 		<logback.version>1.2.3</logback.version>
-		<lombok.version>1.18.12</lombok.version>
+		<lombok.version>1.18.16</lombok.version>
 		<maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 		<maven-jxr-plugin.version>3.0.0</maven-jxr-plugin.version>
@@ -61,7 +62,6 @@
 		<maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 		<maven-surefire-report-plugin.version>3.0.0-M3</maven-surefire-report-plugin.version>
 		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
-		<java.compilation.version>13</java.compilation.version>
 		<mockito.version>3.3.3</mockito.version>
 		<owasp.dependency-check-maven.plugin.version>5.3.2</owasp.dependency-check-maven.plugin.version>
 		<pitest-junit5-plugin.version>0.12</pitest-junit5-plugin.version>
@@ -73,8 +73,8 @@
 		<rest-assured.version>4.3.0</rest-assured.version>
 		<revision>000.003.009</revision>
 		<slf4j-api.version>1.7.30</slf4j-api.version>
-		<swagger-ui.version>3.31.1</swagger-ui.version>
 		<swagger-jersey2-jaxrs.version>1.6.2</swagger-jersey2-jaxrs.version>
+		<swagger-ui.version>3.31.1</swagger-ui.version>
 		<vavr.version>0.10.3</vavr.version>
 		<wiremock.version>2.27.1</wiremock.version>
 	</properties>
@@ -390,12 +390,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>${apache.httpclient.version}</version>
-			</dependency>
-
-			<dependency>
 				<groupId>org.assertj</groupId>
 				<artifactId>assertj-core</artifactId>
 				<version>${assertj.version}</version>
@@ -414,6 +408,12 @@
 				<artifactId>mockito-junit-jupiter</artifactId>
 				<version>${mockito.version}</version>
 				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${apache.httpclient.version}</version>
 			</dependency>
 
 			<dependency>
@@ -472,10 +472,12 @@
 					<version>${maven-surefire-plugin.version}</version>
 					<configuration>
 						<argLine>--illegal-access=permit</argLine>
-						<argLine>@{jaCoCoArgLine} -Xmx1024m</argLine>
+						<!-- <argLine>@{jaCoCoArgLine} -Xmx1024m</argLine> -->
+						<!--
+						<argLine>${jacocoArgLine} -Xmx256m</argLine>
+						-->
 					</configuration>
 				</plugin>
-
 				<plugin>
 					<groupId>org.pitest</groupId>
 					<artifactId>pitest-maven</artifactId>
@@ -564,7 +566,7 @@
 			</plugin>
 
 			<plugin>
-				<!-- Ref.: https://blog.soebes.de/blog/2017/04/02/maven-pom-files-without-a-version-in-it/ 
+				<!-- Ref.: https://blog.soebes.de/blog/2017/04/02/maven-pom-files-without-a-version-in-it/
 					Refers to the use of ${revision} -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>flatten-maven-plugin</artifactId>

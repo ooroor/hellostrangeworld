@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class InitialPartDo {
+public class  InitialPartDo {
   @Getter(AccessLevel.PUBLIC)
   private String initialPart;
 }

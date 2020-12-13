@@ -2,7 +2,6 @@ package net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer;
 
 import io.prometheus.client.exporter.MetricsServlet;
 
-import net.barakiroth.hellostrangeworld.common.infrastructure.servletcontainer.IJettyManagerConfig;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -33,22 +32,35 @@ public class JettyManager {
 
     leavingMethodHeaderLogger.debug(null);
   }
+
+  public static void createAndSetSingleton(final IJettyManagerConfig jettyManagerConfig) {
+    final JettyManager jettyManager = JettyManager.createJettyManager(jettyManagerConfig);
+    JettyManager.setSingleton(jettyManager);
+  }
+
+  public static JettyManager getSingleton() {
+    return JettyManager.singleton;
+  }
+
+  public static void destroy() {
+    final JettyManager jettymanager = getSingleton();
+    if (jettymanager != null) {
+      jettymanager.stop();
+      JettyManager.setSingleton(null);
+    }
+  }
   
   private static JettyManager createJettyManager(final IJettyManagerConfig jettyManagerConfig) {
     return new JettyManager(jettyManagerConfig);
   }
 
   private static void setSingleton(final JettyManager jettyManager) {
-    JettyManager.singleton = jettyManager;
-  }
 
-  public static JettyManager getSingleton(final IJettyManagerConfig jettyManagerConfig) {
-
-    if (JettyManager.singleton == null) {
-      final JettyManager jettyManager = JettyManager.createJettyManager(jettyManagerConfig);
-      JettyManager.setSingleton(jettyManager);
+    final JettyManager jettyManagerExisting = JettyManager.getSingleton();
+    if (jettyManagerExisting != null) {
+      jettyManager.stop();
     }
-    return JettyManager.singleton;
+    JettyManager.singleton = jettyManager;
   }
 
   /**
