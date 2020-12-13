@@ -22,22 +22,6 @@
 		<DB_FLYWAY_MIGR_PATH_RUNTIME_ENV_SPECIFIC>classpath:/database/flyway/migrations/h2</DB_FLYWAY_MIGR_PATH_RUNTIME_ENV_SPECIFIC>
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-core</artifactId>
-				<version>${flyway.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>nl.jqno.equalsverifier</groupId>
-				<artifactId>equalsverifier</artifactId>
-				<version>${equalsverifier.version}</version>
-				<scope>test</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<dependencies>
 
 		<dependency>

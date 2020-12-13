@@ -32,7 +32,7 @@
 
 		<apache.httpclient.version>4.5.13</apache.httpclient.version>
 		<assertj.version>3.16.1</assertj.version>
-		<bcel.version>6.3.1</bcel.version>
+		<bcel.version>6.5.0</bcel.version>
 		<checkstyle.version>8.29</checkstyle.version>
 		<commons-beanutils.version>1.9.4</commons-beanutils.version>
 		<commons-config.version>2.7</commons-config.version>
@@ -134,6 +134,12 @@
 				<groupId>com.zaxxer</groupId>
 				<artifactId>HikariCP</artifactId>
 				<version>${hikaricp.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-core</artifactId>
+				<version>${flyway.version}</version>
 			</dependency>
 			<!-- END Database stuff -->
 
