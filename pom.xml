@@ -23,7 +23,6 @@
 
 		<!-- BEGIN: Problematic upgrades: -->
 		<!--
-		<jersey.version>2.32</jersey.version>
 		<jersey.version>3.0.0</jersey.version>
 		<junit.jupiter.version>5.7.0</junit.jupiter.version>
 		-->
@@ -32,7 +31,7 @@
 		<!-- END: Problematic upgrades: -->
 
 		<apache.httpclient.version>4.5.13</apache.httpclient.version>
-		<assertj.version>3.16.1</assertj.version>
+		<assertj.version>3.18.1</assertj.version>
 		<bcel.version>6.5.0</bcel.version>
 		<checkstyle.version>8.29</checkstyle.version>
 		<commons-beanutils.version>1.9.4</commons-beanutils.version>
