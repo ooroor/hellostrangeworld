@@ -48,7 +48,7 @@
 		<jetty.version>9.4.35.v20201120</jetty.version>
 		<junit-platform-commons.version>1.6.2</junit-platform-commons.version>
 		<junit.jupiter.version>5.6.2</junit.jupiter.version>
-		<junit.pre.jupiter.version>4.13</junit.pre.jupiter.version>
+		<junit.pre.jupiter.version>4.13.1</junit.pre.jupiter.version>
 		<logback.version>1.2.3</logback.version>
 		<lombok.version>1.18.16</lombok.version>
 		<maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
