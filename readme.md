@@ -199,6 +199,10 @@ mvn -pl :hellostrangeworld-farbackend flyway:clean&mvn -pl :hellostrangeworld-fa
 ```
 mvn versions:display-dependency-updates
 ```
+- Dependency tree
+```
+mvn dependency:tree -Dverbose
+```
 ### Useful refs: 
 #### Flyway
 [Documentation](https://flywaydb.org/documentation/)
