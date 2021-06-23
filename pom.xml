@@ -24,7 +24,7 @@
 		<!-- BEGIN: Problematic bumps: -->
 		<hibernate-validator.version>6.1.5.Final</hibernate-validator.version> <!-- 6.1.5.Final -> 7.0.1.Final -->
 		<jersey.version>2.32</jersey.version> <!-- 2.32 -> 3.0.0 -->
-		<jetty.version>9.4.35.v20201120</jetty.version> <!-- 9.4.35.v20201120 -> 11.0.0 -->
+		<jetty.version>9.4.41.v20210516</jetty.version> <!-- 9.4.35.v20201120 -> 11.0.0 -->
 		<vavr.version>0.10.3</vavr.version> <!-- 0.10.3 -> 1.0.0-alpha-3 -->
 		<!-- END: Problematic bumps -->
 
