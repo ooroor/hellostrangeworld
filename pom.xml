@@ -23,7 +23,7 @@
 
 		<!-- BEGIN: Problematic bumps: -->
 		<hibernate-validator.version>6.1.5.Final</hibernate-validator.version> <!-- 6.1.5.Final -> 7.0.1.Final -->
-		<jersey.version>2.32</jersey.version> <!-- 2.32 -> 3.0.0 -->
+		<jersey.version>3.0.4</jersey.version> <!-- 2.32 -> 3.0.0 -->
 		<jetty.version>9.4.35.v20201120</jetty.version> <!-- 9.4.35.v20201120 -> 11.0.0 -->
 		<vavr.version>0.10.3</vavr.version> <!-- 0.10.3 -> 1.0.0-alpha-3 -->
 		<!-- END: Problematic bumps -->
@@ -36,7 +36,7 @@
 		<commons-config.version>2.7</commons-config.version>
 		<commons-logging.version>1.2</commons-logging.version>
 		<equalsverifier.version>3.5.4</equalsverifier.version>
-		<fasterxml.jackson.version>2.12.1</fasterxml.jackson.version>
+		<fasterxml.jackson.version>2.13.2</fasterxml.jackson.version>
 		<flatten-maven-plugin.version>1.2.2</flatten-maven-plugin.version>
 		<flyway-maven-plugin.version> 7.5.3</flyway-maven-plugin.version>
 		<flyway.version> 7.5.3</flyway.version>
