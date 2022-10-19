@@ -36,7 +36,7 @@
 		<commons-config.version>2.7</commons-config.version>
 		<commons-logging.version>1.2</commons-logging.version>
 		<equalsverifier.version>3.5.4</equalsverifier.version>
-		<fasterxml.jackson.version>2.12.1</fasterxml.jackson.version>
+		<fasterxml.jackson.version>2.13.4.1</fasterxml.jackson.version>
 		<flatten-maven-plugin.version>1.2.2</flatten-maven-plugin.version>
 		<flyway-maven-plugin.version> 7.5.3</flyway-maven-plugin.version>
 		<flyway.version> 7.5.3</flyway.version>
