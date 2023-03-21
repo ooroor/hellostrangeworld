@@ -77,7 +77,7 @@
 		<rest-assured.version>4.3.3</rest-assured.version>
 		<revision>000.003.009</revision>
 		<slf4j-api.version>2.0.0-alpha1</slf4j-api.version>
-		<swagger-jersey2-jaxrs.version>1.6.2</swagger-jersey2-jaxrs.version>
+		<swagger-jersey2-jaxrs.version>1.6.10</swagger-jersey2-jaxrs.version>
 		<swagger-ui.version>3.43.0</swagger-ui.version>
 		<wiremock.version>2.27.2</wiremock.version>
 	</properties>
