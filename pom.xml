@@ -33,7 +33,7 @@
 		<bcel.version>6.5.0</bcel.version>
 		<checkstyle.version>8.29</checkstyle.version>
 		<commons-beanutils.version>1.9.4</commons-beanutils.version>
-		<commons-config.version>2.7</commons-config.version>
+		<commons-config.version>2.9.0</commons-config.version>
 		<commons-logging.version>1.2</commons-logging.version>
 		<equalsverifier.version>3.5.4</equalsverifier.version>
 		<fasterxml.jackson.version>2.12.1</fasterxml.jackson.version>
