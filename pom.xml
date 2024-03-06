@@ -41,7 +41,7 @@
 		<flyway-maven-plugin.version> 7.5.3</flyway-maven-plugin.version>
 		<flyway.version> 7.5.3</flyway.version>
 		<guava.version>30.1-jre</guava.version>
-		<h2.version>1.4.200</h2.version>
+		<h2.version>2.2.220</h2.version>
 		<hikaricp.version>4.0.2</hikaricp.version>
 		<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
 		<jakarta.inject.version>2.6.1</jakarta.inject.version>
